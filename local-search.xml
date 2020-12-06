@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>如何用Xbox One 连接树莓派4B</title>
+    <link href="/2020/12/06/%E5%A6%82%E4%BD%95%E7%94%A8Xbox-One-%E8%BF%9E%E6%8E%A5%E6%A0%91%E8%8E%93%E6%B4%BE4B/"/>
+    <url>/2020/12/06/%E5%A6%82%E4%BD%95%E7%94%A8Xbox-One-%E8%BF%9E%E6%8E%A5%E6%A0%91%E8%8E%93%E6%B4%BE4B/</url>
+    
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本来之前是打算用树莓派做嵌入式比赛的板子，但是发现没有发挥完全的用途。于是就看见了手边无用的XboxOne，所以就想拿手柄连接树莓派，然后之后还可以打打游戏或者改装成小车什么的。</p><h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><h2 id="1-查看树莓派内核版本"><a href="#1-查看树莓派内核版本" class="headerlink" title="1. 查看树莓派内核版本"></a>1. 查看树莓派内核版本</h2><p><img src="https://gitee.com/YSXCC/MDImage/raw/master/img/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC.png" srcset="/img/loading.gif" alt=""></p><hr><h2 id="2-查看-usr-src下有没有对应的内核头（一定要一模一样），这个对编译驱动模块很重要"><a href="#2-查看-usr-src下有没有对应的内核头（一定要一模一样），这个对编译驱动模块很重要" class="headerlink" title="2. 查看/usr/src下有没有对应的内核头（一定要一模一样），这个对编译驱动模块很重要"></a>2. 查看/usr/src下有没有对应的内核头（一定要一模一样），这个对编译驱动模块很重要</h2><p><img src="https://gitee.com/YSXCC/MDImage/raw/master/img/20201206213933.png" srcset="/img/loading.gif" alt=""></p><hr><h2 id="3-如果没有找到对应的内核头，就要去树莓派的github上下载"><a href="#3-如果没有找到对应的内核头，就要去树莓派的github上下载" class="headerlink" title="3. 如果没有找到对应的内核头，就要去树莓派的github上下载"></a>3. 如果没有找到对应的内核头，就要去<a href="树莓派的github上">树莓派的github</a>上下载</h2><p><img src="https://gitee.com/YSXCC/MDImage/raw/master/img/20201206214524.png" srcset="/img/loading.gif" alt=""></p><hr><h2 id="4-编译内核的问题就自己去百度，大概又是一个多小时的问题，如果有就利用ln软链接指令到编译内核需要的位置"><a href="#4-编译内核的问题就自己去百度，大概又是一个多小时的问题，如果有就利用ln软链接指令到编译内核需要的位置" class="headerlink" title="4. 编译内核的问题就自己去百度，大概又是一个多小时的问题，如果有就利用ln软链接指令到编译内核需要的位置"></a>4. 编译内核的问题就自己去百度，大概又是一个多小时的问题，如果有就利用ln软链接指令到编译内核需要的位置</h2><hr><h2 id="5-直接用蓝牙连接树莓派虽然可以连接上，但是不能读取到数据。所以感谢Github上的一个驱动xpadneoatar-axis-xpadneo。网站上面有完整的安装过程，其他人博客也说到了这个，但是没有说明内核版本的问题，差一点都不行。"><a href="#5-直接用蓝牙连接树莓派虽然可以连接上，但是不能读取到数据。所以感谢Github上的一个驱动xpadneoatar-axis-xpadneo。网站上面有完整的安装过程，其他人博客也说到了这个，但是没有说明内核版本的问题，差一点都不行。" class="headerlink" title="5. 直接用蓝牙连接树莓派虽然可以连接上，但是不能读取到数据。所以感谢Github上的一个驱动xpadneoatar-axis/xpadneo。网站上面有完整的安装过程，其他人博客也说到了这个，但是没有说明内核版本的问题，差一点都不行。"></a>5. 直接用蓝牙连接树莓派虽然可以连接上，但是不能读取到数据。所以感谢Github上的一个驱动xpadneo<a href="https://github.com/atar-axis/xpadneo" target="_blank" rel="noopener">atar-axis/xpadneo</a>。网站上面有完整的安装过程，其他人博客也说到了这个，但是没有说明内核版本的问题，差一点都不行。</h2><hr><h2 id="6-安装完成之后用lsmod查看是否加载了这个驱动"><a href="#6-安装完成之后用lsmod查看是否加载了这个驱动" class="headerlink" title="6. 安装完成之后用lsmod查看是否加载了这个驱动"></a>6. 安装完成之后用lsmod查看是否加载了这个驱动</h2><p><img src="https://gitee.com/YSXCC/MDImage/raw/master/img/20201206215210.png" srcset="/img/loading.gif" alt=""></p><hr><h2 id="7-这样就可以连上XboxOne了"><a href="#7-这样就可以连上XboxOne了" class="headerlink" title="7. 这样就可以连上XboxOne了"></a>7. 这样就可以连上XboxOne了</h2><pre><code class="hljs bash">sudo bluetoothctl[bluetooth]<span class="hljs-comment"># scan on</span>[bluetooth]<span class="hljs-comment"># pair MAC</span>[bluetooth]<span class="hljs-comment"># trust MAC</span>[bluetooth]<span class="hljs-comment"># connect MAC</span></code></pre><h2 id="8-测试代码"><a href="#8-测试代码" class="headerlink" title="8. 测试代码"></a>8. 测试代码</h2><pre><code class="hljs py"><span class="hljs-keyword">import</span> pygameBLACK    = (   <span class="hljs-number">0</span>,   <span class="hljs-number">0</span>,   <span class="hljs-number">0</span>)WHITE    = ( <span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>)<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TextPrint</span>:</span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>        self.reset()        self.font = pygame.font.Font(<span class="hljs-literal">None</span>, <span class="hljs-number">20</span>)    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print</span><span class="hljs-params">(self, screen, textString)</span>:</span>        textBitmap = self.font.render(textString, <span class="hljs-literal">True</span>, BLACK)        screen.blit(textBitmap, [self.x, self.y])        self.y += self.line_height            <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reset</span><span class="hljs-params">(self)</span>:</span>        self.x = <span class="hljs-number">10</span>        self.y = <span class="hljs-number">10</span>        self.line_height = <span class="hljs-number">15</span>            <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">indent</span><span class="hljs-params">(self)</span>:</span>        self.x += <span class="hljs-number">10</span>            <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">unindent</span><span class="hljs-params">(self)</span>:</span>        self.x -= <span class="hljs-number">10</span>    pygame.init()size = [<span class="hljs-number">500</span>, <span class="hljs-number">700</span>]screen = pygame.display.set_mode(size)pygame.display.set_caption(<span class="hljs-string">"My Game"</span>)done = <span class="hljs-literal">False</span>clock = pygame.time.Clock()pygame.joystick.init()    textPrint = TextPrint()<span class="hljs-keyword">while</span> done==<span class="hljs-literal">False</span>:    <span class="hljs-keyword">for</span> event <span class="hljs-keyword">in</span> pygame.event.get():         <span class="hljs-keyword">if</span> event.type == pygame.QUIT:            done=<span class="hljs-literal">True</span>                <span class="hljs-keyword">if</span> event.type == pygame.JOYBUTTONDOWN:            print(<span class="hljs-string">"Joystick button pressed."</span>)        <span class="hljs-keyword">if</span> event.type == pygame.JOYBUTTONUP:            print(<span class="hljs-string">"Joystick button released."</span>)                 screen.fill(WHITE)    textPrint.reset()    joystick_count = pygame.joystick.get_count()    textPrint.print(screen, <span class="hljs-string">"Number of joysticks: &#123;&#125;"</span>.format(joystick_count) )    textPrint.indent()        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(joystick_count):        joystick = pygame.joystick.Joystick(i)        joystick.init()            textPrint.print(screen, <span class="hljs-string">"Joystick &#123;&#125;"</span>.format(i) )        textPrint.indent()            name = joystick.get_name()        textPrint.print(screen, <span class="hljs-string">"Joystick name: &#123;&#125;"</span>.format(name) )                axes = joystick.get_numaxes()        textPrint.print(screen, <span class="hljs-string">"Number of axes: &#123;&#125;"</span>.format(axes) )        textPrint.indent()                <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range( axes ):            axis = joystick.get_axis( i )            textPrint.print(screen, <span class="hljs-string">"Axis &#123;&#125; value: &#123;:&gt;6.3f&#125;"</span>.format(i, axis) )        textPrint.unindent()                    buttons = joystick.get_numbuttons()        textPrint.print(screen, <span class="hljs-string">"Number of buttons: &#123;&#125;"</span>.format(buttons) )        textPrint.indent()        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range( buttons ):            button = joystick.get_button( i )            textPrint.print(screen, <span class="hljs-string">"Button &#123;:&gt;2&#125; value: &#123;&#125;"</span>.format(i,button) )        textPrint.unindent()                    hats = joystick.get_numhats()        textPrint.print(screen, <span class="hljs-string">"Number of hats: &#123;&#125;"</span>.format(hats) )        textPrint.indent()        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range( hats ):            hat = joystick.get_hat( i )            textPrint.print(screen, <span class="hljs-string">"Hat &#123;&#125; value: &#123;&#125;"</span>.format(i, str(hat)) )        textPrint.unindent()                textPrint.unindent()        pygame.display.flip()    clock.tick(<span class="hljs-number">20</span>)    pygame.quit ()</code></pre><h2 id="就可以愉快玩耍了"><a href="#就可以愉快玩耍了" class="headerlink" title="就可以愉快玩耍了"></a>就可以愉快玩耍了</h2><p><img src="https://gitee.com/YSXCC/MDImage/raw/master/img/20201206220238.png" srcset="/img/loading.gif" alt=""></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>arvhives</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>爱拥抱的糖果</title>
+    <link href="/2020/07/01/%E7%88%B1%E6%8B%A5%E6%8A%B1%E7%9A%84%E7%B3%96%E6%9E%9C/"/>
+    <url>/2020/07/01/%E7%88%B1%E6%8B%A5%E6%8A%B1%E7%9A%84%E7%B3%96%E6%9E%9C/</url>
+    
+    <content type="html"><![CDATA[<p>广场的正中央，有一个糖果姑娘。她的面前有一块牌子，上面写的是，可不可以拥抱我一下。</p><p>来来往往的食物很多，但是没有食物去抱她一下。糖果姑娘就那么一直站着，面带微笑。没有谁知道她为什么要这样做，在这个食物的世界里，真的是无奇不有。</p><p>然后，一个棉花糖过去了，他问了问糖果为什么要这样做。糖果笑着对棉花糖说，你抱我一下就知道了。</p><p>棉花糖抱了抱糖果，笑着松开了。没有说话，悄悄地走开了。</p><p>然后来了一块饼干，也是好奇，也问了糖果一样的问题，得到了同样的答案，也同样地拥抱了糖果一下，也笑着离开了。</p><p>渐渐地，越来越多地食物都去拥抱了糖果一下。</p><p>没有人知道为什么。</p><p>只有古老的书中记载，糖果有一颗冰冷心，需要拥抱才可以温暖。</p><p>而拥抱她的食物，为什么会笑呢？</p><p>因为糖果是甜的呀！</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>童话故事</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>彩虹桥那边的精灵</title>
+    <link href="/2020/07/01/%E5%BD%A9%E8%99%B9%E6%A1%A5%E9%82%A3%E8%BE%B9%E7%9A%84%E7%B2%BE%E7%81%B5/"/>
+    <url>/2020/07/01/%E5%BD%A9%E8%99%B9%E6%A1%A5%E9%82%A3%E8%BE%B9%E7%9A%84%E7%B2%BE%E7%81%B5/</url>
+    
+    <content type="html"><![CDATA[<p>豆沙包永远也不会知道的事情，可能就是彩虹桥的那边根本就没有什么魔法吧！但是他还是带着红豆姑娘去了彩虹的另一端。即使红豆姑娘不再期望能够看见！</p><p>“请问这里是彩虹的另一端吗？”豆沙包看着眼前的这个有点黑的食物。</p><p>“另一端？对啊，你抬头看，头上不是彩虹吗？”</p><p>这个黑黑的食物叫做黑森林蛋糕，这里的人都把她亲切地叫做蛋糕小姐。</p><p>豆沙包向她问了一下关于恢复红豆姑娘视力的精灵，蛋糕小姐摇了摇头，然后看了一眼红豆姑娘，害羞地把自己手里的花藏在身后。然后匆匆忙忙地离开了。</p><p>豆沙包继续往前走，背上的红豆姑娘睡得香香的。</p><p>在离村子有点远的山上，蛋糕小姐奔向了一片草坪，“叉子先生，你看我今天给你带的花！”</p><p>远远的草坪上面，站着的是餐具王国的叉子。他只是看着蛋糕小姐，没有说话，这样已经好多好多天了。蛋糕小姐每天都给叉子带来不一样的花，其实蛋糕小姐也是知道的。叉子先生是接到了餐具王国的任务，要来抓蛋糕小姐带去地球，可是叉子先生怎么都下不去手。</p><p>蛋糕小姐每天都带着不一样的花来山上找叉子先生，叉子先生也很乐意接过花，对蛋糕小姐一笑，然后蛋糕小姐就坐在叉子先生的旁边，给他讲以前蛋糕王国的故事。</p><p>原来啊！黑森林蛋糕是蛋糕王国里面，照顾花花草草的园艺师。但是呢？食物王国和餐具王国的战争开始了，蛋糕王国首当其冲，（谁叫他们偏受地球人的喜爱呢！）</p><p>蛋糕王国的蛋糕都被抓了，执行这次任务的就是叉子先生，他知道黑森林蛋糕逃跑了，他也知道那满园的花也是她种的。餐具国王要求叉子先生把黑森林蛋糕找回来，叉子先生也知道，自己如果找不回蛋糕，那么自己也回不去了。也就没有了那么多的荣耀！</p><p>可是啊！叉子先生舍不得带蛋糕小姐回去，他可能，也不喜欢餐具王国那个冰冰冷冷的地方。</p><p>“那个！蛋糕小姐，你能带我去你住的逛逛吗？”</p><p>“嗯？”蛋糕一下没反应过来，这么多天了，叉子都还没有说过话。“好的！”蛋糕小姐用力地点了点头。</p><p>当蛋糕带着叉子进了村子里面地时候，村子整个炸开了锅！</p><p>“大家快准备战斗，餐具来了！“说着话的是村子里面的包子！</p><p>“不是的，不是的，叉子先生是好人，他只是来看看，没有坏意的“，蛋糕小姐挡在叉子先生前面，连忙摆手！</p><p>叉子先生也不说话，拉着蛋糕小姐的手穿过人群！“你怎么不像照顾那些花一样，照顾一下你的手呢？“</p><p>蛋糕小姐一听，不好意思地笑了。“没关系的！“</p><p>正巧，他们遇到了找寻无果的豆沙包，叉子听了豆沙包的故事，似乎有点眉目。</p><p>这个星球上，只有巧克力是精灵，也只有他们能够使用魔法！但是呀，星球上面只有一个巧克力了，可是他已经成为了白巧克力，守护在冰淇淋公主的身边！也就是说，明明知道怎么让红豆姑娘恢复眼睛，但是已经没有了机会！</p><p>“让我来吧！“黑森林小姐站了出来，她说，”我身体里面有黑巧克力，相信他们可以帮助你们！“</p><p>“可是这样你会死的呀！“叉子摸了摸蛋糕的脑袋，”你是不是个傻子啊！我不会要你离开我的！“</p><p>蛋糕小姐笑了，“其实，当我逃出蛋糕王国的时候，就知道我已经受了诅咒，没有多长的时间了！他们说，彩虹的一端有一个童话，我呢！就想来看一看，这个童话到底是什么！看来现在我找到了，也就没有遗憾了“。蛋糕望着叉子，”这个童话，原来就是你啊！“</p><p>叉子愣住了，他不知道应该怎么办！是要杀了蛋糕小姐吗？虽然自己做了那么多事，偏偏这件事情让自己难受。</p><p>就在这个时候，蛋糕小姐穿过叉子，分成了两半。黑巧克力原来是蛋糕小姐的心，她飘到了红豆姑娘眼前，融了进去。</p><p>红豆姑娘睁开了眼睛，眼角滑落了一滴蜂蜜。没想到的是，蜂蜜落到了蛋糕小姐的身体上面，就像胶水一样，把蛋糕小姐恢复如初！<br>叉子先生亲亲地抱起了蛋糕小姐，缓缓地吻了一下！</p><p>“你干嘛吻我呀！“。</p><p>“因为你是甜甜的“。</p><p>原来，这个世界最厉害的魔法，就是自己啊！</p><p>我，最喜欢的，也就是你呀！</p><p>（</p><p>小太阳很忙</p><p>小云朵想吃糖</p><p>长颈鹿嫌脖子不够长</p><p>喜欢的你    </p><p>太难忘</p><p>）</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>童话故事</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>红豆姑娘</title>
+    <link href="/2020/07/01/%E7%BA%A2%E8%B1%86%E5%A7%91%E5%A8%98/"/>
+    <url>/2020/07/01/%E7%BA%A2%E8%B1%86%E5%A7%91%E5%A8%98/</url>
+    
+    <content type="html"><![CDATA[<p>在彩虹的一端，有一个小村子。</p><p>红豆姑娘是村子里面最漂亮的，尽管她身材娇小，可是好像村子里面的食物都挺喜欢她的。</p><p>这里的食物过着无忧无虑的生活，丝毫不知道彩虹的另一端战火纷飞。今天是个特别的日子，是馒头们的成年礼。</p><p>所谓的成年礼就是一堆馒头跳进蜂蜜湖泊，然后再出来就算成年了。这要是再地球这个地方，倒是一个很奇异的吃法。</p><p>这个村子的馒头都是方方正正的，貌似在地球人的眼中，馒头都是这样的。但是，很奇怪的是。这个村子有个馒头是圆的？不是包子，包子是在遥远的一个地方，他们是夜的精灵，白天一到他们就会消失。</p><p>当然，这些馒头不知道有包子。他们只是觉得这个圆馒头很奇怪而已。</p><p>成人礼，所有馒头都跳进去了，圆馒头却犹豫了，他不知道自己是不是真正的馒头，所以迟迟不肯跳下去。</p><p>“快救人啊！红豆姑娘掉下去了！”老馒头村子叫了一声，但是馒头都在蜂蜜湖泊里面，听不见。圆馒头看见了，就扑通一声跳下去了。<br>红豆姑娘虽然被救了上来，但是却看不见东西了！</p><p>老馒头村子叹了一口气，说，这湖泊有魔法，只能是馒头才能进去。圆馒头高兴了一会儿，原来自己是馒头呀！</p><p>可是他看看失明的红豆姑娘，也就不觉得高兴了。</p><p>“村长，魔法有办法破解吗？”</p><p>“相传在彩虹的另一端，有精灵，他们应该可以破解这个魔法！”</p><p>“那好，我带红豆去！”</p><p>“外面的世界，可是很危险的啊！”村长有些严肃了。</p><p>圆馒头想了想，红豆姑娘对自己挺好的，会帮自己缝衣服，会陪自己看星星，会在所有人都远离他的时候靠近他！自己已经跳进蜂蜜湖泊了，自己也是个大人了。圆馒头决定出发，去彩虹的另一端。</p><p>“红豆姑娘，你愿意陪我一起去彩虹另一端吗？”圆馒头这样问道。</p><p>红豆姑娘听着这个熟悉的声音。她想到了和圆馒头在一起的时光。他会用身体为自己挡雨，会摘小花送给自己。想到这，红豆姑娘笑了。<br>“当然好啦！不过在此之前，我有个愿望！”</p><p>“嗯？”</p><p>“我可以住进你心里吗？”</p><p>夕阳西下，圆馒头的身影渐行渐远，红豆姑娘在圆馒头的背上。</p><p>“你已经住进我心里啦！”</p><p>“那这样我就不叫馒头喏！”</p><p>对啊！他叫豆沙包！我知道的！</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>童话故事</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>巧克力骑士.续</title>
+    <link href="/2020/07/01/%E5%B7%A7%E5%85%8B%E5%8A%9B%E9%AA%91%E5%A3%AB-%E7%BB%AD/"/>
+    <url>/2020/07/01/%E5%B7%A7%E5%85%8B%E5%8A%9B%E9%AA%91%E5%A3%AB-%E7%BB%AD/</url>
+    
+    <content type="html"><![CDATA[<p>白巧克力得到了可可粉的同时，也得到了无穷无尽的魔法。或许，拯救食物世界就是靠他了。</p><p>听闻冰淇淋王国的故事后，黑巧克力想去看一看那个勇敢的冰淇淋公主。于是他就往冰淇淋王国的方向走去，越来越冷，越来越冷。一路上还会遇见一些整装待发的餐具大军，毫无疑问，都被黑巧克力击败了。</p><p>终于，黑巧克力来到了那条冰淇淋公主化身的河前，他被这条河吸引住了，但是不知道为什么，他也说不出原因来。他就那样静静地坐着，任凭冰淇淋王国地风吹过来。</p><p>黑巧克力睡着了，他做了一个梦，梦到了那个冰淇淋公主。那会地公主还没有变成冰淇淋河。黑巧克力和她说了好多好多的话，冰淇淋公主也很开心的笑了！也不知道过了多久！</p><p>然后，黑巧克力起身了，他想去找那个女祭司，他想让冰淇淋公主变回来。山上的暴风雪在魔法师眼中也不过是世界的一点点小风景。女祭司泡好了茶，像是知道黑巧克力会来。</p><p>“你可以把冰淇淋公主变回来吗？”<br>黑巧克力问道。</p><p>“你不是魔法师吗？怎么？你不能破解我的魔法吗？”</p><p>“那是诅咒，是对冰淇淋公主的诅咒”，黑巧克力确信自己的猜测。</p><p>女祭司提出了一个条件，她要黑巧克力身上的可可粉。黑巧克力犹豫了，这个可可粉是棉花糖长老要自己守护的东西啊！<br>“怎么？不舍得？”</p><p>“不是，是我失去了可可粉，就没有魔法，就不能保护食物世界的人，同时也没有完成棉花糖长老给我的任务！”</p><p>女祭司喝完了茶，示意黑巧克力离开。“你忘了冰淇淋公主的事情了吗？”女祭司苦笑，黑巧克力哪会明白啊！</p><p>“等等，我把可可粉给你！”</p><p>“不反悔？”</p><p>“不反悔！”</p><p>黑巧克力闭上了眼睛，再睁开眼后，自己回到了冰淇淋王国，而那条河消失了，眼前的是冰淇淋公主呀！</p><p>“你好！请问你是黑巧克力吗？我刚刚做了一个梦，梦见了一个和你长得一样的人，只不过他是黑色的，而你是白色的！”<br>黑巧克力打量了一下自己，笑了，他对冰淇淋公主说，</p><p>“公主，我是白巧克力！白巧克力骑士！”</p><p>“那你认识黑巧克力吗？”</p><p>黑巧克力回头看了看雪山，说道，“认识啊！他可能保护食物世界去了，而且，永远都不会回来！所以，他让我来守护你，我最尊敬的公主殿下！”</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>童话故事</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>巧克力骑士</title>
+    <link href="/2020/07/01/%E5%B7%A7%E5%85%8B%E5%8A%9B%E9%AA%91%E5%A3%AB/"/>
+    <url>/2020/07/01/%E5%B7%A7%E5%85%8B%E5%8A%9B%E9%AA%91%E5%A3%AB/</url>
+    
+    <content type="html"><![CDATA[<p>相传在古拉古拉森林里面住着一群小精灵，因为没有食物进过森林，所以也没有见过它们。传闻食物世界出现危险的时候，它们就会走出森林去帮助这个世界的其他食物。</p><p>此时，古拉古拉森林的最深处，棉花糖长老迈着年老的步伐，取出了一块宝石，交到了白巧克力的手上。</p><p>“这是最后的机会了，其他的白巧克力骑士出去已经没了音讯。”棉花糖长老重重地叹了一口气。</p><p>自冰淇淋王国的事情发生之后，食物就开始同餐具战斗，白巧克力骑士出去了一批又一批，这最后的白巧克力，也是古拉古拉森林最后的力量了。而这次，最后的这个白巧克力需要拿着先知给的宝石，去打开牛奶糖山山顶的洞穴，拿出里面的东西。</p><p>白巧克力上路了，面对他的是没有见过的世界和危险。</p><p>到底哪里才是去牛奶山的路啊！白巧克力这样想着，不一会儿就到了榴莲王国，白巧克力实在是受不了这样的味道，正打算绕路而行，却被榴莲王国的人当成入侵者抓了起来。</p><p>一番解释之后，榴莲国王相信了白巧克力，并且告诉他，餐具王国的队伍已经兵临城下。</p><p>榴莲国王想要白巧克力替他们征战，可是白巧克力知道，凭自己现在的实力是肯定抵挡不住那些餐具。他可以做的就是去找到那个洞穴。<br>万万没想到，牛奶山就在餐具军队的后面，要想过去的话，必须要打败餐具大军，白巧克力知道后有点沮丧吧！但无论如何，至少也要拼一下啊！</p><p>就这样，白巧克力穿上了铠甲，化身为榴莲王国的白巧克力骑士，为保护榴莲王国而战。</p><p>然而，事实却没有按照白巧克力骑士的想法发展，餐具太厉害了。食物根本不可能是他们的对手。难道，就这样放弃吗？<br>前也是阵亡，后也是阵亡。白巧克力犹豫了，他知道自己的能力有限，而且也完不成棉花糖长老给他的任务了。</p><p>可是，万万没有想到，城中的榴莲们纷纷跑了出来，冲向餐具，同之前一样，这些都是毫无意义的牺牲啊！</p><p>时间渐渐变长，战场上面弥漫的都是榴莲的气味。原来，这是榴莲国王最后能帮白巧克力骑士的了。他想通过这样的混乱，让白巧克力顺利走到牛奶山。</p><p>每个人，都在为自己的家园而战呀！</p><p>牛奶山上果然又一个洞穴，白巧克力拿出来那块宝石，打开了洞穴的大门。里面只有一个器皿，里面装着黑乎乎的东西。白巧克力伸手去拿，便和那黑乎乎的东西融合在了一起。那个黑乎乎的东西叫可可粉，白巧克力骑士就变成了黑巧克力骑士。或许，叫他黑巧克力魔法师更合适吧！</p><p>牛奶山上刮起了一阵狂风，向榴莲王国吹去，餐具被击败了。</p><p>烟尘散去，随处可见食物残骸，没有人知道为什么会有这阵大风，因为那个白巧克力早就消失在了去牛奶山的路上。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>童话故事</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>惊蛰</title>
+    <link href="/2020/06/28/%E6%83%8A%E8%9B%B0/"/>
+    <url>/2020/06/28/%E6%83%8A%E8%9B%B0/</url>
+    
+    <content type="html"><![CDATA[<p>春为三季，惊蛰在中。</p><p>如雷沉沉，似雨纷纷。</p><p>同是万物苏醒的日子，你来时唤我一声。</p><p>从此心田七分，慢慢地开了花。</p><p>而那剩余三分，本就属于你啊。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>poem</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>冰淇淋公主</title>
+    <link href="/2020/06/28/%E5%86%B0%E6%B7%87%E6%B7%8B%E5%85%AC%E4%B8%BB/"/>
+    <url>/2020/06/28/%E5%86%B0%E6%B7%87%E6%B7%8B%E5%85%AC%E4%B8%BB/</url>
+    
+    <content type="html"><![CDATA[<p>在遥远的异星球，那里有很多很多的国家。然而在那里居住的并不是人类，而是各种各样的食物和餐具。</p><p>异星球最北的地方超级冷。冰淇淋王国便坐落在那。王国里居住着很多很多的冰淇淋，他们有着各种各样的颜色和千奇百怪的口味。国王是薄荷味的棒冰，他有一个草莓味的冰淇淋女儿。也就是公主啦！</p><p>公主一天到晚板着个脸，很少有冰淇淋见过她笑。可能是因为天气实在太冷了，笑起来很费劲，而公主很懒，所以就懒得笑吧。所以草莓冰淇淋又被王国的人叫做草莓冰公主。</p><p>直到有一天，冰淇淋王国来了一只军队。领队的是餐刀和餐叉，他们后面跟着许多的筷子。队伍中间，是一个用藤蔓编成的笼子，笼子里面关押着许多水果王国的西瓜。</p><p>刀叉要求把这些西瓜放在冰淇淋王国。薄荷棒冰国王十分犹豫，这些不都是烫手山芋吗？可是自己的军队完全不是餐具的对手，所以他只好答应下来，把西瓜关进了冰牢房。</p><p>公主听说自己国家来了一批有意思的罪犯，一个个长得圆头圆脑，身穿绿衣。公主长这么大还没见过这样的食物。她特别好奇，就去到冰牢看看。</p><p>冰牢很冷，但是对冰淇淋来说却是很舒适。</p><p>公主大摇大摆地走进冰牢，发现一个守卫都没有。</p><p>可能是因为西瓜太懒了，都懒得逃跑。薄荷棒冰国王也就没有派守卫来监视西瓜们。</p><p>冰淇淋公主站在牢房外，歪着头打量着地上的五六个圆东西。好奇的她伸出手去戳那个离她最近的西瓜。</p><p>“你是谁？”西瓜也没有站起来，只是翻了个身，看着外面的冰淇淋。</p><p>“我是冰淇淋王国的公主。”公主骄傲地说道。虽然她被吓了一跳，但是她感觉里面的西瓜没有恶意。</p><p>“美丽的公主，你好。我是西瓜王国的王子，请问你能放我们出去吗？”此时冰牢最里面的西瓜站了起来。</p><p>那西瓜貌似是最胖的，公主这样想到，难道胖就可以做王子吗？</p><p>公主摇了摇头，认为自己好傻，然后回答了西瓜王子。</p><p>“没有父王允许，不可以的啊。”公主歪着脑袋看着这些奇怪的外来者。</p><p>西瓜王子就告诉公主，他们是在西瓜王国外被餐具王国的人抓住，餐具要把他们做成冰镇西瓜，最后送往一个叫做地球的地方。</p><p>地球？</p><p>公主都没有听说过这样的地方，但是看西瓜这么真诚。公主还是把这件事情告诉了国王。</p><p>国王一听，还是无奈地摇了摇头。他没有责备公主，似乎他早就知道事情的前因后果。在公主万般要求下，国王说出了这样一个真相。</p><p>食物界已经被餐具统治多年，大家都是有怨言而说不出。更何况自己的国家每年还要向餐具王国进贡大量自己的子民，然后让他们送给地球。不然的话，整个王国都会被餐具侵占。</p><p>地球上到底有什么呢？公主这样想着。</p><p>但是，眼前的餐具才是自己的敌人啊。就算不为了那个胖嘟嘟的西瓜，自己也该为冰淇淋王国做点什么。</p><p>既然国王没有办法，为什么自己不去问问冰淇淋山上的女祭司呢？</p><p>于是公主就带上水，前往冰淇淋山。</p><p>可是冰淇淋山路途遥远，自己又没有出过远门。该怎么办呢？于是她想到了冰牢里的西瓜王子。</p><p>就这样，公主悄悄带走了西瓜王子。两人前往冰淇淋山。</p><p>两人走到山腰，暴风雪就来了。公主怕自己被吹走，就紧紧地抱住西瓜。看来胖还是有胖的好处嘛。</p><p>而在冰淇淋王国，餐具大军早已兵临城下。薄荷棒冰国王发现少了一个西瓜。而餐具就以此为借口，要国王三天内交出剩下的那个西瓜，不然就攻打冰淇淋王国。</p><p>冰淇淋山上有个小屋，里面住着女祭司。公主到的时候，西瓜王子已经快接近生命终点，变成冰镇西瓜了。</p><p>公主先问了女祭司有没有击败餐具的方法，女祭司摇了摇头。然后公主又问女祭司有没有办法救救西瓜。</p><p>女祭司告诉公主，要救西瓜只有一个办法。就是点燃火，因为西瓜的心已经被这冰天雪地给冻住了。当然，如果是冰淇淋点燃火，那么她也将不复存在。</p><p>看着奄奄一息的西瓜王子，公主狠下心来，告诉女祭司，如果西瓜醒了，一定要他保护好自己，不要再被抓了。</p><p>女祭司笑了笑，没有说话。</p><p>火燃起来了，公主也开始慢慢融化，当公主化为一滩奶油和水的混合物时，西瓜睁开了眼睛。他看着地上的东西，明白了一切。</p><p>“去吧，去救你的国家吧！”女祭司举出法杖，那奶油和水的混合物化为滔天巨浪，载着西瓜王子涌向冰淇淋王国。</p><p>“胖西瓜，你一定要回到自己的国家啊。记得以后，要减肥！嘻嘻嘻！”</p><p>这是冰淇淋公主的声音。</p><p>西瓜王子听了以后，开心地笑了，就像冰淇淋公主那样，笑了。</p><p>餐具大军被这巨浪袭过，在寒风中顿时化为一塑塑冰雕。而那巨浪，成了一条河，环绕着冰淇淋王国。</p><p>特别的是，这是草莓味的，带有温度的一条河。</p><p>其实他们都不知道，这条河的名字叫做草莓冰淇淋公主。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>童话故事</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>不知道是什么的Emmmm</title>
+    <link href="/2020/06/26/%E4%B8%8D%E7%9F%A5%E9%81%93%E6%98%AF%E4%BB%80%E4%B9%88%E7%9A%84Emmmm/"/>
+    <url>/2020/06/26/%E4%B8%8D%E7%9F%A5%E9%81%93%E6%98%AF%E4%BB%80%E4%B9%88%E7%9A%84Emmmm/</url>
+    
+    <content type="html"><![CDATA[<h1 id="所以你的选择是？"><a href="#所以你的选择是？" class="headerlink" title="所以你的选择是？"></a>所以你的选择是？</h1><h2 id="你要做一个不动声色的大人了。不准情绪化，不准偷偷想念，不准回头看。去过自己另外的生活。你要听话，不是所有的鱼都会生活在同一片海里。"><a href="#你要做一个不动声色的大人了。不准情绪化，不准偷偷想念，不准回头看。去过自己另外的生活。你要听话，不是所有的鱼都会生活在同一片海里。" class="headerlink" title="你要做一个不动声色的大人了。不准情绪化，不准偷偷想念，不准回头看。去过自己另外的生活。你要听话，不是所有的鱼都会生活在同一片海里。"></a>你要做一个不动声色的大人了。不准情绪化，不准偷偷想念，不准回头看。去过自己另外的生活。你要听话，不是所有的鱼都会生活在同一片海里。</h2><p>  其实啊，我翻遍了《舞舞舞》都找不到这句话，就好像很久之前看过的杂志上，说的什么什么出自于什么电影。所以我去看了龙猫，看了千与千寻。也不知道那些人是怎么总结出来的，这些也就成为了我信仰的众多鸡汤之一。</p><p>  有的时候，觉得喜欢就是一瞬间的事情。像什么灵魂只能独行，豌豆姑娘，或者其他东西等等。这种感觉怎么说呢？就好像我与山海相望，而山海终不见我。跋山涉水总是出乎意料的难，就好像我再也没有拾起角落里的字帖，打开装满工具的盒子，铺上不多不少的切割板。所以有的时候，觉得厌恶也还是一瞬间的事情，或许谈不上厌恶，只是山海遥远，形单影只又怎敢上路。思来想去总想找个合适的理由，融合了人类许多缺点这个借口倒是挺符合于我。</p><p>  故事总是惊人得出奇，离别也不是意料之外。倒是我自己，把那些珍藏的一一摆放出来，或许谈不上珍藏，那些更像是陪伴自己的朋友。它们会继续陪伴，无论和谁。而我也会继续生活，无论在哪。或许以后，我还会再买一版字帖，练一练好久没做过的纸模，换一张巨大的切割板。也可能会养一只猫…… </p><p>  什么见过的，遗忘的，未知的，憧憬的，恐惧的统统都冲我而来。命运使然罢了，我这样安慰着自己。</p><p>  于是松鼠把所有东西都藏了起来，包括自己。</p><h2 id="二十四节气"><a href="#二十四节气" class="headerlink" title="二十四节气"></a>二十四节气</h2><p>  世界总是存在着规律，朝升暮落，冷暖交替。始于漫漫长冬，等来万物苏醒，避走烈日，下一场雨。这些话一点都不押韵，听起来也会觉得有那么一些奇怪。感觉自己又好像对自己的未来了如指掌。</p><p>  春为三季，惊蛰在中。好像遗忘了，丢失的，也会随着时间，慢慢地回来。</p><h2 id="如鲠在喉"><a href="#如鲠在喉" class="headerlink" title="如鲠在喉"></a>如鲠在喉</h2><p>  不夜侯叫茶，满月叫未缺。脑子里面总是记一些奇奇怪怪的东西。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>arvhives</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>WeTreeOS</title>
+    <link href="/2020/05/23/WeTreeOS/"/>
+    <url>/2020/05/23/WeTreeOS/</url>
+    
+    <content type="html"><![CDATA[<h1 id="这是自己根据30天自制操作系统和一个操作系统实现两本书写出来还不完整的系统"><a href="#这是自己根据30天自制操作系统和一个操作系统实现两本书写出来还不完整的系统" class="headerlink" title="这是自己根据30天自制操作系统和一个操作系统实现两本书写出来还不完整的系统"></a>这是自己根据30天自制操作系统和一个操作系统实现两本书写出来还不完整的系统</h1><h2 id="因为是GitBook的原因，就把链接放到了下面"><a href="#因为是GitBook的原因，就把链接放到了下面" class="headerlink" title="因为是GitBook的原因，就把链接放到了下面"></a>因为是GitBook的原因，就把链接放到了下面</h2><h2 id="WeTreeOS-GitBook"><a href="#WeTreeOS-GitBook" class="headerlink" title="WeTreeOS-GitBook"></a><a href="https://ysxcc.github.io/GitBook/WeTreeOS/" target="_blank" rel="noopener">WeTreeOS-GitBook</a></h2><h2 id="文章可能很久之后才会更新，本身自己的能力有限，还需要多多学习理论知识。所以就只能写到进程处结束"><a href="#文章可能很久之后才会更新，本身自己的能力有限，还需要多多学习理论知识。所以就只能写到进程处结束" class="headerlink" title="文章可能很久之后才会更新，本身自己的能力有限，还需要多多学习理论知识。所以就只能写到进程处结束"></a>文章可能很久之后才会更新，本身自己的能力有限，还需要多多学习理论知识。所以就只能写到进程处结束</h2><h2 id="WeTree-GitHub"><a href="#WeTree-GitHub" class="headerlink" title="WeTree-GitHub"></a><a href="https://github.com/YSXCC/WeTreeOS" target="_blank" rel="noopener">WeTree-GitHub</a></h2>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>arvhives</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
