@@ -1,0 +1,720 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="图的 m 着色问题 一、描述 给定无向连通图 G 和 m 种不同的颜色. 用这些颜色为图 G 的各顶点着色, 每个顶点着一种颜色. 是否有一种着色法使 G 中每条边的 2 个顶点着不同颜色. 这个问题是图的 m 可着色判定问题. 若一个图最少需要 m 种颜色才能使图中每条边连接的 2 个顶点着不同颜色, 则称这个数 m 为该图的色数. 二、解决思路 可以把这个问题的解空间转换为高度">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习-Day18">
+<meta property="og:url" content="http://yoursite.com/posts/8b8ec170/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="图的 m 着色问题 一、描述 给定无向连通图 G 和 m 种不同的颜色. 用这些颜色为图 G 的各顶点着色, 每个顶点着一种颜色. 是否有一种着色法使 G 中每条边的 2 个顶点着不同颜色. 这个问题是图的 m 可着色判定问题. 若一个图最少需要 m 种颜色才能使图中每条边连接的 2 个顶点着不同颜色, 则称这个数 m 为该图的色数. 二、解决思路 可以把这个问题的解空间转换为高度">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022421174317.png">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022421174435.png">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022421174511.png">
+<meta property="article:published_time" content="2022-04-21T01:11:27.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.665Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="eclipse">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.omnitrix.top/MDImage/img/2022421174317.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Java学习-Day18 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Java学习-Day18</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-21 09:11" pubdate>
+          2022年4月21日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          65 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java学习-Day18</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="图的-m-着色问题">图的 m 着色问题</h1>
+<h2 id="一描述">一、描述</h2>
+<p>给定无向连通图 G 和 m 种不同的颜色.</p>
+<p>用这些颜色为图 G 的各顶点着色, 每个顶点着一种颜色. 是否有一种着色法使
+G 中每条边的 2 个顶点着不同颜色. 这个问题是图的 m 可着色判定问题.</p>
+<p>若一个图最少需要 m 种颜色才能使图中每条边连接的 2 个顶点着不同颜色,
+则称这个数 m 为该图的色数.</p>
+<h2 id="二解决思路">二、解决思路</h2>
+<p>可以把这个问题的解空间转换为高度为 G + 1 层 的完全 m 叉树.</p>
+<p>如何在这棵树中找到解呢？ 就是在深度优先遍历的前提下,
+利用相邻节点颜色不能相同对这棵树进行"剪枝".</p>
+<h2 id="三具体实现">三、具体实现</h2>
+<h3 id="输入">1. 输入</h3>
+<p>三个整数, 分别表示颜色数、已被着色节点数和存储着色的数组.</p>
+<h3 id="输出">2. 输出</h3>
+<p>若符合着色规则就打印着色的数组.</p>
+<h3 id="代码">3. 代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Coloring. Output all possible schemes.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraNumColors The number of colors.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">coloring</span><span class="hljs-params">(<span class="hljs-type">int</span> paraNumColors)</span> &#123;<br>	<span class="hljs-comment">// Step 1. Initialize.</span><br>	<span class="hljs-type">int</span> <span class="hljs-variable">tempNumNodes</span> <span class="hljs-operator">=</span> connectivityMatrix.getRows();<br>	<span class="hljs-type">int</span>[] tempColorScheme = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[tempNumNodes];<br>	Arrays.fill(tempColorScheme, -<span class="hljs-number">1</span>);<br><br>	coloring(paraNumColors, <span class="hljs-number">0</span>, tempColorScheme);<br>&#125;<span class="hljs-comment">// Of coloring</span><br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Coloring. Output all possible schemes.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraNumColors       The number of colors.</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraCurrentNumNodes The number of nodes that have been colored.</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraCurrentColoring The array recording the coloring scheme.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">coloring</span><span class="hljs-params">(<span class="hljs-type">int</span> paraNumColors, <span class="hljs-type">int</span> paraCurrentNumNodes, <span class="hljs-type">int</span>[] paraCurrentColoring)</span> &#123;<br>	<span class="hljs-comment">// Step 1. Initialize.</span><br>	<span class="hljs-type">int</span> <span class="hljs-variable">tempNumNodes</span> <span class="hljs-operator">=</span> connectivityMatrix.getRows();<br><br>	System.out.println(<span class="hljs-string">&quot;coloring: paraNumColors = &quot;</span> + paraNumColors + <span class="hljs-string">&quot;, paraCurrentNumNodes = &quot;</span><br>			+ paraCurrentNumNodes + <span class="hljs-string">&quot;, paraCurrentColoring&quot;</span> + Arrays.toString(paraCurrentColoring));<br>	<span class="hljs-comment">// A complete scheme.</span><br>	<span class="hljs-keyword">if</span> (paraCurrentNumNodes &gt;= tempNumNodes) &#123;<br>		System.out.println(<span class="hljs-string">&quot;Find one:&quot;</span> + Arrays.toString(paraCurrentColoring));<br>		<span class="hljs-keyword">return</span>;<br>	&#125; <span class="hljs-comment">// Of if</span><br><br>	<span class="hljs-comment">// Try all possible colors.</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraNumColors; i++) &#123;<br>		paraCurrentColoring[paraCurrentNumNodes] = i;<br>		<span class="hljs-keyword">if</span> (!colorConflict(paraCurrentNumNodes + <span class="hljs-number">1</span>, paraCurrentColoring)) &#123;<br>			coloring(paraNumColors, paraCurrentNumNodes + <span class="hljs-number">1</span>, paraCurrentColoring);<br>		&#125; <span class="hljs-comment">// Of if</span><br>	&#125; <span class="hljs-comment">// Of for i</span><br>&#125;<span class="hljs-comment">// Of coloring</span><br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Coloring conflict or not. Only compare the current last node with previous</span><br><span class="hljs-comment"> * ones.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraCurrentNumNodes The current number of nodes.</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraColoring        The current coloring scheme.</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> Conflict or not.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">colorConflict</span><span class="hljs-params">(<span class="hljs-type">int</span> paraCurrentNumNodes, <span class="hljs-type">int</span>[] paraColoring)</span> &#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraCurrentNumNodes - <span class="hljs-number">1</span>; i++) &#123;<br>		<span class="hljs-comment">// No direct connection.</span><br>		<span class="hljs-keyword">if</span> (connectivityMatrix.getValue(paraCurrentNumNodes - <span class="hljs-number">1</span>, i) == <span class="hljs-number">0</span>) &#123;<br>			<span class="hljs-keyword">continue</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		<span class="hljs-keyword">if</span> (paraColoring[paraCurrentNumNodes - <span class="hljs-number">1</span>] == paraColoring[i]) &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br>	&#125; <span class="hljs-comment">// Of for i</span><br>	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<span class="hljs-comment">// Of colorConflict</span><br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Coloring test.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">coloringTest</span><span class="hljs-params">()</span> &#123;<br>	<span class="hljs-type">int</span>[][] tempMatrix = &#123; &#123; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span> &#125;, &#123; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span> &#125;, &#123; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span> &#125;, &#123; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span> &#125; &#125;;<br>	<span class="hljs-type">Graph</span> <span class="hljs-variable">tempGraph</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Graph</span>(tempMatrix);<br>	tempGraph.coloring(<span class="hljs-number">3</span>);<br>&#125;<span class="hljs-comment">// Of coloringTest</span><br></code></pre></td></tr></table></figure>
+<h3 id="运行截图">4. 运行截图</h3>
+<p><img src="https://img.omnitrix.top/MDImage/img/2022421174317.png" srcset="/img/loading.gif" lazyload />
+<img src="https://img.omnitrix.top/MDImage/img/2022421174435.png" srcset="/img/loading.gif" lazyload />
+<img src="https://img.omnitrix.top/MDImage/img/2022421174511.png" srcset="/img/loading.gif" lazyload /></p>
+<h1 id="邻接链表">邻接链表</h1>
+<h2 id="一描述-1">一、描述</h2>
+<p>之前是通过矩阵来表示图, 这种存储方式被叫做邻接矩阵.
+但是这种存储方式有一种缺点就是每个点都要记录,
+如果面对连接不是很多的图就会浪费空间. 于是将邻接的节点组成一条链表,
+然后再以各节点形成一个数组. 这样邻接链表就诞生了.</p>
+<h2 id="二具体实现">二、具体实现</h2>
+<h3 id="描述">1. 描述</h3>
+<p>相当于图的压缩存储. 每一行数据用一个单链表存储.</p>
+<p>重写了广度优先遍历. 可以发现, 使用队列的机制不变. 仅仅是把其中的 for
+循环换成了 while, 避免检查不存在的边. 如果图很稀疏的话,
+可以降低时间复杂度.</p>
+<h3 id="代码-1">2. 代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> datastructure.graph;<br><br><span class="hljs-keyword">import</span> datastructure.queue.CircleObjectQueue;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Adjacency list for directed graph.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> ShiHuai Wen shihuaiwen@outlook.com.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AdjacencyList</span> &#123;<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * An inner class for adjacent node.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">class</span> <span class="hljs-title class_">AdjacencyNode</span> &#123;<br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * The column index.</span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-type">int</span> column;<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * The next adjacent node.</span><br><span class="hljs-comment">		 */</span><br>		AdjacencyNode next;<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 *********************</span><br><span class="hljs-comment">		 * The first constructor.</span><br><span class="hljs-comment">		 * </span><br><span class="hljs-comment">		 * <span class="hljs-doctag">@param</span> paraColumn The column.</span><br><span class="hljs-comment">		 *********************</span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-keyword">public</span> <span class="hljs-title function_">AdjacencyNode</span><span class="hljs-params">(<span class="hljs-type">int</span> paraColumn)</span> &#123;<br>			column = paraColumn;<br>			next = <span class="hljs-literal">null</span>;<br>		&#125;<span class="hljs-comment">// Of AdjacencyNode</span><br>	&#125;<span class="hljs-comment">// Of class AdjacencyNode</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The number of nodes. This member variable may be redundant since it is always</span><br><span class="hljs-comment">	 * equal to headers.length.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">int</span> numNodes;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The headers for each row.</span><br><span class="hljs-comment">	 */</span><br>	AdjacencyNode[] headers;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * The first constructor.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraMatrix The the matrix indicating the graph.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">AdjacencyList</span><span class="hljs-params">(<span class="hljs-type">int</span>[][] paraMatrix)</span> &#123;<br>		numNodes = paraMatrix.length;<br><br>		<span class="hljs-comment">// Step 1. Initialize. The data in the headers are not meaningful.</span><br>		AdjacencyNode tempPreviousNode, tempNode;<br><br>		headers = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AdjacencyNode</span>[numNodes];<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; numNodes; i++) &#123;<br>			headers[i] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AdjacencyNode</span>(-<span class="hljs-number">1</span>);<br>			tempPreviousNode = headers[i];<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; numNodes; j++) &#123;<br>				<span class="hljs-keyword">if</span> (paraMatrix[i][j] == <span class="hljs-number">0</span>) &#123;<br>					<span class="hljs-keyword">continue</span>;<br>				&#125; <span class="hljs-comment">// Of if</span><br><br>				<span class="hljs-comment">// Create a new node.</span><br>				tempNode = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AdjacencyNode</span>(j);<br><br>				<span class="hljs-comment">// Link.</span><br>				tempPreviousNode.next = tempNode;<br>				tempPreviousNode = tempNode;<br>			&#125; <span class="hljs-comment">// Of for j</span><br>		&#125; <span class="hljs-comment">// Of for i</span><br>	&#125;<span class="hljs-comment">// Of class AdjacentTable</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Overrides the method claimed in Object, the superclass of any class.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-type">String</span> <span class="hljs-variable">resultString</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>		AdjacencyNode tempNode;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; numNodes; i++) &#123;<br>			tempNode = headers[i].next;<br><br>			<span class="hljs-keyword">while</span> (tempNode != <span class="hljs-literal">null</span>) &#123;<br>				resultString += <span class="hljs-string">&quot; (&quot;</span> + i + <span class="hljs-string">&quot;, &quot;</span> + tempNode.column + <span class="hljs-string">&quot;)&quot;</span>;<br>				tempNode = tempNode.next;<br>			&#125; <span class="hljs-comment">// Of while</span><br>			resultString += <span class="hljs-string">&quot;\r\n&quot;</span>;<br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		<span class="hljs-keyword">return</span> resultString;<br>	&#125;<span class="hljs-comment">// Of toString</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Breadth first traversal.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraStartIndex The start index.</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> The sequence of the visit.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">breadthFirstTraversal</span><span class="hljs-params">(<span class="hljs-type">int</span> paraStartIndex)</span> &#123;<br>		<span class="hljs-type">CircleObjectQueue</span> <span class="hljs-variable">tempQueue</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CircleObjectQueue</span>();<br>		<span class="hljs-type">String</span> <span class="hljs-variable">resultString</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>		<span class="hljs-type">boolean</span>[] tempVisitedArray = <span class="hljs-keyword">new</span> <span class="hljs-title class_">boolean</span>[numNodes];<br><br>		tempVisitedArray[paraStartIndex] = <span class="hljs-literal">true</span>;<br><br>		<span class="hljs-comment">// Initialize the queue.</span><br>		<span class="hljs-comment">// Visit before enqueue.</span><br>		tempVisitedArray[paraStartIndex] = <span class="hljs-literal">true</span>;<br>		resultString += paraStartIndex;<br>		tempQueue.enqueue(Integer.valueOf(paraStartIndex));<br><br>		<span class="hljs-comment">// Now visit the rest of the graph.</span><br>		<span class="hljs-type">int</span> tempIndex;<br>		<span class="hljs-type">Integer</span> <span class="hljs-variable">tempInteger</span> <span class="hljs-operator">=</span> (Integer) tempQueue.dequeue();<br>		AdjacencyNode tempNode;<br>		<span class="hljs-keyword">while</span> (tempInteger != <span class="hljs-literal">null</span>) &#123;<br>			tempIndex = tempInteger.intValue();<br><br>			<span class="hljs-comment">// Enqueue all its unvisited neighbors. The neighbors are linked</span><br>			<span class="hljs-comment">// already.</span><br>			tempNode = headers[tempIndex].next;<br>			<span class="hljs-keyword">while</span> (tempNode != <span class="hljs-literal">null</span>) &#123;<br>				<span class="hljs-keyword">if</span> (!tempVisitedArray[tempNode.column]) &#123;<br>					<span class="hljs-comment">// Visit before enqueue.</span><br>					tempVisitedArray[tempNode.column] = <span class="hljs-literal">true</span>;<br>					resultString += tempNode.column;<br>					tempQueue.enqueue(Integer.valueOf(tempNode.column));<br>				&#125; <span class="hljs-comment">// Of if</span><br>				tempNode = tempNode.next;<br>			&#125; <span class="hljs-comment">// Of for i</span><br><br>			<span class="hljs-comment">// Take out one from the head.</span><br>			tempInteger = (Integer) tempQueue.dequeue();<br>		&#125; <span class="hljs-comment">// Of while</span><br><br>		<span class="hljs-keyword">return</span> resultString;<br>	&#125;<span class="hljs-comment">// Of breadthFirstTraversal</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Unit test for breadthFirstTraversal. The same as the one in class Graph.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">breadthFirstTraversalTest</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-comment">// Test an undirected graph.</span><br>		<span class="hljs-type">int</span>[][] tempMatrix = &#123; &#123; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span> &#125;, &#123; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span> &#125;, &#123; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span> &#125;, &#123; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span> &#125; &#125;;<br>		<span class="hljs-type">Graph</span> <span class="hljs-variable">tempGraph</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Graph</span>(tempMatrix);<br>		System.out.println(tempGraph);<br>		<span class="hljs-type">AdjacencyList</span> <span class="hljs-variable">tempAdjList</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AdjacencyList</span>(tempMatrix);<br><br>		<span class="hljs-type">String</span> <span class="hljs-variable">tempSequence</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br>		<span class="hljs-keyword">try</span> &#123;<br>			tempSequence = tempAdjList.breadthFirstTraversal(<span class="hljs-number">2</span>);<br>		&#125; <span class="hljs-keyword">catch</span> (Exception ee) &#123;<br>			System.out.println(ee);<br>		&#125; <span class="hljs-comment">// Of try.</span><br><br>		System.out.println(<span class="hljs-string">&quot;The breadth first order of visit: &quot;</span> + tempSequence);<br>	&#125;<span class="hljs-comment">// Of breadthFirstTraversalTest</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * The entrance of the program.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> args Not used now.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> &#123;<br>		<span class="hljs-type">int</span>[][] tempMatrix = &#123; &#123; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span> &#125;, &#123; <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span> &#125;, &#123; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span> &#125; &#125;;<br>		<span class="hljs-type">AdjacencyList</span> <span class="hljs-variable">tempTable</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AdjacencyList</span>(tempMatrix);<br>		System.out.println(<span class="hljs-string">&quot;The data are:\r\n&quot;</span> + tempTable);<br><br>		breadthFirstTraversalTest();<br>	&#125;<span class="hljs-comment">// Of main</span><br>&#125; <span class="hljs-comment">// Of class AdjacencyList</span><br></code></pre></td></tr></table></figure>
+<h3 id="运行截图-1">3. 运行截图</h3>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022421195608.png" srcset="/img/loading.gif" lazyload /></p>
+<h1 id="总结">总结</h1>
+<p>暴力破解看起来没有什么逻辑, 但是面对有些问题还是很有效的.</p>
+<p>着色问题感性上来看很难下手, 要是转换成了完全多叉树就能够很轻易地解决.
+编程的诀窍就是在于把事物抽象. 不是任何问题都有现成的解, 或许某天打开
+CSDN GitHub 甚至于 StackOverflow 你都找不到适合的解,
+那么此时自己就应该想到该把问题用自己的方式转化了.</p>
+<p>庆幸的是前人已经完成了许多工作,
+我的学习不过是站在巨人的肩膀上罢了.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BB%A3%E7%A0%81/" class="category-chain-item">代码</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BB%A3%E7%A0%81/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/" class="print-no-link">#java</a>
+      
+        <a href="/tags/eclipse/" class="print-no-link">#eclipse</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/fc89f1e6/" title="Java学习-Day19">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java学习-Day19</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/1b31dce1/" title="Java学习-Day17">
+                        <span class="hidden-mobile">Java学习-Day17</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

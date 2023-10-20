@@ -1,0 +1,774 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、决策树 决策树是一种机器学习的方法. 决策树的生成算法有 ID3, C4.5 和 C5.0 等. 本文主要介绍 ID3 生成算法. 决策树是一种树形结构, 其中每个内部节点表示一个属性上的判断, 每个分支代表一个判断结果的输出, 最后每个叶节点代表一种分类结果. 例如在下图中, 使用 Yes 和 No 来表示出去玩和不出去玩两个分类结果. 首先对属性 Outlook 判断, Out">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习-Day31">
+<meta property="og:url" content="http://yoursite.com/posts/c0641b56/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="一、决策树 决策树是一种机器学习的方法. 决策树的生成算法有 ID3, C4.5 和 C5.0 等. 本文主要介绍 ID3 生成算法. 决策树是一种树形结构, 其中每个内部节点表示一个属性上的判断, 每个分支代表一个判断结果的输出, 最后每个叶节点代表一种分类结果. 例如在下图中, 使用 Yes 和 No 来表示出去玩和不出去玩两个分类结果. 首先对属性 Outlook 判断, Out">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-09T13:11:21.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.667Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="idea">
+<meta property="article:tag" content="decisiontree">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Java学习-Day31 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Java学习-Day31</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-09 21:11" pubdate>
+          2022年5月9日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          108 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java学习-Day31</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="一决策树">一、决策树</h1>
+<p>决策树是一种机器学习的方法. 决策树的生成算法有 ID3, C4.5 和 C5.0 等.
+本文主要介绍 ID3 生成算法.</p>
+<p>决策树是一种树形结构, 其中每个内部节点表示一个属性上的判断,
+每个分支代表一个判断结果的输出, 最后每个叶节点代表一种分类结果.</p>
+<p>例如在下图中, 使用 Yes 和 No 来表示出去玩和不出去玩两个分类结果.
+首先对属性 Outlook 判断, Outlook 表示天气, 具有 Sunny, Overcast,
+Rain三个判断值. 如果属性 Outlook 判断值是 Sunny, 接下来就要对 Humidity
+属性判断. 如果 Outlook 的判断值是 Overcast, 就可以直接输出分类结果为
+Yes.</p>
+<p>以此类推可以通过叶节点得到所有情况下对于是否出去玩这一事件的分类结果.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/202259212644.png" srcset="/img/loading.gif" lazyload /></p>
+<h1 id="二构建步骤">二、构建步骤</h1>
+<p>1.节点的分裂：一般当一个节点所代表的属性无法给出判断时,
+则选择将这一节点分成2个子节点(如不是二叉树的情况会分成 n 个子节点).
+在上面的示例中对 Outlook 属性的判断就将其分裂成了三个子节点.</p>
+<p>2.谁做父节点：这个的意思就是为什么要选 Outlook
+属性做为这棵决策树的根节点．这就是之前所提到的 ID3 生成算法.</p>
+<p>ID3: 由增熵 (Entropy) 原理来决定哪个做父节点, 哪个节点需要分裂.
+对于一组数据, 熵越小说明分类结果越好. 熵定义如下：</p>
+<p><span class="math display">\[
+Entropy = - \sum_{i=1}^{n}p(x_i)\log{p(x_i)}
+\]</span></p>
+<p>其中 <span class="math inline">\(p(x_i)\)</span> 表示随机事件为 <span
+class="math inline">\(x_i\)</span> 的概率.</p>
+<p>例如在数据集 weather.arff 中 <figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">@relation weather<br>@attribute Outlook &#123;Sunny, Overcast, Rain&#125;<br>@attribute Temperature &#123;Hot, Mild, Cool&#125;<br>@attribute Humidity &#123;High, Normal, Low&#125;<br>@attribute Windy &#123;<span class="hljs-literal">FALSE</span>, <span class="hljs-literal">TRUE</span>&#125;<br>@attribute Play &#123;N, P&#125;<br>@data<br><span class="hljs-built_in">Sunny,</span>Hot,High,<span class="hljs-literal">FALSE</span>,N<br><span class="hljs-built_in">Sunny,</span>Hot,High,<span class="hljs-literal">TRUE</span>,N<br><span class="hljs-built_in">Overcast,</span>Hot,High,<span class="hljs-literal">FALSE</span>,P<br><span class="hljs-built_in">Rain,</span>Mild,High,<span class="hljs-literal">FALSE</span>,P<br><span class="hljs-built_in">Rain,</span>Cool,Normal,<span class="hljs-literal">FALSE</span>,P<br><span class="hljs-built_in">Rain,</span>Cool,Normal,<span class="hljs-literal">TRUE</span>,N<br><span class="hljs-built_in">Overcast,</span>Cool,Normal,<span class="hljs-literal">TRUE</span>,P<br><span class="hljs-built_in">Sunny,</span>Mild,High,<span class="hljs-literal">FALSE</span>,N<br><span class="hljs-built_in">Sunny,</span>Cool,Normal,<span class="hljs-literal">FALSE</span>,P<br><span class="hljs-built_in">Rain,</span>Mild,Normal,<span class="hljs-literal">FALSE</span>,P<br><span class="hljs-built_in">Sunny,</span>Mild,Normal,<span class="hljs-literal">TRUE</span>,P<br><span class="hljs-built_in">Overcast,</span>Mild,High,<span class="hljs-literal">TRUE</span>,P<br><span class="hljs-built_in">Overcast,</span>Hot,Normal,<span class="hljs-literal">FALSE</span>,P<br><span class="hljs-built_in">Rain,</span>Mild,High,<span class="hljs-literal">TRUE</span>,N<br></code></pre></td></tr></table></figure></p>
+<p>含有 Sunny 的实例有 5 个, 其中 Play 结果为 N 的有 3 个, 结果为 P 的有
+2 个. 那么就有</p>
+<p>在出太阳时候不出去玩的概率为:</p>
+<p><span class="math display">\[
+p(Play = N | Outlook = Sunny) = \frac{3}{5} \tag{1}
+\]</span></p>
+<p>在出太阳时候出去玩的概率为: <span class="math display">\[
+p(Play = P | Outlook = Sunny) = \frac{2}{5} \tag{2}
+\]</span></p>
+<p>(1) (2) 式子就是之前所提到的 <span
+class="math inline">\(p(x_i)\)</span></p>
+<h1 id="三具体实现">三、具体实现</h1>
+<h2 id="想法思路">1. 想法思路</h2>
+<p>和一般构建一颗树是一样的, 先要确立一个父节点.
+在决策树中父节点的选择是通过之前增熵对每个属性处理后来选择.
+当一个属性选择后就会从整体中删除表示不能够再使用.那么实际步骤就是一个递归的过程.</p>
+<p>需要注意的是这里表示树形结构使用的是数组的双亲表示法.</p>
+<h2 id="具体代码">2. 具体代码</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> decisiontree;<br><br><br><span class="hljs-keyword">import</span> java.io.FileReader;<br><span class="hljs-keyword">import</span> java.util.Arrays;<br><br><span class="hljs-keyword">import</span> weka.core.*;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * The ID3 decision tree inductive algorithm.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Shi-Huai Wen Email: shihuaiwen@outlook.com.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ID3</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The data.</span><br><span class="hljs-comment">     */</span><br>    Instances dataset;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Is this dataset pure (only one label)?</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">boolean</span> pure;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The number of classes. For binary classification it is 2.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> numClasses;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Available instances. Other instances do not belong this branch.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span>[] availableInstances;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Available attributes. Other attributes have been selected in the path</span><br><span class="hljs-comment">     * from the root.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span>[] availableAttributes;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The selected attribute.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> splitAttribute;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The children nodes.</span><br><span class="hljs-comment">     */</span><br>    ID3[] children;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * My label. Inner nodes also have a label. For example, &lt;outlook = sunny,</span><br><span class="hljs-comment">     * humidity = high&gt; never appear in the training data, but &lt;humidity = high&gt;</span><br><span class="hljs-comment">     * is valid in other cases.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> label;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Small block cannot be split further.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-variable">smallBlockThreshold</span> <span class="hljs-operator">=</span> <span class="hljs-number">3</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * The constructor.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraFilename The given file.</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ID3</span><span class="hljs-params">(String paraFilename)</span> &#123;<br>        dataset = <span class="hljs-literal">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">FileReader</span> <span class="hljs-variable">fileReader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileReader</span>(paraFilename);<br>            dataset = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Instances</span>(fileReader);<br>            fileReader.close();<br>        &#125; <span class="hljs-keyword">catch</span> (Exception ee) &#123;<br>            System.out.println(<span class="hljs-string">&quot;Cannot read the file: &quot;</span> + paraFilename + <span class="hljs-string">&quot;\r\n&quot;</span> + ee);<br>            System.exit(<span class="hljs-number">0</span>);<br>        &#125; <span class="hljs-comment">// Of try</span><br><br>        dataset.setClassIndex(dataset.numAttributes() - <span class="hljs-number">1</span>);<br>        numClasses = dataset.classAttribute().numValues();<br><br>        availableInstances = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[dataset.numInstances()];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; availableInstances.length; i++) &#123;<br>            availableInstances[i] = i;<br>        &#125; <span class="hljs-comment">// Of for i</span><br>        availableAttributes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[dataset.numAttributes() - <span class="hljs-number">1</span>];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; availableAttributes.length; i++) &#123;<br>            availableAttributes[i] = i;<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-comment">// Initialize.</span><br>        children = <span class="hljs-literal">null</span>;<br>        <span class="hljs-comment">// Determine the label by simple voting.</span><br>        label = getMajorityClass(availableInstances);<br>        <span class="hljs-comment">// Determine whether or not it is pure.</span><br>        pure = pureJudge(availableInstances);<br>    &#125;<span class="hljs-comment">// Of the first constructor</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * The constructor.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraDataset The given dataset.</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ID3</span><span class="hljs-params">(Instances paraDataset, <span class="hljs-type">int</span>[] paraAvailableInstances, <span class="hljs-type">int</span>[] paraAvailableAttributes)</span> &#123;<br>        <span class="hljs-comment">// Copy its reference instead of clone the availableInstances.</span><br>        dataset = paraDataset;<br>        availableInstances = paraAvailableInstances;<br>        availableAttributes = paraAvailableAttributes;<br><br>        <span class="hljs-comment">// Initialize.</span><br>        children = <span class="hljs-literal">null</span>;<br>        <span class="hljs-comment">// Determine the label by simple voting.</span><br>        label = getMajorityClass(availableInstances);<br>        <span class="hljs-comment">// Determine whether or not it is pure.</span><br>        pure = pureJudge(availableInstances);<br>    &#125;<span class="hljs-comment">// Of the second constructor</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     * Is the given block pure?</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraBlock The block.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> True if pure.</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">pureJudge</span><span class="hljs-params">(<span class="hljs-type">int</span>[] paraBlock)</span> &#123;<br>        pure = <span class="hljs-literal">true</span>;<br><br>        <span class="hljs-comment">// Just compare with 0</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt; paraBlock.length; i++) &#123;<br>            <span class="hljs-keyword">if</span> (dataset.instance(paraBlock[i]).classValue() != dataset.instance(paraBlock[<span class="hljs-number">0</span>]).classValue()) &#123;<br>                pure = <span class="hljs-literal">false</span>;<br>                <span class="hljs-keyword">break</span>;<br>            &#125; <span class="hljs-comment">// Of if</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-keyword">return</span> pure;<br>    &#125;<span class="hljs-comment">// Of pureJudge</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     * Compute the majority class of the given block for voting.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraBlock The block.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The majority class.</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getMajorityClass</span><span class="hljs-params">(<span class="hljs-type">int</span>[] paraBlock)</span> &#123;<br>        <span class="hljs-type">int</span>[] tempClassCounts = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[dataset.numClasses()];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i : paraBlock) &#123;<br>            tempClassCounts[(<span class="hljs-type">int</span>) dataset.instance(i).classValue()]++;<br>        &#125; <span class="hljs-comment">// Of foreach</span><br><br>        <span class="hljs-type">int</span> <span class="hljs-variable">resultMajorityClass</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">tempMaxCount</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; tempClassCounts.length; i++) &#123;<br>            <span class="hljs-keyword">if</span> (tempMaxCount &lt; tempClassCounts[i]) &#123;<br>                resultMajorityClass = i;<br>                tempMaxCount = tempClassCounts[i];<br>            &#125; <span class="hljs-comment">// Of if</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-keyword">return</span> resultMajorityClass;<br>    &#125;<span class="hljs-comment">// Of getMajorityClass</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     * Select the best attribute.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The best attribute index.</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">selectBestAttribute</span><span class="hljs-params">()</span> &#123;<br>        splitAttribute = -<span class="hljs-number">1</span>;<br>        <span class="hljs-type">double</span> <span class="hljs-variable">tempMinimalEntropy</span> <span class="hljs-operator">=</span> <span class="hljs-number">10000</span>;<br>        <span class="hljs-type">double</span> tempEntropy;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> availableAttribute : availableAttributes) &#123;<br>            tempEntropy = conditionalEntropy(availableAttribute);<br>            <span class="hljs-keyword">if</span> (tempMinimalEntropy &gt; tempEntropy) &#123;<br>                tempMinimalEntropy = tempEntropy;<br>                splitAttribute = availableAttribute;<br>            &#125; <span class="hljs-comment">// Of if</span><br>        &#125; <span class="hljs-comment">// Of foreach</span><br>        <span class="hljs-keyword">return</span> splitAttribute;<br>    &#125;<span class="hljs-comment">// Of selectBestAttribute</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     * Compute the conditional entropy of an attribute.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraAttribute The given attribute.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The entropy.</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">conditionalEntropy</span><span class="hljs-params">(<span class="hljs-type">int</span> paraAttribute)</span> &#123;<br>        <span class="hljs-comment">// Step 1. Statistics.</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">tempNumClasses</span> <span class="hljs-operator">=</span> dataset.numClasses();<br>        <span class="hljs-type">int</span> <span class="hljs-variable">tempNumValues</span> <span class="hljs-operator">=</span> dataset.attribute(paraAttribute).numValues();<br>        <span class="hljs-type">int</span> <span class="hljs-variable">tempNumInstances</span> <span class="hljs-operator">=</span> availableInstances.length;<br>        <span class="hljs-type">double</span>[] tempValueCounts = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[tempNumValues];<br>        <span class="hljs-type">double</span>[][] tempCountMatrix = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[tempNumValues][tempNumClasses];<br><br>        <span class="hljs-type">int</span> tempClass, tempValue;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> availableInstance : availableInstances) &#123;<br>            tempClass = (<span class="hljs-type">int</span>) dataset.instance(availableInstance).classValue();<br>            tempValue = (<span class="hljs-type">int</span>) dataset.instance(availableInstance).value(paraAttribute);<br>            tempValueCounts[tempValue]++;<br>            tempCountMatrix[tempValue][tempClass]++;<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-comment">// Step 2.</span><br>        <span class="hljs-type">double</span> <span class="hljs-variable">resultEntropy</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">double</span> tempEntropy, tempFraction;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; tempNumValues; i++) &#123;<br>            <span class="hljs-keyword">if</span> (tempValueCounts[i] == <span class="hljs-number">0</span>) &#123;<br>                <span class="hljs-keyword">continue</span>;<br>            &#125; <span class="hljs-comment">// Of if</span><br>            tempEntropy = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; tempNumClasses; j++) &#123;<br>                tempFraction = tempCountMatrix[i][j] / tempValueCounts[i];<br>                <span class="hljs-keyword">if</span> (tempFraction == <span class="hljs-number">0</span>) &#123;<br>                    <span class="hljs-keyword">continue</span>;<br>                &#125; <span class="hljs-comment">// Of if</span><br><br>                <span class="hljs-comment">// 信息熵越小, 信息的纯度越高, 信息量就越少</span><br>                <span class="hljs-comment">// H(X) = -p(x) * log p(x)</span><br>                tempEntropy += -tempFraction * Math.log(tempFraction);<br>            &#125; <span class="hljs-comment">// Of for j\</span><br>            <span class="hljs-comment">// 最小化条件信息熵</span><br>            resultEntropy += tempValueCounts[i] / tempNumInstances * tempEntropy;<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-keyword">return</span> resultEntropy;<br>    &#125;<span class="hljs-comment">// Of conditionalEntropy</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     * Split the data according to the given attribute.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The blocks.</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span>[][] splitData(<span class="hljs-type">int</span> paraAttribute) &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">tempNumValues</span> <span class="hljs-operator">=</span> dataset.attribute(paraAttribute).numValues();<br><br>        <span class="hljs-type">int</span>[][] resultBlocks = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[tempNumValues][];<br>        <span class="hljs-type">int</span>[] tempSizes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[tempNumValues];<br><br>        <span class="hljs-comment">// First scan to count the size of each block.</span><br>        <span class="hljs-type">int</span> tempValue;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> availableInstance : availableInstances) &#123;<br>            tempValue = (<span class="hljs-type">int</span>) dataset.instance(availableInstance).value(paraAttribute);<br>            tempSizes[tempValue]++;<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-comment">// Allocate space.</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; tempNumValues; i++) &#123;<br>            resultBlocks[i] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[tempSizes[i]];<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-comment">// Second scan to fill.</span><br>        Arrays.fill(tempSizes, <span class="hljs-number">0</span>);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> availableInstance : availableInstances) &#123;<br>            tempValue = (<span class="hljs-type">int</span>) dataset.instance(availableInstance).value(paraAttribute);<br>            <span class="hljs-comment">// Copy data.</span><br>            resultBlocks[tempValue][tempSizes[tempValue]] = availableInstance;<br>            tempSizes[tempValue]++;<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-keyword">return</span> resultBlocks;<br>    &#125;<span class="hljs-comment">// Of splitData</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     * Build the tree recursively.</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">buildTree</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// Is pure return.</span><br>        <span class="hljs-keyword">if</span> (pureJudge(availableInstances)) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125; <span class="hljs-comment">// Of if</span><br><br>        <span class="hljs-comment">// Less than or equal to small block just return</span><br>        <span class="hljs-keyword">if</span> (availableInstances.length &lt;= smallBlockThreshold) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125; <span class="hljs-comment">// Of if</span><br><br>        selectBestAttribute();<br>        <span class="hljs-type">int</span>[][] tempSubBlocks = splitData(splitAttribute);<br>        children = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ID3</span>[tempSubBlocks.length];<br><br>        <span class="hljs-comment">// Construct the remaining attribute set.</span><br>        <span class="hljs-type">int</span>[] tempRemainingAttributes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[availableAttributes.length - <span class="hljs-number">1</span>];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; availableAttributes.length; i++) &#123;<br>            <span class="hljs-keyword">if</span> (availableAttributes[i] &lt; splitAttribute) &#123;<br>                tempRemainingAttributes[i] = availableAttributes[i];<br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (availableAttributes[i] &gt; splitAttribute) &#123;<br>                tempRemainingAttributes[i - <span class="hljs-number">1</span>] = availableAttributes[i];<br>            &#125; <span class="hljs-comment">// Of if</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-comment">// Construct children.</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; children.length; i++) &#123;<br>            <span class="hljs-keyword">if</span> ((tempSubBlocks[i] == <span class="hljs-literal">null</span>) || (tempSubBlocks[i].length == <span class="hljs-number">0</span>)) &#123;<br>                children[i] = <span class="hljs-literal">null</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-comment">// System.out.println(&quot;Building children #&quot; + i + &quot; with</span><br>                <span class="hljs-comment">// instances &quot; + Arrays.toString(tempSubBlocks[i]));</span><br>                children[i] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ID3</span>(dataset, tempSubBlocks[i], tempRemainingAttributes);<br><br>                <span class="hljs-comment">// Important code: do this recursively</span><br>                children[i].buildTree();<br>            &#125; <span class="hljs-comment">// Of if</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br>    &#125;<span class="hljs-comment">// Of buildTree</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     * Classify an instance.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraInstance The given instance.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The prediction.</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">classify</span><span class="hljs-params">(Instance paraInstance)</span> &#123;<br>        <span class="hljs-keyword">if</span> (children == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> label;<br>        &#125; <span class="hljs-comment">// Of if</span><br><br>        <span class="hljs-type">ID3</span> <span class="hljs-variable">tempChild</span> <span class="hljs-operator">=</span> children[(<span class="hljs-type">int</span>) paraInstance.value(splitAttribute)];<br>        <span class="hljs-keyword">if</span> (tempChild == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> label;<br>        &#125; <span class="hljs-comment">// Of if</span><br><br>        <span class="hljs-keyword">return</span> tempChild.classify(paraInstance);<br>    &#125;<span class="hljs-comment">// Of classify</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     * Test on a testing set.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraDataset The given testing data.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The accuracy.</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">test</span><span class="hljs-params">(Instances paraDataset)</span> &#123;<br>        <span class="hljs-type">double</span> <span class="hljs-variable">tempCorrect</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraDataset.numInstances(); i++) &#123;<br>            <span class="hljs-keyword">if</span> (classify(paraDataset.instance(i)) == (<span class="hljs-type">int</span>) paraDataset.instance(i).classValue()) &#123;<br>                tempCorrect++;<br>            &#125; <span class="hljs-comment">// Of i</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-keyword">return</span> tempCorrect / paraDataset.numInstances();<br>    &#125;<span class="hljs-comment">// Of test</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     * Test on the training set.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The accuracy.</span><br><span class="hljs-comment">     * *********************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">selfTest</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> test(dataset);<br>    &#125;<span class="hljs-comment">// Of selfTest</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ******************</span><br><span class="hljs-comment">     * Overrides the method claimed in Object.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The tree structure.</span><br><span class="hljs-comment">     * ******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">StringBuilder</span> <span class="hljs-variable">resultString</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuilder</span>();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">tempAttributeName</span> <span class="hljs-operator">=</span> dataset.attribute(splitAttribute).name();<br>        <span class="hljs-keyword">if</span> (children == <span class="hljs-literal">null</span>) &#123;<br>            resultString.append(<span class="hljs-string">&quot;class = &quot;</span>).append(label);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; children.length; i++) &#123;<br>                <span class="hljs-keyword">if</span> (children[i] == <span class="hljs-literal">null</span>) &#123;<br>                    resultString.append(tempAttributeName)<br>                            .append(<span class="hljs-string">&quot; = &quot;</span>)<br>                            .append(dataset.attribute(splitAttribute).value(i))<br>                            .append(<span class="hljs-string">&quot;:&quot;</span>)<br>                            .append(<span class="hljs-string">&quot;class = &quot;</span>)<br>                            .append(label)<br>                            .append(<span class="hljs-string">&quot;\r\n&quot;</span>);<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    resultString.append(tempAttributeName)<br>                            .append(<span class="hljs-string">&quot; = &quot;</span>)<br>                            .append(dataset.attribute(splitAttribute).value(i))<br>                            .append(<span class="hljs-string">&quot;:&quot;</span>)<br>                            .append(children[i])<br>                            .append(<span class="hljs-string">&quot;\r\n&quot;</span>);<br>                &#125; <span class="hljs-comment">// Of if</span><br>            &#125; <span class="hljs-comment">// Of for i</span><br>        &#125; <span class="hljs-comment">// Of if</span><br><br>        <span class="hljs-keyword">return</span> resultString.toString();<br>    &#125;<span class="hljs-comment">// Of toString</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ************************</span><br><span class="hljs-comment">     * Test this class.</span><br><span class="hljs-comment">     * ************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">id3Test</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">ID3</span> <span class="hljs-variable">tempID3</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ID3</span>(<span class="hljs-string">&quot;D:/Work/sampledata/weather.arff&quot;</span>);<br><br>        ID3.smallBlockThreshold = <span class="hljs-number">3</span>;<br>        tempID3.buildTree();<br><br>        System.out.println(<span class="hljs-string">&quot;The tree is: \r\n&quot;</span> + tempID3);<br><br>        <span class="hljs-type">double</span> <span class="hljs-variable">tempAccuracy</span> <span class="hljs-operator">=</span> tempID3.selfTest();<br>        System.out.println(<span class="hljs-string">&quot;The accuracy is: &quot;</span> + tempAccuracy);<br>    &#125;<span class="hljs-comment">// Of id3Test</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ************************</span><br><span class="hljs-comment">     * Test this class.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> args Not used now.</span><br><span class="hljs-comment">     * ************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        id3Test();<br>    &#125;<span class="hljs-comment">// Of main</span><br>&#125; <span class="hljs-comment">// Of class ID3</span><br></code></pre></td></tr></table></figure>
+<h2 id="运行截图">3. 运行截图</h2>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/202259220117.png" srcset="/img/loading.gif" lazyload /></p>
+<h1 id="四总结">四、总结</h1>
+<p>对建决策树的大致过程了解了, 相比起简单的 if-else, 决策树的精髓就在与
+ID3 生成算法, 采用了信息熵这一个通信方面的知识.
+果然研究要集百家之长才能得到更好的解决方法.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BB%A3%E7%A0%81/" class="category-chain-item">代码</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BB%A3%E7%A0%81/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/" class="print-no-link">#java</a>
+      
+        <a href="/tags/idea/" class="print-no-link">#idea</a>
+      
+        <a href="/tags/decisiontree/" class="print-no-link">#decisiontree</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/596d4aec/" title="Java学习-Day32">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java学习-Day32</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/b7632bc0/" title="Java学习-Day30">
+                        <span class="hidden-mobile">Java学习-Day30</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

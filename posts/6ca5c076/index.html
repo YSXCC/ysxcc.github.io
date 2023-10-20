@@ -1,0 +1,1019 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 一、非一致方程的最小范数最小二乘解 我们在之前广义逆矩阵一节中讲到了一致方程的最小范数解和非一致方程的最小二乘解. 但是我们要注意, 最小二乘解非唯一, 我们要在其中找到一个范数最小的解, 我们将其称为非一致方程的最小范数最小二乘解 ( minimun norm least squares solu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵分析与应用-1.9-Moore-Penrose逆矩阵-Section3">
+<meta property="og:url" content="http://yoursite.com/posts/6ca5c076/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 一、非一致方程的最小范数最小二乘解 我们在之前广义逆矩阵一节中讲到了一致方程的最小范数解和非一致方程的最小二乘解. 但是我们要注意, 最小二乘解非唯一, 我们要在其中找到一个范数最小的解, 我们将其称为非一致方程的最小范数最小二乘解 ( minimun norm least squares solu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+<meta property="article:published_time" content="2022-06-14T00:39:07.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.683Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="矩阵">
+<meta property="article:tag" content="Linear Algebra">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>矩阵分析与应用-1.9-Moore-Penrose逆矩阵-Section3 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">矩阵分析与应用-1.9-Moore-Penrose逆矩阵-Section3</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-14 08:39" pubdate>
+          2022年6月14日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          62 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">矩阵分析与应用-1.9-Moore-Penrose逆矩阵-Section3</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言">前言</h1>
+<p>本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 <a
+target="_blank" rel="noopener" href="https://zh.zlib.life">z-lib</a> 下载.</p>
+<h1
+id="一非一致方程的最小范数最小二乘解">一、非一致方程的最小范数最小二乘解</h1>
+<p>我们在之前广义逆矩阵一节中讲到了一致方程的最小范数解和非一致方程的最小二乘解.
+但是我们要注意, 最小二乘解非唯一, 我们要在其中找到一个范数最小的解,
+我们将其称为非一致方程的最小范数最小二乘解 ( minimun norm least squares
+solution ), 我们也称其为半范数 ( seminorm ) 最小二乘解</p>
+<p>定义 1: 对于非一致方程 <span class="math inline">\(A_{m \times n}
+x_{n \times 1} = y_{m \times 1}\)</span> , 如果矩阵 <span
+class="math inline">\(G\)</span> 满足条件:</p>
+<p><span class="math display">\[
+\lVert Gy \rVert _n \leq \lVert \hat{x} \rVert _n ,其中 \forall \hat{x}
+\in \lbrace \hat{x}: \lVert A\hat{x}-y \rVert _m \leq \lVert Az-y \rVert
+_m \quad \forall y \in R^m, z \in R \rbrace \tag{1}
+\]</span></p>
+<p>式子中, <span class="math inline">\(\lVert \cdot \rVert_n\)</span> 和
+<span class="math inline">\(\lVert \cdot \rVert_m\)</span> 分别是在
+<span class="math inline">\(R^n\)</span> 和 <span
+class="math inline">\(R^m\)</span> 空间的范数 (半范数); 花括号 <span
+class="math inline">\(\{ \cdot \}\)</span> 表示 <span
+class="math inline">\(\hat{x}\)</span> 是非一直方程 <span
+class="math inline">\(Ax=y\)</span> 的最小二乘解, 而 <span
+class="math inline">\(\lVert Gy \rVert_n \leq \lVert \hat{x}
+\rVert_n\)</span> 表示 <span class="math inline">\(Gy\)</span>
+是在所有的最小二乘解中具有最小范数的那个解.</p>
+<p>定理 1: 矩阵 <span class="math inline">\(G\)</span> 使得 <span
+class="math inline">\(Gy\)</span> 是非一致方程 <span
+class="math inline">\(Ax=y\)</span> 的最小范数最小二乘解, 当且仅当 <span
+class="math inline">\(G\)</span> 满足条件:</p>
+<p><span class="math display">\[
+AGA = A, \quad (AG)^{\sharp} = AG, \quad GAG = G, \quad (GA)^{\sharp} =
+GA \tag{2}
+\]</span></p>
+<p>式子中, <span class="math inline">\(A^{\sharp}\)</span> 是 <span
+class="math inline">\(A\)</span> 的伴随矩阵.</p>
+<p>该定理也可以等价表述为: 矩阵 <span class="math inline">\(G\)</span>
+使得 <span class="math inline">\(Gy\)</span> 是非一致方程 <span
+class="math inline">\(Ax = y\)</span> 的最小范数最小二乘解, 当且仅当
+<span class="math inline">\(G\)</span> 是 <span
+class="math inline">\(A\)</span> 的 <span
+class="math inline">\(\mathrm{Moore-Penrose}\)</span> 逆矩阵.</p>
+<h1 id="二广义逆矩阵的阶数递推计算">二、广义逆矩阵的阶数递推计算</h1>
+<p>系统辨识? 想必又是信号处理那方面的内容. 确实看起来有点打脑壳,
+也不知道它的目的是什么. 就直接提出左、右伪逆矩阵的阶数递推计算方法.</p>
+<h2 id="左伪逆矩阵的阶数递推">1. 左伪逆矩阵的阶数递推</h2>
+<p>考虑 <span class="math inline">\(n \times m\)</span> 矩阵 <span
+class="math inline">\(F_m\)</span>, 并设 <span
+class="math inline">\(F^{\dagger}=(F_m^{\mathrm{H}}F_m)^{-1}F_m^{\mathrm{H}}\)</span>
+是 <span class="math inline">\(F_m\)</span> 的左伪逆矩阵.</p>
+<p>定理 2: 令</p>
+<p><span class="math display">\[
+F_m = \begin{bmatrix}
+  F_{m-1}&amp; f_m
+\end{bmatrix} \tag{3}
+\]</span></p>
+<p>式子中, <span class="math inline">\(f_m\)</span> 是矩阵 <span
+class="math inline">\(F_m\)</span> 的第 <span
+class="math inline">\(m\)</span> 列, 且 <span
+class="math inline">\(\mathrm{rank}(F_m)=m\)</span>, 则计算 <span
+class="math inline">\(F_m^{\dagger}\)</span> 的递推公式由下可得:</p>
+<p><span class="math display">\[
+F_m^{\dagger} = \begin{bmatrix}
+F_{m-1}^{\dagger} - F_{m-1}^{\dagger}f_me_m^{\mathrm{H}}\Delta_m^{-1}\\
+e_m^{\mathrm{H}}\Delta_m^{-1}
+\end{bmatrix} \tag{4}
+\]</span></p>
+<p>式子中,</p>
+<p><span class="math display">\[
+e_m = [I_n - F_{m-1}F_{m-1}^{\dagger}] f_m \tag{5}
+\]</span></p>
+<p><span class="math display">\[
+\Delta_m^{-1} = [f_m^{\mathrm{H}}e_m]^{-1} \tag{6}
+\]</span></p>
+<p>且初始值为</p>
+<p><span class="math display">\[
+F_1^{\dagger} = f_1^{\mathrm{H}}/(f_1^{\mathrm{H}}f_1) \tag{7}
+\]</span></p>
+<h2 id="右伪逆矩阵的阶数递推">2. 右伪逆矩阵的阶数递推</h2>
+<p>考虑矩阵 <span class="math inline">\(F_m \in C^{n \times m}, \ n &lt;
+m\)</span>.</p>
+<p>定理 3: 记 <span class="math inline">\(F_m = [F_{m-1}, f_m]\)</span>,
+则右伪逆矩阵 <span
+class="math inline">\(F_m^{\dagger}=F_m^{\mathrm{H}}(F_mF_m^{\mathrm{H}})^{-1}\)</span>
+具有以下递推公式:</p>
+<p><span class="math display">\[
+F_m^{\dagger} = \begin{bmatrix}
+F_{m-1}^{\dagger} - \Delta_mF_{m-1}^{\dagger}f_mc_m\\
+\Delta_m c_m^{\mathrm{H}}
+\end{bmatrix} \tag{8}
+\]</span></p>
+<p>式中, <span class="math inline">\(c_m^{\mathrm{H}} =
+f_m^{\mathrm{H}}(I_n - F_{m-1}F_{m-1}^{\dagger}), \ \Delta_m =
+c_m^{\mathrm{H}}f_m\)</span>. 递推的初始值为 <span
+class="math inline">\(F_1^{\dagger} =
+f_1^{\mathrm{H}}/(f_1^{\mathrm{H}}f_1)\)</span>.</p>
+<h1 id="三超定二维超越方程的求解">三、超定二维超越方程的求解</h1>
+<p>这部分就真的是完全看不懂. 从二维信号处理中的一个基本问题:
+辨识二维实自回归 —— 移动平均 (<span
+class="math inline">\(\mathrm{ARMA}\)</span>) 模型的移动平均 (<span
+class="math inline">\(\mathrm{MA}\)</span>) 参数.</p>
+<p>关于 <span class="math inline">\(\mathrm{ARMA}\)</span>
+常用作经济计量和工程预测. 本质上还是统计学, 和机器学习内核是一样的.</p>
+<p>令 <span
+class="math inline">\(\mathrm{ARMA}(p_1,p_2;q_1,q_2)\)</span> 模型为</p>
+<p><span class="math display">\[
+\sum_{i=0}^{p_1}\sum_{j=0}^{p_2}a_{ij}x(n_1 - i, n_2 - j) =
+\sum_{i=0}^{q_1}\sum_{j=0}^{q_2}b_{ij}e(n_1 - i, n_2 - j) \tag{9}
+\]</span></p>
+<p>不失一般性, 假定 <span class="math inline">\(a_{00} = 1, q_1 \le p_1,
+q_2 \le p_2\)</span>, 且不可观测的实输入激励 <span
+class="math inline">\(e(n_1,n_2)\)</span> 为二维正态白噪声, 其均值为零,
+方差等于 <span class="math inline">\(\sigma^2\)</span>. 二维 <span
+class="math inline">\(\mathrm{ARMA}\)</span> 过程 <span
+class="math inline">\(\{ x(n_1,x_2) \}\)</span>
+的功率谱密度由下式给出:</p>
+<p><span class="math display">\[
+P(\omega_1,\omega_2) =
+\frac{B(z_1,z_2)B(z_1^{-1},z_2^{-1})}{A(z_1,z_2)A(z_1^{-1},z_2^{-1})}\sigma^2
+\bigg|_{z_1=e^{i\omega_1},z_2=e^{j\omega_2}} \tag{10}
+\]</span></p>
+<p>式中</p>
+<p><span class="math display">\[
+A(z_1,z_2) = \sum_{i=0}^{p_1}\sum_{j=0}^{p_2}a_{ij}z_1^iz_2^j, \quad
+B=(z_1,z_2) \sum_{i=0}^{q_1}\sum_{j=0}^{q_2}b_{ij}z_1^iz_2^j
+\]</span></p>
+<p>注意, 多项式 <span
+class="math inline">\(B(z_1,z_2)B(z_1^{-1},z_2^{-1})\)</span> 中的 <span
+class="math inline">\(z_1^kz_2^m\)</span> 和 <span
+class="math inline">\(z_1^{-k}z_2^{-m}\)</span> 项的系数相同, <span
+class="math inline">\(z_1^kz_2^{-m}\)</span> 和 <span
+class="math inline">\(z_1^{-k}z_2^m\)</span> 的系数相同. 所以可以将式子
+(10) 的分子写作</p>
+<p><span class="math display">\[
+B(z_1,z_2)B(z_1^{-1},z_2^{-1})\sigma^2=C(z_1,z_2) + D(z_1,z_2^{-1}) +
+D(z_1^{-1},z_2) + C(z_1^{-1},z_2^{-1}) \tag{11}
+\]</span></p>
+<p>式中</p>
+<p><span class="math display">\[
+C(z_1,z_2) = \sum_{i=0}^{q_1}\sum_{j=0}^{q_2}c_{ij}z_1^iz_2^j, \quad
+D=(z_1,z_2^{-1}) \sum_{i=0}^{q_1}\sum_{j=0}^{q_2}d_{ij}z_1^iz_2^{-j}
+\]</span></p>
+<p>比较式 (11) 两边相同幂次项的系数, 立即得</p>
+<p><span class="math display">\[
+c_{00}=\frac{\sigma^2}{2}\sum_{i=0}^{q_1}\sum_{j=0}^{q_2}b_{ij}^2
+\tag{12}
+\]</span></p>
+<p><span class="math display">\[
+c_{km}=\sigma^2\sum_{i=0}^{q_1}\sum_{j=0}^{q_2}b_{ij}b_{i+k,j+m}, \quad
+k = 0,1,\dots,q_1, \ m = 0,1,\dots,q_2, (k,m) \neq (0,0) \tag{13}
+\]</span></p>
+<p><span class="math display">\[
+d_{km}=\sigma^2\sum_{i=0}^{q_1}\sum_{j=0}^{q_2}b_{ij}b_{i-k,j+m}, \quad
+k = 0,1,\dots,q_1, \ m = 1,2,\dots,q_2  \tag{14}
+\]</span></p>
+<p>上述方程称为超定二维超越方程. 二维 <span
+class="math inline">\(\mathrm{ARMA}\)</span> 模型的 <span
+class="math inline">\(\mathrm{MA}\)</span> 参数辨识问题的提法是:
+已知二维 <span class="math inline">\(\mathrm{MA}\)</span> 谱参数 <span
+class="math inline">\(c_{km}\)</span> 和 <span
+class="math inline">\(d_{km}\)</span>, 求解超定二维超越方程式 (12) ~
+(13), 即得到二维 <span class="math inline">\(\mathrm{MA}\)</span> 参数
+<span class="math inline">\(b_{ij}\)</span>.</p>
+<p>定义估计误差</p>
+<p><span class="math display">\[
+f_{0,0} = \sum_{i=0}^{q_1}\sum_{j=0}^{q_2}b_{ij}^2 - 2c_{0,0} \tag{15}
+\]</span></p>
+<p><span class="math display">\[
+f_{k,m} = \sum_{i=0}^{q_1-k}\sum_{j=0}^{q_2-m}b_{i,j}b_{i+k,j+m} -
+c_{k,m} \quad k = 0,1,\dots,q_1, \ m = 0,1,\dots,q_2, (k,m) \neq (0,0)
+\tag{16}
+\]</span></p>
+<p><span class="math display">\[
+f_{k,m} = \sum_{i=0}^{q_1-k}\sum_{j=0}^{q_2-m}b_{i,j}b_{i+k,j+m} -
+d_{k,m} \quad k = 1,2,\dots,q_1, \ m = 1,2,\dots,q_2, (k,m) \tag{17}
+\]</span></p>
+<p>记</p>
+<p><span class="math display">\[
+\begin{aligned}
+f &amp;= [f_{0,0} \ , \dots,f_{q_1,q_2} \ , f_{q_1+1,q_2+1} \ , \dots,
+f_{2q_1,2q_2}]^{\mathrm{T}} \\
+b &amp;= [b_{0,0} \ , b_{0,1} \, \dots, b_{0,q_2} \ \dots \ , b_{q_1,0}
+\ , b_{q_1,1} \dots, b_{q_1,q_2}]^{\mathrm{T}}
+\end{aligned}
+\]</span></p>
+<p>则梯度矩阵为</p>
+<p><span class="math display">\[
+F = \frac{\partial f}{\partial b^{\mathrm{T}}}=\begin{bmatrix}
+  \frac{\partial f_{0,0}}{\partial b_{0,0}}&amp; \dots &amp;
+\frac{\partial f_{0,0}}{\partial b_{0,q_2}}
+&amp;  \dots&amp;  \frac{\partial f_{0,0}}{\partial b_{q_1,0}}&amp;
+\dots &amp; \frac{\partial f_{0,0}}{\partial b_{q_1,q_2}}\\
+  \vdots&amp;  &amp;  \vdots&amp;  &amp;  \vdots&amp;  &amp; \vdots\\
+  \frac{\partial f_{q_1,q_2}}{\partial b_{0,0}}&amp; \dots &amp;
+\frac{\partial f_{q_1,q_2}}{\partial b_{0,q_2}}
+&amp;  \dots&amp;  \frac{\partial f_{q_1,q_2}}{\partial b_{q_1,0}}&amp;
+\dots &amp; \frac{\partial f_{q_1,q_2}}{\partial b_{q_1,q_2}}\\
+  \frac{\partial f_{q_1+1,q_2+1}}{\partial b_{0,0}}&amp; \dots &amp;
+\frac{\partial f_{q_1+1,q_2+1}}{\partial b_{0,q_2}}
+&amp;  \dots&amp;  \frac{\partial f_{q_1+1,q_2+1}}{\partial
+b_{q_1,0}}&amp; \dots &amp; \frac{\partial f_{q_1+1,q_2+1}}{\partial
+b_{q_1,q_2}}\\
+  \vdots&amp;  &amp;  \vdots&amp;  &amp;  \vdots&amp;  &amp; \vdots\\
+  \frac{\partial f_{2q_1,2q_2}}{\partial b_{0,0}}&amp; \dots &amp;
+\frac{\partial f_{2q_1,2q_2}}{\partial b_{0,q_2}}
+&amp;  \dots&amp;  \frac{\partial f_{2q_1,2q_2}}{\partial
+b_{q_1,0}}&amp; \dots &amp; \frac{\partial f_{2q_1,2q_2}}{\partial
+b_{q_1,q_2}}\\
+\end{bmatrix} \tag{18}
+\]</span></p>
+<p>定义矩阵</p>
+<p><span class="math display">\[
+B_i = \begin{bmatrix}
+  b_{i,0}&amp;  \dots&amp;  b_{i,q_2-1}&amp; b_{i,q_2}\\
+  b_{i,1}&amp;  \dots&amp;  b_{i,q_2}&amp; 0\\
+  \vdots&amp;  &amp;\vdots  &amp; \vdots\\
+  b_{i,q_2}&amp;  \dots&amp;  0&amp; 0
+\end{bmatrix} \tag{19}
+\]</span></p>
+<p><span class="math display">\[
+\bar{B_i} = \begin{bmatrix}
+  b_{i,0}&amp;  b_{i,1}&amp;  \dots&amp; b_{i,q_2}\\
+  0&amp;  b_{i,0}&amp;  \dots&amp; b_{i,q_2-1}\\
+  \vdots&amp;  &amp;\vdots  &amp; \vdots\\
+  0&amp;  \dots&amp;  0&amp; b_{i,0}
+\end{bmatrix} \tag{20}
+\]</span></p>
+<p>和</p>
+<p><span class="math display">\[
+A_i = \begin{bmatrix}
+  0&amp;  b_{i,0}&amp;  b_{i,1}&amp; \dots &amp; b_{i,q_2-1}\\
+  0&amp;  0&amp;  b_{i,0}&amp; \dots &amp; b_{i,q_2-2}\\
+  \vdots&amp;  &amp;\vdots  &amp; \vdots &amp; \vdots\\
+  0&amp;  \dots&amp;  0&amp; 0 &amp; b_{i,0}
+\end{bmatrix} \tag{21}
+\]</span></p>
+<p><span class="math display">\[
+\bar{A_i} = \begin{bmatrix}
+  b_{i,1}&amp;  \dots&amp;  b_{i,q_2-1}&amp; b_{i,q_2} &amp; 0\\
+  b_{i,2}&amp;  \dots&amp;  b_{i,q_2}&amp; 0 &amp; 0\\
+  \vdots&amp;  &amp;\vdots  &amp; \vdots &amp; \vdots\\
+  b_{i,q_2}&amp;  0&amp;  \dots&amp; 0 &amp; 0
+\end{bmatrix} \tag{22}
+\]</span></p>
+<p>矩阵 <span class="math inline">\(F\)</span> 具有下列形式:</p>
+<p><span class="math display">\[
+F=\begin{bmatrix}
+  B_0&amp;  \dots&amp;  B_{q_1-1}&amp; B_{q_1}\\
+  B_1&amp;  \dots&amp;  B_{q_1}&amp; O\\
+  \vdots&amp;  &amp;  \vdots&amp; \vdots\\
+  B_{q_1}&amp;  \dots&amp;  O&amp; O\\
+  A_1&amp;  \dots&amp;  A_{q_1}&amp; O\\
+  A_2&amp;  \dots&amp;  O&amp; O\\
+  \vdots&amp;  &amp;  \vdots&amp; \vdots\\
+  A_{q_1}&amp;  \dots&amp; O &amp; O
+\end{bmatrix} + \begin{bmatrix}
+  \bar{B_0}&amp;  \bar{B_1}&amp;  \dots&amp; \bar{B_{q_1}}\\
+  O&amp;  \bar{B_0}&amp; \dots&amp; \bar{B_{q_1-1}}\\
+  \vdots&amp;  \vdots&amp;  &amp; \vdots\\
+  O&amp;  O&amp;  \dots&amp; \bar{B_0}\\
+  O&amp;  \bar{A_0}&amp;  \dots&amp; \bar{A_{q_1-1}}\\
+  O&amp;  O&amp;  \dots&amp; \bar{A_{q_1-2}}\\
+  \vdots&amp;  \vdots&amp;  &amp; \vdots\\
+  O&amp; O&amp; O &amp; \bar{A_0}
+\end{bmatrix} \tag{23}
+\]</span></p>
+<p>我们就能求解, 若第 <span class="math inline">\(i\)</span>
+步迭代估计的 <span class="math inline">\(\mathrm{MA}\)</span>
+参数向量记为 <span class="math inline">\(b^{(i)}\)</span>, 则第 <span
+class="math inline">\((i+1)\)</span> 步的估计 <span
+class="math inline">\(b^{(i+1)}\)</span> 由下式给出:</p>
+<p><span class="math display">\[
+b^{(i+1)} = b^{(i)} - F^{\dagger}f \tag{24}
+\]</span></p>
+<p>式子中, <span class="math inline">\(F^{\dagger}\)</span> 是矩阵 <span
+class="math inline">\(F\)</span> 的广义逆矩阵.</p>
+<p>算法 1: (二维 <span class="math inline">\(\mathrm{MA}\)</span>
+参数估计)</p>
+<ul>
+<li><p><b>Step1</b> : 取初始值 <span class="math inline">\(b_{0,0} =
+\sqrt{2c_{0,0}}\)</span> 和 <span class="math inline">\(b_{i,j}=0, \
+(i,j) \neq (0,0)\)</span></p></li>
+<li><p><b>Step2</b> : 利用式子 (15)~(17) 计算拟合误差 <span
+class="math inline">\(f_{k,m}\)</span>, 然后利用式子 (23) 构造矩阵 <span
+class="math inline">\(F\)</span></p></li>
+<li><p><b>Step3</b> : 根据式子 (24) 更新二维 <span
+class="math inline">\(\mathrm{MA}\)</span> 参数向量估计 <span
+class="math inline">\(b^{(i+1)}\)</span></p></li>
+<li><p><b>Step4</b> : 返回 <b>Step2</b>, 并重复以上步骤, 知道所有 <span
+class="math inline">\(\mathrm{MA}\)</span> 参数估计值 <span
+class="math inline">\(b_{k,m}\)</span> 都收敛为止. 例如, 当</p>
+<p><span class="math display">\[
+  \bigg| \frac{b_{km}^{(i+1)}-b_{km}^{(i)}}{b_{km}^{(i+1)}} \le 0.05
+\bigg| \tag{25}
+  \]</span></p>
+<p>对所有 <span class="math inline">\(k = 0,1,\dots,q_1,
+m=0,1,\dots,q_2\)</span> 成立时, 即认可参数估计已经收敛.</p></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="category-chain-item">线性代数</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/" class="category-chain-item">矩阵分析与应用</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%9F%A9%E9%98%B5/" class="print-no-link">#矩阵</a>
+      
+        <a href="/tags/Linear-Algebra/" class="print-no-link">#Linear Algebra</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1f0a122c/" title="矩阵分析与应用-1.10-Hadamard积与Kronecker积">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">矩阵分析与应用-1.10-Hadamard积与Kronecker积</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/1ba2f0e0/" title="矩阵分析与应用-1.9-Moore-Penrose逆矩阵-Section2">
+                        <span class="hidden-mobile">矩阵分析与应用-1.9-Moore-Penrose逆矩阵-Section2</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

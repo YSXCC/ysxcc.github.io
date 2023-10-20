@@ -1,0 +1,922 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="矩阵分解 一、推荐系统中的矩阵 对于一个推荐系统, 用户和物品之间的关系可以整理为如下这样的一个矩阵.    User-Item 1 2 3 4 5 ......     1 5 4 4.5 ? 3.9 ......   2 ? 4.5 ? 4.5 ? ......   3 4.5 ? 4.4 4 4 ......">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习-Day34">
+<meta property="og:url" content="http://yoursite.com/posts/b00eefd9/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="矩阵分解 一、推荐系统中的矩阵 对于一个推荐系统, 用户和物品之间的关系可以整理为如下这样的一个矩阵.    User-Item 1 2 3 4 5 ......     1 5 4 4.5 ? 3.9 ......   2 ? 4.5 ? 4.5 ? ......   3 4.5 ? 4.4 4 4 ......">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-22T07:41:12.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.668Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="idea">
+<meta property="article:tag" content="Matrix Factorization">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Java学习-Day34 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Java学习-Day34</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-22 15:41" pubdate>
+          2022年5月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          94 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java学习-Day34</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="矩阵分解">矩阵分解</h1>
+<h2 id="一推荐系统中的矩阵">一、推荐系统中的矩阵</h2>
+<p>对于一个推荐系统,
+用户和物品之间的关系可以整理为如下这样的一个矩阵.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">User-Item</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">......</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4.5</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">......</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">4.5</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">4.5</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">......</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4.5</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">4.4</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">......</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">4.8</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">4.5</td>
+<td style="text-align: center;">......</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">4.5</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">......</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">......</td>
+<td style="text-align: center;">......</td>
+<td style="text-align: center;">......</td>
+<td style="text-align: center;">......</td>
+<td style="text-align: center;">......</td>
+<td style="text-align: center;">......</td>
+<td style="text-align: center;">......</td>
+</tr>
+</tbody>
+</table>
+<p>矩阵中每一行代表一个用户, 而每一列则代表一个物品.
+若用户对物品有过评分,
+则矩阵中处在用户对应的行与物品对应的列交叉的位置表示用户对物品的评分值.
+矩阵中的问号代表用户对物品未评分. 这个矩阵就叫做User-Item 评分矩阵,
+这个矩阵中的数在实际统计后大多数现显示为问号.</p>
+<p>推荐系统需要做的事情就是对于任意一个用户, 预测出所有未评分物品的分值,
+并按分值大小从高到低的顺序推荐将对应的物品推荐给用户.</p>
+<h2 id="二svd-算法">二、SVD 算法</h2>
+<p>传统的推荐方法通过对 User-Item
+评分矩阵采用基于近邻的协同过滤来发现与用户具有相似偏好的其他用户,
+进而产生推荐, 也就是之前所写过的 MBR.
+但这种方法存在着数据稀疏和信息冗余大的缺陷, 当矩阵中评分元素稀疏,
+以及信息量并非随着向量维度增加而线性增加.</p>
+<p>那么就有人利用线性代数中的奇异值分解,
+把原来大的评分矩阵分解称小矩阵的乘积.</p>
+<p>对于奇异值分解的描述: 假设矩阵 <span class="math inline">\(M\)</span>
+是一个 <span class="math inline">\(m \times n\)</span> 的矩阵,
+则一定存在一个分解 <span class="math inline">\(M = U \Sigma
+V^{\mathrm{T}}\)</span>, 其中 <span class="math inline">\(U\)</span> 是
+<span class="math inline">\(m \times m\)</span> 的正交矩阵, <span
+class="math inline">\(V\)</span> 是 <span class="math inline">\(n \times
+n\)</span> 的正交矩阵, <span class="math inline">\(\Sigma\)</span> 是
+<span class="math inline">\(m \times m\)</span> 的对角阵.</p>
+<p><span class="math display">\[
+M_{m \times n} = U_{m \times m} \ \Sigma_{m \times m} \ V_{n \times n}
+\]</span></p>
+<p>但是传统奇异值分解不允许矩阵中有空白元素存在,
+也就是说评分矩阵中不能存在问号. 这对推荐系统来说是不可能做到的.
+基于这个问题, 所以 Simon Funk 就提出了 <em>Funk-SVD</em> 算法.</p>
+<h2 id="三funk-svd-算法">三、Funk-SVD 算法</h2>
+<p>例如评分矩阵 <span class="math inline">\(M\)</span> 是一个 <span
+class="math inline">\(m \times n\)</span> 的矩阵, 一共有 <span
+class="math inline">\(m\)</span> 个用户, <span
+class="math inline">\(n\)</span> 个物品. 通过一系列运算将矩阵 <span
+class="math inline">\(M\)</span> 转化为两个矩阵 <span
+class="math inline">\(P\)</span> 和 <span
+class="math inline">\(Q\)</span>, 矩阵 <span
+class="math inline">\(U\)</span> 的大小是 <span class="math inline">\(m
+\times k\)</span>, 矩阵 <span class="math inline">\(Q\)</span> 的大小是
+<span class="math inline">\(k \times n\)</span>. 式子如下所示:</p>
+<p><span class="math display">\[
+M_{m \times n} \approx P_{m \times k} Q_{k \times n}
+\]</span></p>
+<p>因为矩阵 <span class="math inline">\(M\)</span> 中存在未知,
+我们只是在对这个矩阵进行拟合, 所以是约等于.</p>
+<p>该方法基于这样一个假设: 用户对一个物品的喜爱程度主要由 <span
+class="math inline">\(k\)</span> 个因素决定, <span
+class="math inline">\(P_{ni}\)</span> 表示第 <span
+class="math inline">\(n\)</span> 个用户对第 <span
+class="math inline">\(i\)</span> 个因素的偏好程度, 而 <span
+class="math inline">\(Q_{ix}\)</span> 表示第 <span
+class="math inline">\(x\)</span> 个物品满足第 <span
+class="math inline">\(i\)</span> 个因素的程度, <span
+class="math inline">\(M_{nx}\)</span> 表示用户 <span
+class="math inline">\(n\)</span> 对物品 <span
+class="math inline">\(x\)</span> 最终的喜好程度.</p>
+<p>那么对于原始矩阵中有评分的位置 <span
+class="math inline">\(M_{UI}\)</span> 来说, 其在分解后矩阵中对应的值为:
+<span class="math display">\[
+M&#39;_{UI} =  {\textstyle \sum_{k=1}^{K}}P_{U,k} \ Q_{k,I}
+\]</span></p>
+<p>其中 <span class="math inline">\(U\)</span> 表示用户, <span
+class="math inline">\(I\)</span> 表示物品.</p>
+<p>那么对于整个评分矩阵而言, 总的损失就是: <span class="math display">\[
+SSE = E^2 = {\textstyle \sum_{U,I}}(M_{U,I} \ - \ M&#39;_{U,I})^2
+\]</span></p>
+<p>现在的问题就转化为了求在损失 <span class="math inline">\(SSE\)</span>
+最小时的矩阵 <span class="math inline">\(P\)</span> 和 <span
+class="math inline">\(Q\)</span>.</p>
+<h2 id="四随机梯度下降">四、随机梯度下降</h2>
+<p>梯度是一个向量, 表示的是一个函数在该点处沿梯度的方向变化最快,
+变化率最大, 而梯度下降的方向就是指的负梯度方向. 想象下山的过程,
+越是陡峭那么下山的速度就会越快 (这个过程不保证生命安全).
+我们要找的就是类似最快下山这一过程.</p>
+<p>梯度下降需要考虑所有的样本,
+在求函数的最小值最后会在驻点或者极值点停下来,
+所以这样的方法只适合凸函数. 例如函数 <span
+class="math inline">\(f(x)=x^2\)</span> 就是一个凸函数, 满足 <span
+class="math inline">\(f(\frac{x_1+x_2}{2}) \le
+\frac{f(x_1)+f(x_2)}{2}\)</span>. 其图像如下所示:</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022523172819.png" srcset="/img/loading.gif" lazyload /></p>
+<p>在这个函数上做梯度下降总会到达 <span
+class="math inline">\((0,0)\)</span> 这个点,
+当然这也是这个函数的最小值的点.</p>
+<p>随机梯度下降法主要是用来解决求和形式的优化问题,
+与上面需要优化的目标函数一致. 其思想也很简单,
+既然对于求和式中每一项求梯度很麻烦,
+那么干脆就随机选其中一项计算梯度当作总的梯度来使用.
+也就是说梯度下降是整体样本, 随机梯度下降是单个样本.</p>
+<p>上面的目标函数为: <span class="math display">\[
+SSE = E^2 = {\textstyle \sum_{U,I}}(M_{U,I} \ - \ {\textstyle
+\sum_{k=1}^{K}}P_{U,k} \ Q_{k,I} )^2
+\]</span></p>
+<p><span class="math inline">\(SSE\)</span> 是关于 <span
+class="math inline">\(P\)</span> 和 <span
+class="math inline">\(Q\)</span> 的多元函数, 当随机选定 <span
+class="math inline">\(U\)</span> 和 <span
+class="math inline">\(I\)</span> 后, 需要枚举所有的 <span
+class="math inline">\(k\)</span>, 并且对 <span
+class="math inline">\(P_{U,k}\)</span> 以及 <span
+class="math inline">\(Q_{k,I}\)</span> 求偏导数. <span
+class="math display">\[
+\frac{\partial}{\partial P_{u,k}}{E_{U,I}}^2 = 2 E_{U,I}\frac{\partial
+E_{U,I}}{\partial P_{u,k}} = -2E_{U,I}Q_{k,I}
+\]</span></p>
+<p><span class="math display">\[
+\frac{\partial}{\partial Q_{k,I}}{E_{U,I}}^2 = 2 E_{U,I}\frac{\partial
+E_{U,I}}{\partial Q_{k,I}} = -2E_{U,I}P_{U,k}
+\]</span></p>
+<h2 id="五具体实现">五、具体实现</h2>
+<h3 id="描述">1. 描述</h3>
+<p>生成两个随机矩阵, 这两个随机矩阵就是之前式子中提到的 <span
+class="math inline">\(P\)</span> 和 <span
+class="math inline">\(Q\)</span>. 利用随机梯度下降的公式求出变化的趋势,
+再乘以一个非常小的变化量. 使用这样的方式对这两个矩阵不断更新.</p>
+<p>代码中并没有达到完全收敛, 而是设定了一个矩阵更新次数的阈值. 并在每
+500 轮次时输出平均绝对误差和均方根误差, 用于观察收敛的效果.</p>
+<h3 id="代码">2. 代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> recommendersystem;<br><br><span class="hljs-keyword">import</span> java.io.*;<br><span class="hljs-keyword">import</span> java.util.Random;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Matrix factorization for recommender systems.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Shi-Huai Wen Email: shihuaiwen@outlook.com.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MatrixFactorization</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Used to generate random numbers.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">Random</span> <span class="hljs-variable">rand</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Random</span>();<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Number of users.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> numUsers;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Number of items.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> numItems;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Number of ratings.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> numRatings;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Training data.</span><br><span class="hljs-comment">     */</span><br>    Triple[] dataset;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * A parameter for controlling learning regular.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">double</span> alpha;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * A parameter for controlling the learning speed.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">double</span> lambda;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The low rank of the small matrices.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> rank;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The user matrix U.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">double</span>[][] userSubspace;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The item matrix V.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">double</span>[][] itemSubspace;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The lower bound of the rating value.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">double</span> ratingLowerBound;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The upper bound of the rating value.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">double</span> ratingUpperBound;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     * The first constructor.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraFilename   The data filename.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraNumUsers   The number of users.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraNumItems   The number of items.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraNumRatings The number of ratings.</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">MatrixFactorization</span><span class="hljs-params">(String paraFilename, <span class="hljs-type">int</span> paraNumUsers, <span class="hljs-type">int</span> paraNumItems,</span><br><span class="hljs-params">                               <span class="hljs-type">int</span> paraNumRatings, <span class="hljs-type">double</span> paraRatingLowerBound, <span class="hljs-type">double</span> paraRatingUpperBound)</span> &#123;<br>        numUsers = paraNumUsers;<br>        numItems = paraNumItems;<br>        numRatings = paraNumRatings;<br>        ratingLowerBound = paraRatingLowerBound;<br>        ratingUpperBound = paraRatingUpperBound;<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            readData(paraFilename, paraNumUsers, paraNumItems, paraNumRatings);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception ee) &#123;<br>            System.out.println(<span class="hljs-string">&quot;File &quot;</span> + paraFilename + <span class="hljs-string">&quot; cannot be read! &quot;</span> + ee);<br>            System.exit(<span class="hljs-number">0</span>);<br>        &#125; <span class="hljs-comment">// Of try</span><br>    &#125;<span class="hljs-comment">// Of the first constructor</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     * Set parameters.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraRank The given rank.</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setParameters</span><span class="hljs-params">(<span class="hljs-type">int</span> paraRank, <span class="hljs-type">double</span> paraAlpha, <span class="hljs-type">double</span> paraLambda)</span> &#123;<br>        rank = paraRank;<br>        alpha = paraAlpha;<br>        lambda = paraLambda;<br>    &#125;<span class="hljs-comment">// Of setParameters</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     * Read the data from the file.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraFilename The given file.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> IOException</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">readData</span><span class="hljs-params">(String paraFilename, <span class="hljs-type">int</span> paraNumUsers, <span class="hljs-type">int</span> paraNumItems,</span><br><span class="hljs-params">                         <span class="hljs-type">int</span> paraNumRatings)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-type">File</span> <span class="hljs-variable">tempFile</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(paraFilename);<br>        <span class="hljs-keyword">if</span> (!tempFile.exists()) &#123;<br>            System.out.println(<span class="hljs-string">&quot;File &quot;</span> + paraFilename + <span class="hljs-string">&quot; does not exists.&quot;</span>);<br>            System.exit(<span class="hljs-number">0</span>);<br>        &#125; <span class="hljs-comment">// Of if</span><br>        <span class="hljs-type">BufferedReader</span> <span class="hljs-variable">tempBufferReader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileReader</span>(tempFile));<br><br>        <span class="hljs-comment">// Allocate space.</span><br>        dataset = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Triple</span>[paraNumRatings];<br>        String tempString;<br>        String[] tempStringArray;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraNumRatings; i++) &#123;<br>            tempString = tempBufferReader.readLine();<br>            tempStringArray = tempString.split(<span class="hljs-string">&quot;,&quot;</span>);<br>            dataset[i] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Triple</span>(Integer.parseInt(tempStringArray[<span class="hljs-number">0</span>]),<br>                    Integer.parseInt(tempStringArray[<span class="hljs-number">1</span>]), Double.parseDouble(tempStringArray[<span class="hljs-number">2</span>]));<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        tempBufferReader.close();<br>    &#125;<span class="hljs-comment">// Of readData</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     * Initialize subspaces. Each value is in [0, 1].</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">initializeSubspaces</span><span class="hljs-params">()</span> &#123;<br>        userSubspace = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[numUsers][rank];<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; numUsers; i++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; rank; j++) &#123;<br>                userSubspace[i][j] = rand.nextDouble();<br>            &#125; <span class="hljs-comment">// Of for j</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        itemSubspace = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[numItems][rank];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; numItems; i++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; rank; j++) &#123;<br>                itemSubspace[i][j] = rand.nextDouble();<br>            &#125; <span class="hljs-comment">// Of for j</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br>    &#125;<span class="hljs-comment">// Of initializeSubspaces</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     * Predict the rating of the user to the item</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraUser The user index.</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">predict</span><span class="hljs-params">(<span class="hljs-type">int</span> paraUser, <span class="hljs-type">int</span> paraItem)</span> &#123;<br>        <span class="hljs-type">double</span> <span class="hljs-variable">resultValue</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; rank; i++) &#123;<br>            <span class="hljs-comment">// The row vector of a user and the column vector of an item</span><br>            resultValue += userSubspace[paraUser][i] * itemSubspace[paraItem][i];<br>        &#125; <span class="hljs-comment">// Of for i</span><br>        <span class="hljs-keyword">return</span> resultValue;<br>    &#125;<span class="hljs-comment">// Of predict</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     * Train.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraRounds The number of rounds.</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">train</span><span class="hljs-params">(<span class="hljs-type">int</span> paraRounds)</span> &#123;<br>        initializeSubspaces();<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraRounds; i++) &#123;<br>            updateNoRegular();<br>            <span class="hljs-keyword">if</span> (i % <span class="hljs-number">500</span> == <span class="hljs-number">0</span>) &#123;<br>                <span class="hljs-comment">// Show the process</span><br>                System.out.println(<span class="hljs-string">&quot;Round &quot;</span> + i);<br>                System.out.println(<span class="hljs-string">&quot;MAE: &quot;</span> + mae());<br>                System.out.println(<span class="hljs-string">&quot;RSME: &quot;</span> + rsme());<br>            &#125; <span class="hljs-comment">// Of if</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br>    &#125;<span class="hljs-comment">// Of train</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     * Update sub-spaces using the training data.</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">updateNoRegular</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; numRatings; i++) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">tempUserId</span> <span class="hljs-operator">=</span> dataset[i].user;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">tempItemId</span> <span class="hljs-operator">=</span> dataset[i].item;<br>            <span class="hljs-type">double</span> <span class="hljs-variable">tempRate</span> <span class="hljs-operator">=</span> dataset[i].rating;<br><br>            <span class="hljs-comment">// Residual</span><br>            <span class="hljs-type">double</span> <span class="hljs-variable">tempResidual</span> <span class="hljs-operator">=</span> tempRate - predict(tempUserId, tempItemId);<br><br>            <span class="hljs-comment">// Update user subspace</span><br>            <span class="hljs-type">double</span> tempValue;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; rank; j++) &#123;<br>                tempValue = <span class="hljs-number">2</span> * tempResidual * itemSubspace[tempItemId][j];<br>                userSubspace[tempUserId][j] += alpha * tempValue;<br>            &#125; <span class="hljs-comment">// Of for j</span><br><br>            <span class="hljs-comment">// Update item subspace</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; rank; j++) &#123;<br>                tempValue = <span class="hljs-number">2</span> * tempResidual * userSubspace[tempUserId][j];<br><br>                itemSubspace[tempItemId][j] += alpha * tempValue;<br>            &#125; <span class="hljs-comment">// Of for j</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br>    &#125;<span class="hljs-comment">// Of updateNoRegular</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     * Compute the RSME.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> RSME of the current factorization.</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">rsme</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">double</span> <span class="hljs-variable">resultRsme</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">tempTestCount</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; numRatings; i++) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">tempUserIndex</span> <span class="hljs-operator">=</span> dataset[i].user;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">tempItemIndex</span> <span class="hljs-operator">=</span> dataset[i].item;<br>            <span class="hljs-type">double</span> <span class="hljs-variable">tempRate</span> <span class="hljs-operator">=</span> dataset[i].rating;<br><br>            <span class="hljs-type">double</span> <span class="hljs-variable">tempPrediction</span> <span class="hljs-operator">=</span> predict(tempUserIndex, tempItemIndex);<br>            <span class="hljs-comment">// DataInfo.mean_rating;</span><br><br>            <span class="hljs-keyword">if</span> (tempPrediction &lt; ratingLowerBound) &#123;<br>                tempPrediction = ratingLowerBound;<br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (tempPrediction &gt; ratingUpperBound) &#123;<br>                tempPrediction = ratingUpperBound;<br>            &#125; <span class="hljs-comment">// Of if</span><br><br>            <span class="hljs-type">double</span> <span class="hljs-variable">tempError</span> <span class="hljs-operator">=</span> tempRate - tempPrediction;<br>            resultRsme += tempError * tempError;<br>            tempTestCount++;<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-keyword">return</span> Math.sqrt(resultRsme / tempTestCount);<br>    &#125;<span class="hljs-comment">// Of rsme</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     * Compute the MAE.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> MAE of the current factorization.</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">mae</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">double</span> <span class="hljs-variable">resultMae</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">tempTestCount</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; numRatings; i++) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">tempUserIndex</span> <span class="hljs-operator">=</span> dataset[i].user;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">tempItemIndex</span> <span class="hljs-operator">=</span> dataset[i].item;<br>            <span class="hljs-type">double</span> <span class="hljs-variable">tempRate</span> <span class="hljs-operator">=</span> dataset[i].rating;<br><br>            <span class="hljs-type">double</span> <span class="hljs-variable">tempPrediction</span> <span class="hljs-operator">=</span> predict(tempUserIndex, tempItemIndex);<br><br>            <span class="hljs-keyword">if</span> (tempPrediction &lt; ratingLowerBound) &#123;<br>                tempPrediction = ratingLowerBound;<br>            &#125; <span class="hljs-comment">// Of if</span><br>            <span class="hljs-keyword">if</span> (tempPrediction &gt; ratingUpperBound) &#123;<br>                tempPrediction = ratingUpperBound;<br>            &#125; <span class="hljs-comment">// Of if</span><br><br>            <span class="hljs-type">double</span> <span class="hljs-variable">tempError</span> <span class="hljs-operator">=</span> tempRate - tempPrediction;<br><br>            resultMae += Math.abs(tempError);<br>            tempTestCount++;<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-keyword">return</span> (resultMae / tempTestCount);<br>    &#125;<span class="hljs-comment">// Of mae</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     * Test accuracy</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * Out MAE and RSME</span><br><span class="hljs-comment">     * ***********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testTrainingTesting</span><span class="hljs-params">(String paraFilename, <span class="hljs-type">int</span> paraNumUsers, <span class="hljs-type">int</span> paraNumItems,</span><br><span class="hljs-params">                                           <span class="hljs-type">int</span> paraNumRatings, <span class="hljs-type">double</span> paraRatingLowerBound, <span class="hljs-type">double</span> paraRatingUpperBound,</span><br><span class="hljs-params">                                           <span class="hljs-type">int</span> paraRounds)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">// Step 1. read the training and testing data</span><br>            <span class="hljs-type">MatrixFactorization</span> <span class="hljs-variable">tempMF</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MatrixFactorization</span>(paraFilename, paraNumUsers,<br>                    paraNumItems, paraNumRatings, paraRatingLowerBound, paraRatingUpperBound);<br><br>            <span class="hljs-comment">// Step 2. read the training and testing data</span><br>            tempMF.setParameters(<span class="hljs-number">5</span>, <span class="hljs-number">0.0001</span>, <span class="hljs-number">0.005</span>);<br><br>            <span class="hljs-comment">// Step 3. update and predict</span><br>            System.out.println(<span class="hljs-string">&quot;Begin Training ! ! !&quot;</span>);<br>            tempMF.train(paraRounds);<br><br>            <span class="hljs-type">double</span> <span class="hljs-variable">tempMAE</span> <span class="hljs-operator">=</span> tempMF.mae();<br>            <span class="hljs-type">double</span> <span class="hljs-variable">tempRSME</span> <span class="hljs-operator">=</span> tempMF.rsme();<br>            System.out.println(<span class="hljs-string">&quot;Finally, MAE = &quot;</span> + tempMAE + <span class="hljs-string">&quot;, RSME = &quot;</span> + tempRSME);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125; <span class="hljs-comment">// Of try</span><br>    &#125;<span class="hljs-comment">// Of testTrainingTesting</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ************************</span><br><span class="hljs-comment">     * Test this class.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> args Not used now.</span><br><span class="hljs-comment">     * ************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        testTrainingTesting(<span class="hljs-string">&quot;D:/Work/sampledata/movielens-943u1682m.txt&quot;</span>, <span class="hljs-number">943</span>, <span class="hljs-number">1682</span>, <span class="hljs-number">10000</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2000</span>);<br>    &#125;<span class="hljs-comment">// Of main</span><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Triple</span> &#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> user;<br>        <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> item;<br>        <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> rating;<br><br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * ********************</span><br><span class="hljs-comment">         * The constructor.</span><br><span class="hljs-comment">         * ********************</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-title function_">Triple</span><span class="hljs-params">(<span class="hljs-type">int</span> paraUser, <span class="hljs-type">int</span> paraItem, <span class="hljs-type">double</span> paraRating)</span> &#123;<br>            user = paraUser;<br>            item = paraItem;<br>            rating = paraRating;<br>        &#125;<span class="hljs-comment">// Of the first constructor</span><br><br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * ********************</span><br><span class="hljs-comment">         * Show me.</span><br><span class="hljs-comment">         * ********************</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">public</span> String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span> + user + <span class="hljs-string">&quot;, &quot;</span> + item + <span class="hljs-string">&quot;, &quot;</span> + rating;<br>        &#125;<span class="hljs-comment">// Of toString</span><br>    &#125;<span class="hljs-comment">// Of class Triple</span><br>&#125; <span class="hljs-comment">// Of class MatrixFactorization</span><br></code></pre></td></tr></table></figure>
+<h3 id="运行截图">3. 运行截图</h3>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022523185357.png" srcset="/img/loading.gif" lazyload /></p>
+<h1 id="总结">总结</h1>
+<p>随机梯度下降的方法有点像牛顿迭代法求平方根的感觉.
+然后最神奇的地方还是考虑到隐藏属性这个点,
+然后依靠随机后再收敛的方法处理, 就不需要考虑用作计算的中间矩阵的各个值.
+纵使这些值能够得到, 但也免不了中间矩阵有空白出现.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BB%A3%E7%A0%81/" class="category-chain-item">代码</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BB%A3%E7%A0%81/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/" class="print-no-link">#java</a>
+      
+        <a href="/tags/idea/" class="print-no-link">#idea</a>
+      
+        <a href="/tags/Matrix-Factorization/" class="print-no-link">#Matrix Factorization</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/c709df4f/" title="Java学习-Day35">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java学习-Day35</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/5e39e101/" title="矩阵分析与应用-1.3_随机向量">
+                        <span class="hidden-mobile">矩阵分析与应用-1.3_随机向量</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

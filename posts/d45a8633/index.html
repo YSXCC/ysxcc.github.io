@@ -1,0 +1,1086 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 一、奇异值的性质汇总 1. 奇异值服从的等式关系  矩阵 \(A_{m \times n}\) 和其复共轭转置矩阵 \(A^{\mathrm{H}}\) 具有相同的奇异值. 矩阵 \(A_{m \times n}\) 的非零奇异值是 \(AA^{\mathrm{H}}\) 或者 \(A^{\">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵分析与应用-6.2~6.3-奇异值分解-Section2">
+<meta property="og:url" content="http://yoursite.com/posts/d45a8633/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 一、奇异值的性质汇总 1. 奇异值服从的等式关系  矩阵 \(A_{m \times n}\) 和其复共轭转置矩阵 \(A^{\mathrm{H}}\) 具有相同的奇异值. 矩阵 \(A_{m \times n}\) 的非零奇异值是 \(AA^{\mathrm{H}}\) 或者 \(A^{\">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+<meta property="article:published_time" content="2022-07-02T02:18:17.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.684Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="矩阵">
+<meta property="article:tag" content="Linear Algebra">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>矩阵分析与应用-6.2~6.3-奇异值分解-Section2 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">矩阵分析与应用-6.2~6.3-奇异值分解-Section2</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-02 10:18" pubdate>
+          2022年7月2日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          55 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">矩阵分析与应用-6.2~6.3-奇异值分解-Section2</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言">前言</h1>
+<p>本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 <a
+target="_blank" rel="noopener" href="https://zh.zlib.life">z-lib</a> 下载.</p>
+<h1 id="一奇异值的性质汇总">一、奇异值的性质汇总</h1>
+<h2 id="奇异值服从的等式关系">1. 奇异值服从的等式关系</h2>
+<ul>
+<li><p>矩阵 <span class="math inline">\(A_{m \times n}\)</span>
+和其复共轭转置矩阵 <span class="math inline">\(A^{\mathrm{H}}\)</span>
+具有相同的奇异值.</p></li>
+<li><p>矩阵 <span class="math inline">\(A_{m \times n}\)</span>
+的非零奇异值是 <span class="math inline">\(AA^{\mathrm{H}}\)</span> 或者
+<span class="math inline">\(A^{\mathrm{H}A}\)</span>
+的非零特征值的正平方根.</p></li>
+<li><p><span class="math inline">\(\sigma &gt; 0\)</span> 是矩阵 <span
+class="math inline">\(A_{m \times n}\)</span> 的单奇异值, 当且仅当 <span
+class="math inline">\(\sigma^2\)</span> 是 <span
+class="math inline">\(AA^{\mathrm{H}}\)</span> 或 <span
+class="math inline">\(A^{\mathrm{H}}A\)</span> 的单特征值.</p></li>
+<li><p>若 <span class="math inline">\(p = \min\{m,n\}\)</span>, 且 <span
+class="math inline">\(\sigma_1,\sigma_2,\cdots,\sigma_p\)</span> 是矩阵
+<span class="math inline">\(A_{m \times n}\)</span> 的奇异值,
+则</p></li>
+</ul>
+<p><span class="math display">\[
+{\mathrm{tr}}(A^{\mathrm{H}}A) = \sum_{i=1}^{p} \sigma_i^2
+\]</span></p>
+<ul>
+<li><p>矩阵行列式的绝对值等于矩阵奇异值之乘积, 即 <span
+class="math inline">\(|{\mathrm{det}}(A)|=\sigma_1\sigma_2\cdots\sigma_n\)</span>.</p></li>
+<li><p>矩阵 <span class="math inline">\(A\)</span> 的谱范数等于 <span
+class="math inline">\(A\)</span> 的最大奇异值, 即 <span
+class="math inline">\(\lVert A
+\rVert_{\mathrm{spec}}=\sigma_{\mathrm{max}}\)</span></p></li>
+<li><p>若 <span class="math inline">\(m \ge n\)</span>, 对于矩阵 <span
+class="math inline">\(A_{m \times n}\)</span>, 有</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\sigma_{\mathrm{min}}(A) &amp;= \min \left \{ \left (
+\frac{x^{\mathrm{H}}A^{\mathrm{H}}Ax}{x^{\mathrm{H}}x} \right )^{1/2} :
+x \neq 0  \right \} \\
+&amp;= \min \left \{
+(x^{\mathrm{H}}A^{\mathrm{H}}Ax)^{1/2}:x^{\mathrm{H}}x=1,x \in C^n
+\right \}
+\end{aligned}
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(m \ge n\)</span>, 对于矩阵 <span
+class="math inline">\(A_{m \times n}\)</span>, 有</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\sigma_{\mathrm{max}}(A) &amp;= \max \left \{ \left (
+\frac{x^{\mathrm{H}}A^{\mathrm{H}}Ax}{x^{\mathrm{H}}x} \right )^{1/2} :
+x \neq 0  \right \} \\
+&amp;= \max \left \{
+(x^{\mathrm{H}}A^{\mathrm{H}}Ax)^{1/2}:x^{\mathrm{H}}x=1,x \in C^n
+\right \}
+\end{aligned}
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(m \times m\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 非奇异, 则</li>
+</ul>
+<p><span class="math display">\[
+\frac{1}{\sigma_{\min}(A)} = \max \left \{ \left (
+\frac{x^{\mathrm{H}}(A^{-1})^{\mathrm{H}}A^{-1}x}{x^{\mathrm{H}}x}
+\right )^{1/2}:x \neq 0, x \in C^n \right \}
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A = U \begin{bmatrix} \Sigma_1&amp;O
+\\O&amp;O\end{bmatrix}V^{\mathrm{H}}\)</span> 是 <span
+class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 的奇异值分解, 则 <span
+class="math inline">\(A\)</span> 的 <span
+class="math inline">\(\mathrm{Moore-Penrose}\)</span> 逆矩阵</li>
+</ul>
+<p><span class="math display">\[
+A^{\dagger} = V \begin{bmatrix}
+\Sigma_1^{-1} &amp; O \\
+O &amp; O
+\end{bmatrix} U^{\mathrm{H}}
+\]</span></p>
+<ul>
+<li>若 <span
+class="math inline">\(\sigma_1,\sigma_2,\cdots,\sigma_p\)</span> 是
+<span class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 的非奇异值 (其中, <span
+class="math inline">\(p=\min\{m,n\}\)</span>), 则矩阵 <span
+class="math inline">\(\begin{bmatrix} O&amp;A
+\\A^{\mathrm{H}}&amp;O\end{bmatrix}\)</span> 具有 <span
+class="math inline">\(2p\)</span> 个非奇异值 <span
+class="math inline">\(\sigma_1,\cdots,\sigma_p,-\sigma_1,\cdots,-\sigma_p\)</span>
+和 <span class="math inline">\(|m - n|\)</span> 个零奇异值.</li>
+</ul>
+<h2 id="奇异值服从的不等式关系">2. 奇异值服从的不等式关系</h2>
+<ul>
+<li><p>若 <span class="math inline">\(A\)</span> 和 <span
+class="math inline">\(B\)</span> 是 <span class="math inline">\(m \times
+n\)</span> 矩阵, 对于 <span class="math inline">\(1 \le i,j \le p, i+j
+\le p+1(p =\min\{m,n\})\)</span>, 有</p>
+<p><span class="math display">\[
+\sigma_{i+j-1}(A+B) \le \sigma_i(A) + \sigma_j(B)
+\]</span></p>
+<p>特别地, 当 <span class="math inline">\(j=1\)</span> 时, <span
+class="math inline">\(\sigma_i(A+B) \le \sigma_i(A) + \sigma_i(B), i =
+1,2,\cdots,p\)</span> 成立.</p></li>
+<li><p>对矩阵 <span class="math inline">\(A_{m \times n}, B_{m \times
+n}\)</span>, 有</p></li>
+</ul>
+<p><span class="math display">\[
+\sigma_{\max}(A+B) \le \sigma_{\max}(A) + \sigma_{\max}(B)
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A\)</span> 和 <span
+class="math inline">\(B\)</span> 是 <span class="math inline">\(m \times
+n\)</span> 矩阵, 则</li>
+</ul>
+<p><span class="math display">\[
+\sum_{j=1}^{p}[\sigma_j(A+B) - \sigma_j(A)]^2 \le \lVert B
+\rVert_{\mathrm{F}}^2, \ p = \min\{m,n\}
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A_{m \times
+m}=[a_1,a_2,\cdots,a_m]\)</span> 的奇异值 <span
+class="math inline">\(\sigma_1(A) \ge \sigma_2(A) \ge \cdots \ge
+\sigma_m(A)\)</span>, 则</li>
+</ul>
+<p><span class="math display">\[
+\sum_{j=1}^{k}[\sigma_{m-k+j}(A)]^2 \le
+\sum_{j=1}^{k}a_j^{\mathrm{H}}a_j \le \sum_{j=1}^{k}[\sigma_j(A)]^2,
+\quad k=1,2,\cdots,m
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(p=\min\{m,n\}\)</span>, 且 <span
+class="math inline">\(A_{m \times n}\)</span> 和 <span
+class="math inline">\(B_{m \times n}\)</span> 的奇异值排列为 <span
+class="math inline">\(\sigma_1(A) \ge \sigma_2(A) \ge \cdots \ge
+\sigma_p(A), \sigma_1(B) \ge \sigma_2(B) \ge \cdots \ge
+\sigma_p(B)\)</span> 和 <span class="math inline">\(\sigma_1(A+B) \ge
+\sigma_2(A+B) \ge \cdots \ge \sigma_p(A+B)\)</span>, 则</li>
+</ul>
+<p><span class="math display">\[
+\sigma_{i+j-1}(AB^{\mathrm{H}}) \le \sigma_i(A)\sigma_j(B), 1 \le i,j
+\le p,i+j \le p+1
+\]</span></p>
+<ul>
+<li><p>设 <span class="math inline">\(m \times (n-1)\)</span> 矩阵 <span
+class="math inline">\(B\)</span> 是删去 <span class="math inline">\(m
+\times n\)</span> 矩阵 <span class="math inline">\(A\)</span>
+任意一列得到的矩阵, 并且它们的奇异值都按照非降顺序排列, 则</p>
+<p><span class="math display">\[
+\sigma_1(A) \ge \sigma_1(B) \ge \sigma_2(A) \ge \sigma_2(B) \ge \cdots
+\ge \sigma_h(A) \ge \sigma_h(B) \ge 0
+\]</span></p>
+<p>式中, <span class="math inline">\(h = \min\{m,
+n-1\}\)</span></p></li>
+<li><p>设 <span class="math inline">\((m-1) \times n\)</span> 矩阵 <span
+class="math inline">\(B\)</span> 是删去 <span class="math inline">\(m
+\times n\)</span> 矩阵 <span class="math inline">\(A\)</span>
+任意一行得到的矩阵, 并且它们的奇异值都按照非降顺序排列, 则</p>
+<p><span class="math display">\[
+\sigma_1(A) \ge \sigma_1(B) \ge \sigma_2(A) \ge \sigma_2(B) \ge \cdots
+\ge \sigma_h(A) \ge \sigma_h(B) \ge 0
+\]</span></p>
+<p>式中, <span class="math inline">\(h = \min\{m,
+n-1\}\)</span></p></li>
+<li><p>矩阵 <span class="math inline">\(A_{m \times n}\)</span>
+的最大奇异值满足不等式</p></li>
+</ul>
+<p><span class="math display">\[
+\sigma_{\max}(A) \ge [\frac{1}{n}\mathrm{tr}(A^{\mathrm{H}}A)]^{1/2}
+\]</span></p>
+<h1 id="二秩亏缺最小二乘解">二、秩亏缺最小二乘解</h1>
+<h2 id="低秩矩阵逼近">1. 低秩矩阵逼近</h2>
+<p>在奇异值分析的应用中,
+常常需要用一个低秩的矩阵逼近一个含噪声或扰动的矩阵. 低秩矩阵好理解,
+但是这和现实世界中又有什么关系呢?</p>
+<p>举个非常简单的例子, 当拍摄一张大海的照片,
+看起来就好像一个像素经过不断复杂形成的. 想象最小复制单元是一行或一列,
+那么类推到矩阵中是不是就是说明组成图像的所有向量其实是线性相关的,
+然后矩阵的秩就为 1, 这就叫做低秩矩阵. 但是当图中出现轮船, 海鸟,
+岛屿等事物, 图片的复杂程度就会上升, 也就不能够叫做低秩矩阵.</p>
+<p>在信号处理中, 用低秩矩阵逼近信号矩阵,
+就是为了去除噪声或扰动的信号.</p>
+<p>下面定理给出了逼近质量的评价.</p>
+<p>定理 1 : 令 <span class="math inline">\(A \in R^{m \times n}\)</span>
+的奇异值分解由 <span class="math inline">\(A =
+\sum_{i=1}^{p}\sigma_iu_iv_i^{\mathrm{T}}\)</span> 给出, 其中, <span
+class="math inline">\(p=\mathrm{rank}(A)\)</span></p>
+<p>若 <span class="math inline">\(k &lt; p\)</span>, 并且 <span
+class="math inline">\(A_k=\sum_{i=1}^{k}\sigma_iu_iv_i^{\mathrm{T}}\)</span>,
+则逼近质量可分别使用谱范数和 <span
+class="math inline">\(\mathrm{Frobenius}\)</span> 范数度量.</p>
+<p><span class="math display">\[
+\min_{\mathrm{rank}(B)=k}\lVert A-B \rVert_{\mathrm{spec}} = \lVert
+A-A_k \rVert_{\mathrm{spec}} = \sigma_{k+1} \tag{1}
+\]</span></p>
+<p><span class="math display">\[
+\min_{\mathrm{rank}(B)=k}\lVert A-B \rVert_{\mathrm{F}} = \lVert A-A_k
+\rVert_{\mathrm{F}} = \sqrt{\sum_{i=k+1}^{q}\sigma_i^2} \tag{2}
+\]</span></p>
+<p>式子中, <span class="math inline">\(q=\min\{m,n\}\)</span>.</p>
+<h2 id="有效秩">2. 有效秩</h2>
+<p>在需要计算秩 <span class="math inline">\(r\)</span> 的估计值 <span
+class="math inline">\(\hat{r}\)</span> 的方法, 在信号处理和系统理论中,
+常将该估计值称为 "有效秩"</p>
+<p>有效秩确定有以下两种常用方法</p>
+<ol type="1">
+<li><p>归一化奇异值方法</p>
+<p>计算归一化奇异值</p>
+<p><span class="math display">\[
+\bar{\sigma_i} = \frac{\hat{\sigma_i}}{\hat{\sigma_1}}
+\]</span></p>
+<p>选择满足准则</p>
+<p><span class="math display">\[
+\bar{\sigma_i} \ge \epsilon
+\]</span></p>
+<p>的最大整数作为有效秩的估计值 <span
+class="math inline">\(\hat{r}\)</span>.</p></li>
+<li><p>范数比方法</p>
+<p>令 <span class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A_k\)</span> 是原 <span class="math inline">\(m
+\times n\)</span> 矩阵 <span class="math inline">\(A\)</span> 的秩 <span
+class="math inline">\(k\)</span> 近似, 定义该近似矩阵与原矩阵的 <span
+class="math inline">\(\mathrm{Frobenius}\)</span> 范数比为</p>
+<p><span class="math display">\[
+v(k) = \frac{\lVert A_k \rVert_{\mathrm{F}}}{\lVert A
+\rVert_{\mathrm{F}}} = \frac{\sqrt{\sigma_1^2 + \sigma_2^2 + \cdots +
+\sigma_k^2}}{\sigma_1^2 + \sigma_2^2 + \cdots + \sigma_h^2}, \quad h =
+\min\{m,n\}
+\]</span></p>
+<p>并选择满足</p>
+<p><span class="math display">\[
+v(k) \ge \alpha
+\]</span></p>
+<p>的最大整数作为有效秩估计值 <span
+class="math inline">\(\hat{r}\)</span>. 其中 <span
+class="math inline">\(\alpha\)</span> 是接近于 1 的阈值.</p></li>
+</ol>
+<h2 id="mathrmsvd-的子集选择方法">3. <span
+class="math inline">\(\mathrm{SVD}\)</span> 的子集选择方法</h2>
+<p>算法 1 : 子集选择算法</p>
+<p>Step 1 : 计算 <span class="math inline">\(A\)</span> 的 <span
+class="math inline">\(\mathrm{SVD}\)</span>, 并确定 <span
+class="math inline">\(A\)</span> 的有效秩 <span
+class="math inline">\(\hat{r}\)</span></p>
+<p>Step 2 : 计算置换矩阵 <span class="math inline">\(P\)</span>, 使得在
+<span class="math inline">\(AP=[B_1,B_2]\)</span> 中的矩阵 <span
+class="math inline">\(B_1 \in C^{m \times \hat{r}}\)</span> 的列是
+"足够线性无关的"</p>
+<p>Step 3 : 将 <span class="math inline">\(Ax=0\)</span> 的 <span
+class="math inline">\(\mathrm{LS}\)</span> 问题变换为求 <span
+class="math inline">\(AP\begin{bmatrix}z\\0\end{bmatrix}=b\)</span> 的
+<span class="math inline">\(\mathrm{LS}\)</span> 解 <span
+class="math inline">\(z \in C^{\hat{r}}\)</span>, 即求 <span
+class="math inline">\(\lVert B_1z = b \rVert_2\)</span> 的极小化变量
+<span class="math inline">\(z\)</span>.</p>
+<p>算法 2 : 低秩 <span class="math inline">\(\mathrm{LS}\)</span> 算法,
+给定 <span class="math inline">\(A \in R^{m \times n}, b \in
+R^m\)</span>, 计算</p>
+<p><span class="math display">\[
+x = \mathrm{arg}\min_z \Bigg \lVert AP\begin{bmatrix}z\\0\end{bmatrix}-b
+\Bigg \rVert_2
+\]</span></p>
+<p>Step 1 : 计算 <span class="math inline">\(\mathrm{SVD}\)</span>,
+确定有效秩 <span class="math inline">\(\hat{r}\)</span>, 根据 <span
+class="math inline">\(\hat{r}\)</span> 将 <span
+class="math inline">\(V\)</span> 分块为</p>
+<p><span class="math display">\[
+V = \begin{bmatrix}
+  V_{11}&amp; V_{12}\\
+  V_{21}&amp; V_{22}
+\end{bmatrix}
+\]</span></p>
+<p>其中, <span class="math inline">\(V_{11} \in R^{\hat{r} \times
+\hat{r}}\)</span>, 然后存储 <span class="math inline">\(V_{11}\)</span>
+和 <span class="math inline">\(V_{21}\)</span></p>
+<p>Step 2 : 利用列主元 <span class="math inline">\(\mathrm{QR}\)</span>
+算法计算 <span
+class="math inline">\(Q^\mathrm{T}[V_{11}^\mathrm{T},V_{21}^\mathrm{T}]P=[R_{11},R_{12}]\)</span>,
+然后计算 <span class="math inline">\(AP=[B_1,B_2]\)</span>, 其中 <span
+class="math inline">\(B_1 \in R^{m \times \hat{r}}\)</span></p>
+<p>Step 3 : 计算 <span class="math inline">\(z =
+(B_1^\mathrm{T}B_1)^{-1}B_1^\mathrm{T}b\)</span></p>
+<p>附 列主元 <span class="math inline">\(\mathrm{QR}\)</span> 算法</p>
+<p>给定矩阵 <span class="math inline">\(A \in R^{m \times n}\)</span>,
+其中, <span class="math inline">\(m \ge n\)</span>. 下面的算法计算 <span
+class="math inline">\(r = \mathrm{rank}(A)\)</span> 和列主元 <span
+class="math inline">\(\mathrm{QR}\)</span> 分解</p>
+<p><span class="math display">\[
+Q^\mathrm{T}AP=\begin{bmatrix}
+  R_{11}&amp;R_{12} \\
+  O&amp;O
+\end{bmatrix}
+\]</span></p>
+<p>其中, <span class="math inline">\(R_{11} \in R^{r \times r}\)</span>
+是上三角的非奇异矩阵, 作为输出结果, <span
+class="math inline">\(A\)</span> 的上三角部分存放 <span
+class="math inline">\(R\)</span> 的上三角部分, 置换矩阵 <span
+class="math inline">\(P\)</span> 用整数向量 <span
+class="math inline">\(piv\)</span> 编码 (若 <span
+class="math inline">\(piv\)</span> 的第 <span
+class="math inline">\(j\)</span> 个元素等于整数 <span
+class="math inline">\(m\)</span>, 则 <span
+class="math inline">\(P\)</span> 的第 <span
+class="math inline">\(j\)</span> 列仅第 <span
+class="math inline">\(m\)</span> 个元素为 1, 而其他元素皆为零)</p>
+<p>例: 假定</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+  3&amp;  4&amp; -1\\
+  7&amp;  4&amp; -3\\
+  2&amp;  5&amp; 3\\
+  -1&amp; 4&amp; 5
+\end{bmatrix}, \quad b  = \begin{bmatrix}
+1\\
+1\\
+1\\
+1
+\end{bmatrix}
+\]</span></p>
+<p>得到 <span class="math inline">\(\mathrm{rank}(A)=2\)</span> 和</p>
+<p><span class="math display">\[
+x_{\mathrm{LS}} = \begin{bmatrix}
+0.0815\\
+0.1545\\
+0.0730
+\end{bmatrix}
+\]</span></p>
+<p>应用算法 低秩 <span class="math inline">\(\mathrm{LS}\)</span>
+方法得到</p>
+<p><span class="math display">\[
+P = \begin{bmatrix}
+  0&amp;  1&amp; 0\\
+  1&amp;  0&amp; 0\\
+  0&amp;  0&amp; 1
+\end{bmatrix}, \quad x = \begin{bmatrix}
+0.0845\\
+0.2275\\
+0.0000
+\end{bmatrix}
+\]</span></p>
+<h1 id="三奇异值分解的-mathrmqr-分解算法">三、奇异值分解的 <span
+class="math inline">\(\mathrm{QR}\)</span> 分解算法</h1>
+<p>通常是两个阶段:</p>
+<p>第一阶段为矩阵的二重对角化, 通过 <span
+class="math inline">\(\mathrm{Householder}\)</span> 变换将矩阵 <span
+class="math inline">\(A_{m \times n}\)</span> 变换为二重对角矩阵
+(除对角线及其上面一条对角线的元素外, 其他元素全为零).</p>
+<p>第二阶段利用 <span class="math inline">\(\mathrm{QR}\)</span> 分解,
+保存二重对角矩阵的形式不变, 利用正交变换使上一条对角线的元素逐渐减小,
+使矩阵接近对角矩阵. 此时, 需要具体构造正交矩阵 <span
+class="math inline">\(V\)</span>, 但 <span
+class="math inline">\(U\)</span> 可以不予保留.</p>
+<p>和之前在线性代数中学习的人工进行 <span
+class="math inline">\(SVD\)</span> 分解不同,
+这里的算法更适合于计算机.</p>
+<p>有点难度, 需要慢慢消化.</p>
+<p>(...... 未完待续)</p>
+<h1 id="四奇异值分解的精确计算">四、奇异值分解的精确计算</h1>
+<p>初始矩阵 <span class="math inline">\(A\)</span>
+的元素通过观察或计算得到, 存在一定的误差.
+为了使得奇异值和奇异向量的计算结果是精确的, 提出了右边 <span
+class="math inline">\(\mathrm{Jacobi}\)</span> 旋转.</p>
+<p>(...... 未完待续)</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="category-chain-item">线性代数</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/" class="category-chain-item">矩阵分析与应用</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%9F%A9%E9%98%B5/" class="print-no-link">#矩阵</a>
+      
+        <a href="/tags/Linear-Algebra/" class="print-no-link">#Linear Algebra</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/aba8e413/" title="新生任务-1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">新生任务-1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/b0a5a636/" title="矩阵分析与应用-6.2-奇异值分解-Section1">
+                        <span class="hidden-mobile">矩阵分析与应用-6.2-奇异值分解-Section1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

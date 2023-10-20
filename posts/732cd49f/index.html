@@ -1,0 +1,1257 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 这部分内容与线性代数的内容重合, 讲述的是矩阵的一些标量函数. 一、矩阵的二次型 任意一个方阵 \(A\) 的二次型 \(x^{\mathrm{H}}Ax\) 是一个实数标量. 以实矩阵为例, 有以下推导. \[ \begin{aligned} x^{\mathrm{T}}Ax &amp;&#x3D; [">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵分析与应用-1.6-矩阵的标量函数">
+<meta property="og:url" content="http://yoursite.com/posts/732cd49f/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 这部分内容与线性代数的内容重合, 讲述的是矩阵的一些标量函数. 一、矩阵的二次型 任意一个方阵 \(A\) 的二次型 \(x^{\mathrm{H}}Ax\) 是一个实数标量. 以实矩阵为例, 有以下推导. \[ \begin{aligned} x^{\mathrm{T}}Ax &amp;&#x3D; [">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+<meta property="article:published_time" content="2022-06-04T01:31:58.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.682Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="矩阵">
+<meta property="article:tag" content="Linear Algebra">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>矩阵分析与应用-1.6-矩阵的标量函数 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">矩阵分析与应用-1.6-矩阵的标量函数</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-04 09:31" pubdate>
+          2022年6月4日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          84 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">矩阵分析与应用-1.6-矩阵的标量函数</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言">前言</h1>
+<p>本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 <a
+target="_blank" rel="noopener" href="https://zh.zlib.life">z-lib</a> 下载.</p>
+<p>这部分内容与线性代数的内容重合, 讲述的是矩阵的一些标量函数.</p>
+<h1 id="一矩阵的二次型">一、矩阵的二次型</h1>
+<p>任意一个方阵 <span class="math inline">\(A\)</span> 的二次型 <span
+class="math inline">\(x^{\mathrm{H}}Ax\)</span> 是一个实数标量.
+以实矩阵为例, 有以下推导.</p>
+<p><span class="math display">\[
+\begin{aligned}
+x^{\mathrm{T}}Ax &amp;= [x_1,x_2,x_3]
+\begin{bmatrix}
+1 &amp; 4 &amp; 2\\
+-1 &amp; 7 &amp; 5\\
+-1 &amp; 6 &amp; 3
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_3
+\end{bmatrix}\\
+&amp;= x_1^2 - x_2x_1 - x_3x_1 + 4x_1x_2 + 7x_2^2 + 6x_3x_2 + 2x_1x_3 +
+5x_2x_3 + 3x_3^2 \\
+&amp;= x_1^2 + 7x_2^2 + 3x_3^2 + 3x_1x_2 + x_1x_3 + 11x_2x_3
+\end{aligned}
+\]</span></p>
+<p>这就是变量 <span class="math inline">\(x\)</span> 的二次型函数,
+仔细观察可以看见对角线是二次项, 一次项是关于对角线对称元素之和.
+所以我们就把 <span class="math inline">\(x^{\mathrm{T}}Ax\)</span>
+称为矩阵 <span class="math inline">\(A\)</span> 的二次型.</p>
+<p>推而广之, 若 <span class="math inline">\(x =
+[x_1,x_2,\dots,x_n]^{\mathrm{T}}\)</span>, 且 <span
+class="math inline">\(n \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 的元素为 <span
+class="math inline">\(a_{ij}\)</span>, 则二次型为.</p>
+<p><span class="math display">\[
+\begin{aligned}
+x^{\mathrm{T}}Ax &amp;= \sum_{i=1}^{n}\sum_{j=1}^{n}x_ix_ja_{ij} \\
+&amp;= \sum_{i=1}^{n}a_{ii}x_i^2 + \sum_{i=1,i \neq
+j}^{n}\sum_{j=1}^{n}a_{ij}x_ix_j \\
+&amp;= \sum_{i=1}^{n}a_{ii}x_i^2 +
+\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}(a_{ij}+a_{ji})x_ix_j
+\end{aligned} \tag{1}
+\]</span></p>
+<p>其实只要满足方阵对角线相等, 关于对角线元素之和相等,
+这两个方阵二次型就相等.</p>
+<p>也就是对于任意一个二次型函数</p>
+<p><span class="math display">\[
+f(x_1,x_2,\dots,x_n) = \sum_{i=1}^{n}a_{ii}x_i^2 + \sum_{i=1, i \neq
+j}^{n}\sum_{j=1}^{n}a_{ij}x_ix_j \tag{2}
+\]</span></p>
+<p>存在着许多矩阵 <span class="math inline">\(A\)</span>,
+它们的二次型相同. 但是只有一个矩阵满足其元素关于主对称轴相等的条件
+(对于复数矩阵就要满足共轭的条件),
+这个矩阵我们就把它叫做实对称矩阵或复共轭对称 (即 <span
+class="math inline">\(\mathrm{Hermitian}\)</span> 矩阵).</p>
+<p>把大于零的二次型 <span
+class="math inline">\(x^{\mathrm{H}}Ax\)</span> 称为正定的二次型,
+则与之对应的 <span class="math inline">\(\mathrm{Hermitian}\)</span>
+矩阵为正定矩阵. 由此又有一些定义.</p>
+<p>定义 1: 一个复共轭对称矩阵 <span class="math inline">\(A\)</span></p>
+<ul>
+<li><p>若二次型 <span class="math inline">\(x^{\mathrm{H}}Ax &gt; 0,
+\quad \forall x \neq 0\)</span>, 就叫正定矩阵</p></li>
+<li><p>若二次型 <span class="math inline">\(x^{\mathrm{H}}Ax \ge 0,
+\quad \forall x \neq 0\)</span>, 就叫半正定矩阵</p></li>
+<li><p>若二次型 <span class="math inline">\(x^{\mathrm{H}}Ax &lt; 0,
+\quad \forall x \neq 0\)</span>, 就叫负定矩阵</p></li>
+<li><p>若二次型 <span class="math inline">\(x^{\mathrm{H}}Ax \le 0,
+\quad \forall x \neq 0\)</span>, 就叫半负定矩阵</p></li>
+<li><p>若二次型 <span class="math inline">\(x^{\mathrm{H}}Ax\)</span>
+即可能取正值, 也可能取负值, 就叫不定矩阵</p></li>
+</ul>
+<p>定义 2: 设矩阵 <span class="math inline">\(A_{m \times n}\)</span>
+的元素为 <span class="math inline">\(a_{ij}\)</span>. 若</p>
+<p><span class="math display">\[
+a_{ij} \ge 0, \quad \forall i = 1,2,\dots,m, j = 1,2,\dots,n \tag{3}
+\]</span></p>
+<p>则称 <span class="math inline">\(A\)</span> 为非负矩阵. 表示 <span
+class="math inline">\(A\)</span> 中所有元素都是非负的, 同时 <span
+class="math inline">\(A\)</span> 也叫做正矩阵. 与正定矩阵相比,
+这个矩阵不一定是方阵.</p>
+<h1 id="二矩阵的迹">二、矩阵的迹</h1>
+<p>定义 3: <span class="math inline">\(n \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 的对角线元素之和称为 <span
+class="math inline">\(A\)</span> 的迹, 记作 <span
+class="math inline">\(tr(A)\)</span>, 即</p>
+<p><span class="math display">\[
+tr(A) = a_{11} + a_{22} + \dots + a_{nn} = \sum_{i=1}^{n}a_{ii} \tag{4}
+\]</span></p>
+<p>不是方阵就没有迹的定义.</p>
+<h2 id="关于迹的等式">1. 关于迹的等式</h2>
+<ul>
+<li><p>若 <span class="math inline">\(A\)</span> 和 <span
+class="math inline">\(B\)</span> 均为 <span class="math inline">\(n
+\times n\)</span> 矩阵, 则 <span class="math inline">\(\mathrm{tr}(A \pm
+B) = \mathrm{tr}(A) \pm \mathrm{tr}(B)\)</span></p></li>
+<li><p>若 <span class="math inline">\(c\)</span> 是一个复或者实的常数,
+则 <span class="math inline">\(\mathrm{tr}(cA) =
+c\mathrm{tr}(A)\)</span></p></li>
+<li><p>若 <span class="math inline">\(A\)</span> 和 <span
+class="math inline">\(B\)</span> 均为 <span class="math inline">\(n
+\times n\)</span> 矩阵, 并且 <span class="math inline">\(c_1\)</span> 和
+<span class="math inline">\(c_2\)</span> 为常数, 则 <span
+class="math inline">\(\mathrm{tr}(c_1A \pm c_2B) = c_1\mathrm{tr}(A) \pm
+c_2\mathrm{tr}(B)\)</span></p></li>
+<li><p>矩阵 <span class="math inline">\(A\)</span>
+的转置、复数共轭和复共轭的迹分别是</p></li>
+</ul>
+<p><span class="math display">\[
+\mathrm{tr}(A^\mathrm{T}) = \mathrm{tr}(A) \\
+\mathrm{tr}(A^*) = [\mathrm{tr}(A)]^* \\    
+\mathrm{tr}(A^\mathrm{H}) = [\mathrm{tr}(A)]^*
+\]</span></p>
+<ul>
+<li>迹是相似不变量, 若 <span class="math inline">\(A\)</span> 为 <span
+class="math inline">\(m \times n\)</span> 矩阵, 且 <span
+class="math inline">\(B\)</span> 为 <span class="math inline">\(n \times
+m\)</span> 矩阵, 则</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{tr}(AB) = \mathrm{BA}
+\]</span></p>
+<ul>
+<li>若矩阵 <span class="math inline">\(A\)</span> 和 <span
+class="math inline">\(B\)</span> 均为 <span class="math inline">\(m
+\times m\)</span> 矩阵, 并且 <span class="math inline">\(B\)</span>
+非奇异, 则</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{tr}(BAB^{-1}) = \mathrm{tr}(B^{-1}AB) = \mathrm{tr}(A)
+\]</span></p>
+<ul>
+<li><p>若 <span class="math inline">\(A\)</span> 是一个 <span
+class="math inline">\(m \times n\)</span> 矩阵, 则 <span
+class="math inline">\(\mathrm{tr}(A^{\mathrm{H}}A) = 0 \Leftrightarrow A
+= O_{m \times n}(零矩阵)\)</span></p></li>
+<li><p><span class="math inline">\(x^\mathrm{H}Ax =
+\mathrm{tr}(Axx^{\mathrm{H}})\)</span> 和 <span
+class="math inline">\(y^{\mathrm{H}}x =
+\mathrm{tr}(xy^{\mathrm{H}})\)</span></p></li>
+<li><p>分块矩阵的迹满足 <span class="math display">\[
+\mathrm{tr}\begin{bmatrix}
+\mathbf{A} &amp; \mathbf{B} \\
+\mathbf{C} &amp; \mathbf{D}
+\end{bmatrix} = \mathrm{tr}(\mathbf{A}) + \mathrm{tr}(\mathbf{D})
+\]</span> 式中, <span class="math inline">\(\mathbf{A} \in C^{m \times
+m}, \mathbf{B} \in C^{m \times n}, \mathbf{C} \in C^{m \times m},
+\mathbf{D} \in C^{n \times n}\)</span></p></li>
+<li><p>矩阵 <span class="math inline">\(A^{\mathrm{H}}A\)</span> 和
+<span class="math inline">\(AA^{\mathrm{H}}\)</span> 的迹相等, 且有
+<span class="math display">\[
+\mathrm{tr}(A^{\mathrm{H}}A) = \mathrm{tr}(AA^{\mathrm{H}}) =
+\sum_{i=1}^{n}\sum_{j=1}^{n}a_{ij}^*a{ji} \tag{5}
+\]</span></p></li>
+<li><p>迹等于特征值之和, 即 <span class="math display">\[
+\mathrm{tr}(A) = \lambda_1 + \lambda_2 + \dots + \lambda_n \tag{6}
+\]</span></p></li>
+<li><p>对于任何正整数 <span class="math inline">\(k\)</span>, 有 <span
+class="math display">\[
+\mathrm{tr}(A^k) = \sum_{i=1}^n\lambda_i^k \tag{7}
+\]</span></p></li>
+</ul>
+<p>式子右边的和称为 <span class="math inline">\(A\)</span> 的诸特征值的
+<span class="math inline">\(k\)</span> 次矩.</p>
+<h2 id="关于迹的不等式">2. 关于迹的不等式</h2>
+<ul>
+<li><p>对于一个复矩阵 <span class="math inline">\(A \in C^{m \times
+n}\)</span>, 有 <span
+class="math inline">\(\mathrm{tr}(A^{\mathrm{H}}A)=\mathrm{tr}(AA^{\mathrm{H}})
+\ge 0\)</span></p></li>
+<li><p>若 <span class="math inline">\(A,B\)</span> 均为 <span
+class="math inline">\(m \times n\)</span> 矩阵, 则 <span
+class="math display">\[
+\mathrm{tr}[(A^{\mathrm{T}}B)^2] \le
+\mathrm{tr}(A^{\mathrm{T}}A)\mathrm{tr}(B^{\mathrm{T}}B) \\
+\mathrm{tr}[(A^{\mathrm{T}}B)^2] \le
+\mathrm{tr}(A^{\mathrm{T}}AB^{\mathrm{T}}B) \\
+\mathrm{tr}[(A^{\mathrm{T}}B)^2] \le
+\mathrm{tr}(AA^{\mathrm{T}}BB^{\mathrm{T}}) \\
+\]</span></p></li>
+<li><p><span class="math inline">\(\mathrm{tr}(A^2) \le
+\mathrm{tr}(A^{\mathrm{T}}A)\)</span></p></li>
+<li><p><span class="math inline">\(\mathrm{tr}[(A+B)(A+B)^{\mathrm{T}}]
+\le
+2[\mathrm{tr}(AA^{\mathrm{T}})+\mathrm{tr}(BB^{\mathrm{T}})]\)</span></p></li>
+<li><p>若 <span class="math inline">\(A\)</span> 和 <span
+class="math inline">\(B\)</span> 为 <span class="math inline">\(m \times
+m\)</span> 对称矩阵, 则 <span class="math inline">\(\mathrm{tr}(AB) \le
+\frac{1}{2}\mathrm{tr}(A^2+B^2)\)</span></p></li>
+</ul>
+<p>一个 <span class="math inline">\(m \times n\)</span> 实矩阵 <span
+class="math inline">\(A\)</span> 的 <span
+class="math inline">\(\mathrm{Frobenius}\)</span> 范数也可利用 <span
+class="math inline">\(m \times m\)</span> 矩阵 <span
+class="math inline">\(A^{\mathrm{T}}A\)</span> 或者 <span
+class="math inline">\(n \times n\)</span> 矩阵 <span
+class="math inline">\(AA^{\mathrm{T}}\)</span> 的迹定义为 <span
+class="math display">\[
+\left \| A \right \|_{\mathrm{F}} = \sqrt{\mathrm{tr}(A^{\mathrm{T}}A)}
+= \sqrt{\mathrm{tr}(AA^{\mathrm{T}})} \tag{8}
+\]</span></p>
+<h1 id="三行列式">三、行列式</h1>
+<h2 id="定义和计算">1. 定义和计算</h2>
+<p>一个 <span class="math inline">\(n \times n\)</span> 的方阵 <span
+class="math inline">\(A\)</span> 的行列式记作 <span
+class="math inline">\(\mathrm{det}(A)\)</span> 或者 <span
+class="math inline">\(|A|\)</span>, 定义为</p>
+<p><span class="math display">\[
+\mathrm{det}(A) = |A| = \begin{vmatrix}
+  a_{11}&amp;  a_{12}&amp;  \cdots&amp; a_{1n}\\
+  a_{21}&amp;  a_{22}&amp;  \cdots&amp; a_{2n}\\
+  \vdots&amp;  \vdots&amp;  &amp; \vdots\\
+  a_{n1}&amp;  a_{n2}&amp;  \cdots&amp; a_{nn}
+\end{vmatrix} \tag{9}
+\]</span></p>
+<p>若 <span class="math inline">\(A = \{ a \} \in C^{1 \times
+1}\)</span>, 则它的行列式由 <span class="math inline">\(\mathrm{det}(A)
+= a\)</span> 给出.</p>
+<p>矩阵 <span class="math inline">\(A\)</span> 去掉第 <span
+class="math inline">\(i\)</span> 行和第 <span
+class="math inline">\(j\)</span> 列后得到的行列式叫元素 <span
+class="math inline">\(a_{ij}\)</span> 的代数余子式, 记作 <span
+class="math inline">\(A_{ij}\)</span>. 当 <span
+class="math inline">\(j=i\)</span> 时, <span class="math inline">\(A_i =
+A_{ii}\)</span> 称为 <span class="math inline">\(A\)</span> 的主子式.
+若令 <span class="math inline">\(A_{ij}\)</span> 是 <span
+class="math inline">\(n \times n\)</span> 矩阵, <span
+class="math inline">\(A\)</span> 删除第 <span
+class="math inline">\(i\)</span> 行和第 <span
+class="math inline">\(j\)</span> 列得到的 <span
+class="math inline">\((n-1) \times (n -1)\)</span> 子矩阵, 则</p>
+<p><span class="math display">\[
+A_{ij} = (-1)^{i+j}\mathrm{det}(A_{ij}) \tag{10}
+\]</span></p>
+<p>一个 <span class="math inline">\(n \times n\)</span>
+矩阵的行列式等于任意行 (或列) 的元素与对应的余子式乘积之和</p>
+<p><span class="math display">\[
+\mathrm{det}(A) = a_{i1}A_{i1} + a_{i2}A_{i2} + \dots + a_{in}A_{in} =
+\sum_{j=1}^{n}a_{ij}(-1)^{i+j}\mathrm{det}(A_{ij}) \tag{11}
+\]</span></p>
+<p>或</p>
+<p><span class="math display">\[
+\mathrm{det}(A) = a_{1j}A_{1j} + a_{2j}A_{2j} + \dots + a_{nj}A_{nj} =
+\sum_{i=1}^{n}a_{ij}(-1)^{i+j}\mathrm{det}(A_{ij}) \tag{12}
+\]</span></p>
+<p>所以行列式计算就是一个递推过程, 当然这也是考试中十分重要的一部分,
+考试中计算行列数通常不超过 4.</p>
+<p>有了行列式我们就可以和其他的知识点连接起来.</p>
+<p>定义 4: 行列式不等于零的矩阵称为非奇异矩阵. 非奇异矩阵 <span
+class="math inline">\(A\)</span> 存在可逆矩阵 <span
+class="math inline">\(A^{-1}\)</span>.</p>
+<h2 id="行列式等式关系">2. 行列式等式关系</h2>
+<ul>
+<li><p>矩阵两行 (或列) 互换位置, 行列式保持不变.</p></li>
+<li><p>矩阵的某行 (或列) 是其他行 (或列) 的线性组合, 则行列式为零.
+特别地, 某行 (或列)与其他行 (或列) 成正比或相等, 抑或某行 (或列)
+全为零.</p></li>
+<li><p><span class="math inline">\(\mathrm{det}(A) =
+\mathrm{det}(A^{\mathrm{T}})\)</span>, 但是 <span
+class="math inline">\(\mathrm{det}(A^{\mathrm{H}}) =
+[\mathrm{det}(A^{\mathrm{T}})]^*\)</span></p></li>
+<li><p>单位矩阵的行列式等于 1, 即 <span
+class="math inline">\(\mathrm{det}(I) = 1\)</span></p></li>
+<li><p>一个 <span class="math inline">\(\mathrm{Hermitian}\)</span>
+矩阵的行列式为实数, 因为 <span class="math inline">\(\mathrm{det}(A) =
+\mathrm{det}(A^{\mathrm{H}}) = \mathrm{det}(A^{\mathrm{T}}) \Rightarrow
+\mathrm{det}(A) = \mathrm{det}(A^*) = [\mathrm{det}(A)]^*\)</span>
+.</p></li>
+<li><p><span class="math inline">\(\mathrm{det}(AB) =
+\mathrm{det}(A)\mathrm{det}(B), \quad A,B \in C^{n \times
+n}\)</span></p></li>
+<li><p>上三角或下三角矩阵 <span class="math inline">\(A\)</span>,
+其行列式为主对角线所有元素乘积. <span
+class="math inline">\(\mathrm{det}(A)=\prod_{i=1}^{n}a_{ii}\)</span>.
+对角矩阵也满足这个条件.</p></li>
+<li><p>给定一个任意常数 (可为复数) <span
+class="math inline">\(c\)</span>, 则 <span
+class="math inline">\(\mathrm{det}(cA) =
+c^n\mathrm{det}(A)\)</span></p></li>
+<li><p>若 <span class="math inline">\(A\)</span> 非奇异, 则 <span
+class="math inline">\(\mathrm{det}(A^{-1}) =
+(\mathrm{det}(A))^{-1}\)</span></p></li>
+<li><p>对于矩阵 <span class="math inline">\(A_{m \times m}, B_{m \times
+n}, C_{n \times m}, D_{n \times n}\)</span>,
+分块矩阵的行列式满足</p></li>
+</ul>
+<p><span class="math display">\[
+A 非奇异 \Leftrightarrow \mathrm{det}\begin{bmatrix}
+  A&amp; B\\
+  C&amp; D
+\end{bmatrix}= \mathrm{det}(A)\mathrm{det}(D - CA^{-1}B)\\
+或\\
+D 非奇异 \Leftrightarrow \mathrm{det}\begin{bmatrix}
+  A&amp; B\\
+  C&amp; D
+\end{bmatrix}= \mathrm{det}(D)\mathrm{det}(A - BD^{-1}C)
+\]</span></p>
+<p>证明方法就是把分块矩阵变成上三角或者下三角矩阵.</p>
+<h2 id="行列式不等式关系">3. 行列式不等式关系</h2>
+<ul>
+<li>若 <span class="math inline">\(A,B\)</span> 都是 <span
+class="math inline">\(m \times n\)</span> 矩阵, 则</li>
+</ul>
+<p><span class="math display">\[
+|\mathrm{det}(A^{\mathrm{H}}B)|^2 \le
+\mathrm{det}(A^{\mathrm{H}}A)\mathrm{det}(B^{\mathrm{H}}B)
+\]</span></p>
+<ul>
+<li>对于 <span class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span>, 有</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{det}(A) \le \prod_{i=1}^{m} \left ( \sum_{j=1}^{m}|a_{ij}|^2
+\right )^{1/2}
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A_{m \times m},B_{m \times n},C_{n
+\times n}\)</span>, 则</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{det}\left ( \begin{bmatrix}
+  A&amp; B\\
+  B^{\mathrm{H}}&amp; C
+\end{bmatrix} \right ) \le \mathrm{det}(A)\mathrm{det}(C)
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A_{m \times m} \neq O_{m \times
+m},B_{m \times n} \neq O_{m \times m}\)</span> 半正定, 则</li>
+</ul>
+<p><span class="math display">\[
+\sqrt[m]{\mathrm{det}(A+B)} \ge \sqrt[m]{\mathrm{det}(A)} +
+\sqrt[m]{\mathrm{det}(B)}
+\]</span></p>
+<ul>
+<li><p>正定阵 <span class="math inline">\(A\)</span>
+的行列式大于零.</p></li>
+<li><p>半正定阵 <span class="math inline">\(A\)</span>
+的行列式大于或等于零.</p></li>
+<li><p>若 <span class="math inline">\(m \times m\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 半正定, 则</p></li>
+</ul>
+<p><span class="math display">\[
+(\mathrm{det}(A))^{1/m} \le \frac{1}{m}\mathrm{det}(A)
+\]</span></p>
+<ul>
+<li>若矩阵 <span class="math inline">\(A_{m \times m},B_{m \times
+n}\)</span> 均半正定, 则</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{det}(A+B) \ge \mathrm{det}(A) + \mathrm{det}(B)
+\]</span></p>
+<ul>
+<li>若矩阵 <span class="math inline">\(A_{m \times m} 正定, B_{m \times
+n}\)</span> 半正定, 则</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{det}(A+B) \ge \mathrm{det}(A)
+\]</span></p>
+<ul>
+<li>若矩阵 <span class="math inline">\(A_{m \times m} 正定, B_{m \times
+n}\)</span> 半负定, 则</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{det}(A+B) \le \mathrm{det}(A)
+\]</span></p>
+<h1 id="四矩阵的秩">四、矩阵的秩</h1>
+<h2 id="秩的定义">1. 秩的定义</h2>
+<p>矩阵的秩常用来判断方程组解的数量.</p>
+<p>定理 1: 在 <span class="math inline">\(p\)</span> 维 (行或列)
+向量的集合之中, 最多存在 <span class="math inline">\(p\)</span>
+个线性无关的 (行或列) 向量.</p>
+<p>定理 2: 矩阵 <span class="math inline">\(A_{m \times n}\)</span>
+的线性无关行数与线性无关列数相同.</p>
+<p>定义 5: 矩阵 <span class="math inline">\(A_{m \times n}\)</span>
+的秩定义为该矩阵中线性无关的行和列的数目.</p>
+<p>由秩的大小, 矩阵方程 <span class="math inline">\(A_{m \times n}x_{n
+\times 1}=b_{m \times 1}\)</span> 分为以下三种类型:</p>
+<ul>
+<li><p>适定方程: 若 <span class="math inline">\(m = n\)</span>, 并且
+<span class="math inline">\(\mathrm{rank}(A)=n\)</span>, 即矩阵非奇异,
+则称矩阵方程 <span class="math inline">\(Ax=b\)</span>
+为适定方程.</p></li>
+<li><p>欠定方程: 若 <span class="math inline">\(m &lt;
+\mathrm{rank}(A)\)</span>, 即独立方程个数小于独立未知参数个数,
+则称矩阵方程 <span class="math inline">\(Ax=b\)</span>
+为欠定方程.</p></li>
+<li><p>超定方程: 若 <span class="math inline">\(m &gt;
+\mathrm{rank}(A)\)</span>, 即独立方程个数大于独立未知参数个数,
+则称矩阵方程 <span class="math inline">\(Ax=b\)</span>
+为超定方程.</p></li>
+</ul>
+<p>矩阵中线性无关的列向量的所有线性组合形成了一个向量空间,
+叫做矩阵的列空间.</p>
+<p>定义 6: 矩阵 <span class="math inline">\(A_{m \times n}\)</span>
+的列空间 <span class="math inline">\(R(A)\)</span>
+的维数定义为该矩阵的秩.</p>
+<p><span class="math display">\[
+r_A = \mathrm{dim}[R(A)] \tag{13}
+\]</span></p>
+<p>等价叙述:</p>
+<ul>
+<li><p><span class="math inline">\(\mathrm{rank}(A) =
+k\)</span></p></li>
+<li><p>存在 <span class="math inline">\(A\)</span> 的 <span
+class="math inline">\(k\)</span> 列且不多于 <span
+class="math inline">\(k\)</span> 列组成一线性无关组</p></li>
+<li><p>存在 <span class="math inline">\(A\)</span> 的 <span
+class="math inline">\(k\)</span> 行且不多于 <span
+class="math inline">\(k\)</span> 行组成一线性无关组</p></li>
+<li><p>存在 <span class="math inline">\(A\)</span> 的一个 <span
+class="math inline">\(k \times k\)</span> 子矩阵具有非零行列式, 且 <span
+class="math inline">\(A\)</span> 的所有 <span
+class="math inline">\((k+1) \times (k+1)\)</span>
+子矩阵都具有零行列式.</p></li>
+<li><p>列空间 <span class="math inline">\(R(A)\)</span> 的维数等于 <span
+class="math inline">\(k\)</span></p></li>
+<li><p><span class="math inline">\(k = n -
+\mathrm{dim}[\mathrm{Null}(A)]\)</span>, 其中 <span
+class="math inline">\(\mathrm{Null}\)</span> 表示矩阵 <span
+class="math inline">\(A\)</span> 的零空间.</p></li>
+</ul>
+<p>定理 3: 令 <span class="math inline">\(r_A =
+\mathrm{rank}(A)\)</span> 和 <span class="math inline">\(r_B =
+\mathrm{rank}(B)\)</span>, 则乘积矩阵 <span
+class="math inline">\(AB\)</span> 的秩 <span
+class="math inline">\(r_{AB} = \mathrm{rank}(AB)\)</span> 满足不等式</p>
+<p><span class="math display">\[
+r_{AB} \le \mathrm{min}\{ r_A,r_B \} \tag{14}
+\]</span></p>
+<p>引理1: 在矩阵左乘或者右乘一个可逆矩阵, 矩阵的秩不变.</p>
+<p>引理2: <span class="math inline">\(\mathrm{rank}[A,B] \le
+\mathrm{rank}(A) + \mathrm{rank}(B)\)</span></p>
+<p>引理3: <span class="math inline">\(\mathrm{rank}(A+B) \le
+\mathrm{rank}[A,B] \le \mathrm{rank}(A) + \mathrm{rank}(B)\)</span></p>
+<p>引理4: <span class="math inline">\(\mathrm{rank}(A+B) \le
+\mathrm{rank}[A,B] \le \mathrm{rank}(A) + \mathrm{rank}(B)\)</span></p>
+<p>引理5: 对于 <span class="math inline">\(m \times n\)</span> 矩阵
+<span class="math inline">\(A\)</span> 和 <span class="math inline">\(n
+\times q\)</span> 矩阵 <span class="math inline">\(B\)</span>, 秩不等式
+<span class="math inline">\(\mathrm{rank}(AB) \ge \mathrm{rank}(A) +
+\mathrm{rank}(B) - n\)</span> 成立.</p>
+<h2 id="秩的性质">2. 秩的性质</h2>
+<ul>
+<li><p>秩是一个正整数</p></li>
+<li><p>秩小于或等于矩阵的行数或列数</p></li>
+<li><p>当 <span class="math inline">\(n \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 的秩等于 <span
+class="math inline">\(n\)</span> 时, <span
+class="math inline">\(A\)</span> 满秩, 可逆.</p></li>
+<li><p>若 <span class="math inline">\(\mathrm{rank}(A_{m \times n}) &lt;
+\mathrm{min}\{m,n\}\)</span>, 则 <span class="math inline">\(A\)</span>
+秩亏缺, 一个亏缺的方阵叫做奇异矩阵, 不可逆.</p></li>
+<li><p>若 <span class="math inline">\(\mathrm{rank}(A_{m \times n}) =
+m(&lt;n)\)</span>, 则 <span class="math inline">\(A\)</span>
+满行秩.</p></li>
+<li><p>若 <span class="math inline">\(\mathrm{rank}(A_{m \times n}) =
+n(&lt;m)\)</span>, 则 <span class="math inline">\(A\)</span>
+满列秩.</p></li>
+<li><p>任何矩阵 <span class="math inline">\(A\)</span>
+左乘满行秩或右称一个满列秩矩阵后, 矩阵 <span
+class="math inline">\(A\)</span> 的秩保存不变.</p></li>
+<li><p>当矩阵的秩 <span class="math inline">\(\mathrm{rank}(A_{m \times
+n}) = r \neq 0\)</span> 时, 至少存在一个 <span class="math inline">\(r
+\times r\)</span> 子矩阵 <span class="math inline">\(X_{r \times
+r}\)</span> 满秩或非奇异.</p></li>
+</ul>
+<h2 id="秩的等式">3. 秩的等式</h2>
+<ul>
+<li><p>若 <span class="math inline">\(A \in C^{m \times n}\)</span>, 则
+<span
+class="math inline">\(\mathrm{rank}(A^{\mathrm{H}})=\mathrm{rank}(A^{\mathrm{T}})=\mathrm{rank}(A^*)
+= \mathrm{rank}(A)\)</span></p></li>
+<li><p>若 <span class="math inline">\(A \in C^{m \times n}\)</span> 和
+<span class="math inline">\(c \neq 0\)</span>, 则 <span
+class="math inline">\(\mathrm{rank}(cA)=\mathrm{rank}(A)\)</span></p></li>
+<li><p>若 <span class="math inline">\(A \in C^{m \times m}\)</span> 和
+<span class="math inline">\(C \in C^{n \times n}\)</span> 均非奇异,
+则对于任意一矩阵 <span class="math inline">\(B \in C^{m \times
+n}\)</span> 有 <span
+class="math inline">\(\mathrm{rank}(AB)=\mathrm{rank}(B)=\mathrm{rank}(BC)=\mathrm{rank}(ABC)\)</span></p></li>
+<li><p>若 <span class="math inline">\(A,B \in C^{m \times m}\)</span>,
+则 <span
+class="math inline">\(\mathrm{rank}(A)=\mathrm{rank}(B)\)</span>
+当且仅当存在非奇异矩阵 <span class="math inline">\(X \in C^{m \times
+m}\)</span> 和 <span class="math inline">\(Y \in C^{n \times n}\)</span>
+使得 <span class="math inline">\(B = XAY\)</span></p></li>
+<li><p>若 <span class="math inline">\(A \in C^{m \times n}\)</span>
+则</p></li>
+</ul>
+<p><span class="math display">\[
+\mathrm{rank}(AA^{\mathrm{T}})=\mathrm{rank}(A^{\mathrm{T}}A) -
+\mathrm{rank}(A)
+\]</span></p>
+<p><span class="math display">\[
+\mathrm{rank}(AA^{\mathrm{H}})=\mathrm{rank}(A^{\mathrm{H}}A) -
+\mathrm{rank}(A)
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A \in C^{m \times n}\)</span> 则</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{rank}(A)=m \Leftrightarrow \mathrm{det}(A) \neq 0
+\Leftrightarrow A 非奇异
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(m \times m\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 非奇异, 且 <span
+class="math inline">\(B \in C^{m \times n}, C \in C^{n \times m}, D \in
+C^{n \times n}\)</span>, 则</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{rank}\begin{bmatrix}
+  A&amp; B\\
+  C&amp; D
+\end{bmatrix} = m \Leftrightarrow D = CA^{-1}B
+\]</span></p>
+<h2 id="秩的不等式">4. 秩的不等式</h2>
+<ul>
+<li><p>对于任意 <span class="math inline">\(m \times n\)</span> 矩阵
+<span class="math inline">\(A\)</span> 有 <span
+class="math inline">\(\mathrm{rank}(A) \le
+\mathrm{min}\{m,n\}\)</span></p></li>
+<li><p>若 <span class="math inline">\(A,B \in C^{m \times n}\)</span>,
+则 <span class="math inline">\(\mathrm{rank}(A+B) \le \mathrm{rank}(A) +
+\mathrm{rank}(B)\)</span></p></li>
+<li><p>若 <span class="math inline">\(A \in C^{m \times k}\)</span> 和
+<span class="math inline">\(B \in C^{k \times n}\)</span>, 则</p></li>
+</ul>
+<p><span class="math display">\[
+\mathrm{rank}(A) + \mathrm{rank}(B) - k \le \mathrm{rank}(AB) \le
+\mathrm{min}\{\mathrm{rank}(A),\mathrm{rank}(B)\}
+\]</span></p>
+<ul>
+<li>在任意矩阵中删去某些行与 (或) 某些列,
+则所得子矩阵的秩不可能大于原矩阵的秩.</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="category-chain-item">线性代数</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/" class="category-chain-item">矩阵分析与应用</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%9F%A9%E9%98%B5/" class="print-no-link">#矩阵</a>
+      
+        <a href="/tags/Linear-Algebra/" class="print-no-link">#Linear Algebra</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/7c6bed7/" title="矩阵分析与应用-1.7-逆矩阵">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">矩阵分析与应用-1.7-逆矩阵</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/ccfee0eb/" title="矩阵分析与应用-1.5-基与Gram-Schmidt正交化">
+                        <span class="hidden-mobile">矩阵分析与应用-1.5-基与Gram-Schmidt正交化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

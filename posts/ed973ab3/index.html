@@ -1,0 +1,1262 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 之前说的逆矩阵都是在方阵的条件下进行讨论的, 然后这部分内容将方阵推广到一般矩阵. 一、左逆矩阵与右逆矩阵 1. 左逆矩阵与右逆矩阵的存在性 从广义角度来讲, 对于任意矩阵 \(A\), 只要有一个矩阵 \(L\) 使得 \(LA&#x3D;I\), 那么矩阵 \(L\) 就是 \(A\) 的逆矩阵. 那么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵分析与应用-1.8-广义逆矩阵">
+<meta property="og:url" content="http://yoursite.com/posts/ed973ab3/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 之前说的逆矩阵都是在方阵的条件下进行讨论的, 然后这部分内容将方阵推广到一般矩阵. 一、左逆矩阵与右逆矩阵 1. 左逆矩阵与右逆矩阵的存在性 从广义角度来讲, 对于任意矩阵 \(A\), 只要有一个矩阵 \(L\) 使得 \(LA&#x3D;I\), 那么矩阵 \(L\) 就是 \(A\) 的逆矩阵. 那么">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+<meta property="article:published_time" content="2022-06-08T01:21:26.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.682Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="矩阵">
+<meta property="article:tag" content="Linear Algebra">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>矩阵分析与应用-1.8-广义逆矩阵 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">矩阵分析与应用-1.8-广义逆矩阵</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-08 09:21" pubdate>
+          2022年6月8日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          72 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">矩阵分析与应用-1.8-广义逆矩阵</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言">前言</h1>
+<p>本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 <a
+target="_blank" rel="noopener" href="https://zh.zlib.life">z-lib</a> 下载.</p>
+<p>之前说的逆矩阵都是在方阵的条件下进行讨论的,
+然后这部分内容将方阵推广到一般矩阵.</p>
+<h1 id="一左逆矩阵与右逆矩阵">一、左逆矩阵与右逆矩阵</h1>
+<h2 id="左逆矩阵与右逆矩阵的存在性">1. 左逆矩阵与右逆矩阵的存在性</h2>
+<p>从广义角度来讲, 对于任意矩阵 <span class="math inline">\(A\)</span>,
+只要有一个矩阵 <span class="math inline">\(L\)</span> 使得 <span
+class="math inline">\(LA=I\)</span>, 那么矩阵 <span
+class="math inline">\(L\)</span> 就是 <span
+class="math inline">\(A\)</span> 的逆矩阵. 那么 <span
+class="math inline">\(L\)</span> 存在着三种情况.</p>
+<ul>
+<li><p><span class="math inline">\(L\)</span> 存在且唯一</p></li>
+<li><p><span class="math inline">\(L\)</span> 存在但不唯一</p></li>
+<li><p><span class="math inline">\(L\)</span> 不存在</p></li>
+</ul>
+<p>定义 1: 满足 <span class="math inline">\(LA = I\)</span>, 但不满足
+<span class="math inline">\(AL=I\)</span> 的矩阵 <span
+class="math inline">\(L\)</span> 称为矩阵 <span
+class="math inline">\(A\)</span> 的左逆矩阵. 同理, 满足 <span
+class="math inline">\(AR=I\)</span>, 但不满足 <span
+class="math inline">\(RA=I\)</span> 的矩阵称为矩阵 <span
+class="math inline">\(A\)</span> 的右逆矩阵.</p>
+<p>定理 1: 仅当 <span class="math inline">\(m \ge n\)</span> 时, 矩阵
+<span class="math inline">\(A \in C^{m \times n}\)</span>
+可能有左逆矩阵. (证明方法是把矩阵转换成分块矩阵)</p>
+<p>定理 2: 仅当 <span class="math inline">\(m \le n\)</span> 时, 矩阵
+<span class="math inline">\(A \in C^{m \times n}\)</span>
+可能有右逆矩阵. (证明方法同定理 1 类似)</p>
+<p>特别地, 方阵的左逆矩阵和右逆矩阵相等, 那么这个方阵就是非奇异的.
+它的逆矩阵即使左逆矩阵, 又是右逆矩阵.</p>
+<h2 id="左逆矩阵与右逆矩阵的唯一解">2. 左逆矩阵与右逆矩阵的唯一解</h2>
+<p>对给定的 <span class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span>, 考察 <span class="math inline">\(m
+&gt; n\)</span> 且 <span class="math inline">\(A\)</span> 具有满列秩
+(<span class="math inline">\(\mathrm{rank}A=n\)</span>) 的情况.
+易得,</p>
+<p><span class="math display">\[
+L=(A^{\mathrm{H}}A)^{-1}A^{\mathrm{H}} \tag{1}
+\]</span></p>
+<p>满足左逆矩阵的定义 <span class="math inline">\(LA=I\)</span>,
+这种左逆矩阵是唯一的, 常称为左伪逆矩阵.</p>
+<p>考察 <span class="math inline">\(m &lt; n\)</span> 且 <span
+class="math inline">\(A\)</span> 具有满行秩 (<span
+class="math inline">\(\mathrm{rank}A=m\)</span>) 的情况. 此时, <span
+class="math inline">\(m \times m\)</span> 矩阵 <span
+class="math inline">\(AA^{\mathrm{H}}\)</span> 是可逆的, 定义</p>
+<p><span class="math display">\[
+R = A^{\mathrm{H}}(AA^{\mathrm{H}})^{-1} \tag{2}
+\]</span></p>
+<p>满足右逆矩阵的定义 <span class="math inline">\(AR=I\)</span>,
+这种右逆矩阵是唯一的, 常称为右伪逆矩阵.</p>
+<p>左伪逆矩阵与超定方程的最小二乘解密切相关,
+而右伪逆矩阵则与欠定方程的最小二乘和最小范数解密切联系.</p>
+<h1 id="二广义逆矩阵的定义及性质">二、广义逆矩阵的定义及性质</h1>
+<h2 id="一致性方程">1. 一致性方程</h2>
+<p>一致性方程：</p>
+<p>定义 2: 若矩阵 <span class="math inline">\(A\)</span>
+行之间存在的线性关系同时也存在于向量 <span
+class="math inline">\(y\)</span> 的对应元素之间, 则称 <span
+class="math inline">\(A_{m \times n}x_{n \times 1}=y_{m \times
+1}\)</span> 为一致性方程.</p>
+<p>定理 3: 当且仅当方程为一致性方程时, 这线性方程组可以求解.</p>
+<p>定理 4: 线性方程 <span class="math inline">\(Ax=y\)</span> 是一致的,
+当且仅当增广矩阵 <span class="math inline">\([A,y]\)</span> 的秩等于矩阵
+A 的秩, 即：</p>
+<p><span class="math display">\[
+rank([A,y]) = rank(A)
+\]</span></p>
+<h2 id="广义逆矩阵-g">2. 广义逆矩阵 <span
+class="math inline">\(G\)</span></h2>
+<p>广义逆矩阵 <span class="math inline">\(G\)</span>:</p>
+<p>定义 3: 若 <span class="math inline">\(A\)</span> 是一个 <span
+class="math inline">\(m \times n\)</span> 矩阵, 且具有任意秩. 即矩阵
+<span class="math inline">\(A\)</span> 的广义逆矩阵是一个 <span
+class="math inline">\(n \times m\)</span> 矩阵 <span
+class="math inline">\(G\)</span>, 并且使得当 <span
+class="math inline">\(Ax = y\)</span> 为一致性方程时, <span
+class="math inline">\(x = Gy\)</span> 是线性方程 <span
+class="math inline">\(Ax=y\)</span> 的解.</p>
+<p>定理 5: 当且仅当 <span class="math inline">\(AGA = A\)</span>时,
+一致性方程 <span class="math inline">\(Ax = y\)</span> 对于 <span
+class="math inline">\(y \neq 0\)</span> 有解 <span
+class="math inline">\(x = Gy\)</span>.</p>
+<p>命题 1: 方程 <span class="math inline">\(Ax=0\)</span>
+的解与矩阵A的任意行正交, 并且线性无关.</p>
+<p>证明:</p>
+<p>我们知道 <span class="math inline">\(Ax=0\)</span> 是一个一致性方程,
+即矩阵 <span class="math inline">\(A\)</span> 之中行之间的关系存在于 0
+向量中. 线性方程也一定是有解的. 用 <span
+class="math inline">\(a^T\)</span> 表示矩阵中的任意一行, <span
+class="math inline">\(\tilde{x}\)</span> 表示方程的一个解,即有 <span
+class="math inline">\(a^T \tilde{x}=0\)</span>, 即解与 <span
+class="math inline">\(A\)</span> 中任意一行正交.</p>
+<p><span class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 的广义逆矩阵 <span
+class="math inline">\(G\)</span> 用符号 <span
+class="math inline">\(A^-\)</span> 表示, 即 <span
+class="math inline">\(G = A^-\)</span></p>
+<p>引理 1: <span class="math inline">\(A^-\)</span> 存在 <span
+class="math inline">\(\Leftrightarrow AA^-A=A\)</span></p>
+<p>证明 :</p>
+<p><span class="math inline">\(\Rightarrow\)</span> 的证明</p>
+<p>令 <span class="math inline">\(y = Az\)</span> 且 <span
+class="math inline">\(z\)</span> 是一个 <span class="math inline">\(n
+\times 1\)</span> 的任意向量, 即有 <span class="math inline">\(Ax =
+y\)</span> 是一致性方程.</p>
+<p>在这里, 广义逆矩阵 <span class="math inline">\(A^-\)</span> 存在的话,
+就意味着:</p>
+<p><span class="math display">\[
+A(A^-Az) = A(A^- y) = Az , \quad \forall z \quad \Rightarrow AA^-A=A
+\]</span></p>
+<p><span class="math inline">\(\Leftarrow\)</span> 的证明</p>
+<p>若 <span class="math inline">\(AGA = A\)</span>, 我们需要证明 <span
+class="math inline">\(G\)</span> 就是矩阵 <span
+class="math inline">\(A\)</span> 的广义逆矩阵 <span
+class="math inline">\(A^-\)</span></p>
+<p>若 <span class="math inline">\(Ax = y\)</span> 是一致性方程, 则 <span
+class="math inline">\(\exists\)</span> 解向量 <span
+class="math inline">\(w\)</span> 满足 <span class="math inline">\(Aw =
+y\)</span> 。</p>
+<p>由于 <span class="math inline">\(AGA = A\)</span>, 即 <span
+class="math inline">\(AGAw = Aw \Rightarrow AGy = Aw = y\)</span>.
+即我们看到 <span class="math inline">\(Gy\)</span> 满足线性方程 <span
+class="math inline">\(Ax = y\)</span>.</p>
+<p>即 $ Gy $ 是 $ Ax = y $ 的一个解向量，即 $ G = A^- $</p>
+<p>引理 2: 下面结论为真</p>
+<ul>
+<li><p><span class="math inline">\(A^-\)</span> 存在 <span
+class="math inline">\(\Leftrightarrow H=A^-A\)</span> 为幂等矩阵 (即
+<span class="math inline">\(H^2 = H\)</span>) 和 <span
+class="math inline">\(\mathrm{rank}(H)=\mathrm{rank}(A)\)</span>.</p></li>
+<li><p><span class="math inline">\(A^-\)</span> 存在 <span
+class="math inline">\(\Leftrightarrow F=AA^-\)</span> 为幂等矩阵 (即
+<span class="math inline">\(F^2 = F\)</span>) 和 <span
+class="math inline">\(\mathrm{rank}(F)=\mathrm{rank}(A)\)</span>.</p></li>
+</ul>
+<p>而对于 <span class="math inline">\(\Rightarrow\)</span> 的证明:</p>
+<p>这个我们用上面的 <span class="math inline">\(AA^-A = A\)</span>
+同时左乘一个 <span class="math inline">\(A^-\)</span> 即可证明 <span
+class="math inline">\(H^2 = H\)</span></p>
+<p>而矩阵性质: <span class="math inline">\(\mathrm{rank}(AB) \leq
+\mathrm{rank}(A)\)</span> 或者 <span
+class="math inline">\(\mathrm{rank}(AB) \leq \mathrm{rank}(B)\)</span>
+，</p>
+<p>又有 <span class="math inline">\(H = A^-A\)</span> 以及 <span
+class="math inline">\(AH = AA^-A = A\)</span></p>
+<p>即我们有: <span class="math inline">\(\mathrm{rank}(A) \geq
+\mathrm{rank}(H) \geq \mathrm{rank}(AH) \geq
+\mathrm{rank}(A)\)</span></p>
+<p>得证 <span class="math inline">\(\mathrm{rank}(H) =
+\mathrm{rank}(A)\)</span></p>
+<p>而对于 <span class="math inline">\(\Leftarrow\)</span> 的证明:</p>
+<p>我们假定 <span class="math inline">\(H = A^-A\)</span> 是幂等矩阵, 且
+<span
+class="math inline">\(\mathrm{rank}(H)=\mathrm{rank}(A)\)</span></p>
+<p>即我们有 <span class="math inline">\(H(I-H) = O \Rightarrow A^-
+A(I-A^-A) = O \Rightarrow A(I-A^-A) = O \Rightarrow AA^-A =
+A\)</span></p>
+<p>类似可证明另一个结论.</p>
+<h2 id="广义逆矩阵的其他两种定义">3. 广义逆矩阵的其他两种定义</h2>
+<p>定义 4: <span class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 的广义逆矩阵是一个满足</p>
+<p><span class="math display">\[
+AA^-A = A
+\]</span></p>
+<p>的 <span class="math inline">\(n \times m\)</span> 矩阵 <span
+class="math inline">\(A^-\)</span>.</p>
+<p>定义 5: <span class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 的广义逆矩阵是满足下列两个条件之一的
+<span class="math inline">\(n \times m\)</span> 的矩阵 <span
+class="math inline">\(A^-\)</span></p>
+<ul>
+<li><span class="math inline">\(A^-A\)</span> 为幂等矩阵, 且 <span
+class="math inline">\(\mathrm{rank}(A^-A) =
+\mathrm{rank}(A)\)</span></li>
+<li><span class="math inline">\(AA^-\)</span> 为幂等矩阵, 且 <span
+class="math inline">\(\mathrm{rank}(AA^-) =
+\mathrm{rank}(A)\)</span></li>
+</ul>
+<p>验证:</p>
+<p>若矩阵 <span class="math inline">\(A_{m \times n}\)</span>
+有一个主子矩阵 <span class="math inline">\(A_{11}\)</span> 且其秩 <span
+class="math inline">\(r = \mathrm{rank}(A)\)</span>, 且 <span
+class="math inline">\(A\)</span> 的分块形式为:</p>
+<p><span class="math display">\[
+A = \begin{bmatrix}
+  A_{11} &amp; A_{12} \\
+  A_{21} &amp; A_{22} \\
+\end{bmatrix} , \qquad 且 \ A_{22} = A_{21}A^{-1}_{11}A_{12}
+\]</span></p>
+<p>则其广义逆矩阵 <span class="math inline">\(A^{-}\)</span> 为：</p>
+<p><span class="math display">\[
+A^{-} = \begin{bmatrix}
+  A_{11}^{-1} &amp; O \\
+  O &amp; O \\
+\end{bmatrix}
+\]</span></p>
+<h1 id="三广义逆矩阵的计算">三、广义逆矩阵的计算</h1>
+<h2 id="满秩分解">1. 满秩分解</h2>
+<p>定义 6: 令 <span class="math inline">\(A_{m \times n}\)</span> 具有秩
+<span class="math inline">\(r\)</span>. 将其分解为 <span
+class="math inline">\(A = FG\)</span>, 其中 <span
+class="math inline">\(F_{m \times r}\)</span> 和 <span
+class="math inline">\(G_{r \times n}\)</span> 均具有秩 <span
+class="math inline">\(r\)</span>, 则称这是矩阵的满秩分解.</p>
+<p>我们可以通过矩阵的相似对角化去证明出来.</p>
+<p>为此我们得到了满秩分解算法:</p>
+<ul>
+<li>利用初等行变换将矩阵 <span class="math inline">\(A\)</span>
+化为阶梯形:</li>
+</ul>
+<p><span class="math display">\[
+\begin{bmatrix}
+  G_{r \times n} \\
+  O_{(m-r) \times n} \\
+\end{bmatrix}
+\]</span></p>
+<ul>
+<li><p>对单位矩阵 <span class="math inline">\(I\)</span>
+进行第一步的逆初等行变换得到 <span
+class="math inline">\(P^{-1}\)</span></p></li>
+<li><p>利用 <span class="math inline">\(P^{-1}\)</span> 的前 <span
+class="math inline">\(r\)</span> 列构造矩阵 <span
+class="math inline">\(F\)</span></p></li>
+<li><p>书写满秩分解结果 <span class="math inline">\(A =
+FG\)</span></p></li>
+</ul>
+<p>引理 3: 若矩阵 <span class="math inline">\(A_{m \times n}\)</span>
+具有秩 <span class="math inline">\(r\)</span>, 且其满秩分解为 <span
+class="math inline">\(A = F_{m \times r}G_{r \times n}\)</span>,
+则我们知道其广义逆矩阵为:</p>
+<p><span class="math display">\[
+A^- = G^T(F^TAG^T)^{-1}F^T \tag{3}
+\]</span></p>
+<p>证明也很简单, 带入 <span class="math inline">\(AA^-A = A\)</span>
+就能证明了.</p>
+<h2 id="广义逆矩阵的计算">2. 广义逆矩阵的计算</h2>
+<ul>
+<li>假设 <span class="math inline">\(A_{m \times n}\)</span>, 且 <span
+class="math inline">\(u_{m \times 1 }\)</span> 和 <span
+class="math inline">\(v_{n \times 1}\)</span> 是两个一维向量, 则有:</li>
+</ul>
+<p><span class="math display">\[
+(A + uv^T)^- = A^- - \frac{(A^-u)(u^TA^-)}{1 + u^TA^-u} \tag{4}
+\]</span></p>
+<ul>
+<li><p>分块矩阵的广义逆矩阵计算公式:</p>
+<p>若</p>
+<p><span class="math display">\[
+M = \begin{bmatrix}
+  A &amp; C \\
+  C^H &amp; B \\
+\end{bmatrix} \tag{5}
+\]</span></p>
+<p>其中 <span class="math inline">\(A = X^H_1X_1\)</span>, <span
+class="math inline">\(B = X^H_2X_2\)</span>, <span
+class="math inline">\(C = X^H_1X_2\)</span>, 若设 <span
+class="math inline">\(D = B - C^H A^-C\)</span>, 则我们有 <span
+class="math inline">\(M^-\)</span>:</p>
+<p><span class="math display">\[
+M^- = \begin{bmatrix}
+  A^- + A^-CD^-C^HA^- &amp; -A^-CD^- \\
+  -D^-C^HA^- &amp; D^- \\
+\end{bmatrix} \tag{6}
+\]</span></p></li>
+<li><p>矩阵之和的广义逆矩阵的计算公式：</p>
+<p>若 <span class="math inline">\(AA^-UBV = UBV\)</span> (即 <span
+class="math inline">\(UBV\)</span> 的列空间是 <span
+class="math inline">\(A\)</span> 的列空间的子集) 与 <span
+class="math inline">\(UBVA^-A = UBV\)</span> (即 <span
+class="math inline">\(UBV\)</span> 的行空间是 <span
+class="math inline">\(A\)</span> 的行空间的子集), 则我们有 <span
+class="math inline">\(G = A + UBV\)</span> 的广义逆矩阵 <span
+class="math inline">\(G^-\)</span> 存在几种求法:</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+G^-_1 &amp;= A^- -A^-(A^- + A^-UBVA^-)^-A^-UBVA^- \\
+G^-_2 &amp;= A^- -A^-U(U + UBVA^-U)^-UBVA^- \\
+G^-_3 &amp;= A^- -A^-UB(B + BVA^-UB)^-BVA^- \\
+G^-_4 &amp;= A^- -A^-UBV(V + VA^-UBV)^-VA^- \\
+G^-_5 &amp;= A^- -A^-UBVA^-(A^- + A^-UBVA^-)^-A^- \\
+\end{aligned}
+\]</span></p>
+<h1 id="四一致方程的最小范数解">四、一致方程的最小范数解</h1>
+<h2 id="通解">1. 通解</h2>
+<p>定理 6: 若 <span class="math inline">\(n \times m\)</span> 矩阵 <span
+class="math inline">\(A^-\)</span> 是　<span class="math inline">\(A_{m
+\times n}\)</span> 的任意一个广义逆矩阵, 则有:</p>
+<ul>
+<li><p>齐次方程 <span class="math inline">\(Ax = 0\)</span> 的一个通解是
+<span class="math inline">\(x = (I-A^-A)z\)</span>, 其中 <span
+class="math inline">\(z\)</span> 是任意的 <span class="math inline">\(n
+\times 1\)</span> 的向量 (容易证明吧, 和上面引理 2 思想一样)</p></li>
+<li><p>非齐次方程 <span class="math inline">\(Ax = y\)</span>
+为一致方程的充要条件为:</p></li>
+</ul>
+<p><span class="math display">\[
+AA^-y = y \tag{7}
+\]</span></p>
+<ul>
+<li><p>非齐次方程 $ Ax = y $ 的一个通解为：</p>
+<p><span class="math display">\[
+x = A^-y + (I-A^-A)z \tag{8}
+\]</span></p>
+<p>式中, <span class="math inline">\(z\)</span> 为 <span
+class="math inline">\(n \times 1\)</span> 任意向量.</p></li>
+</ul>
+<h2 id="最小范数解">2. 最小范数解</h2>
+<p>对一个一致方程 <span class="math inline">\(Ax=y\)</span></p>
+<p>最小范数条件:</p>
+<p><span class="math display">\[
+\min_{Ax = y} \lVert x \rVert = \lVert Gy \rVert \tag{9}
+\]</span></p>
+<p>此时称矩阵 <span class="math inline">\(G\)</span>
+为最小范数广义逆矩阵</p>
+<h2 id="伴随矩阵-区别于常规的伴随矩阵">3. 伴随矩阵
+(区别于常规的伴随矩阵)</h2>
+<p>为此我们定义 <span class="math inline">\(A_{m \times n}\)</span>
+伴随矩阵的符号为 <span class="math inline">\(A_{n \times
+m}^{\sharp}\)</span> , 且有两向量 <span class="math inline">\(x_{n
+\times 1},y_{m \times 1}\)</span>. <span class="math inline">\(\langle
+Ax,y \rangle\)</span> 是 <span class="math inline">\(m\)</span>
+阶向量空间的内积, 记作 <span class="math inline">\(\langle Ax,y
+\rangle_m\)</span> . 而我们定义将 <span class="math inline">\(m\)</span>
+阶向量空间的内积等价变换为 <span class="math inline">\(n\)</span>
+阶向量的内积的一个映射:</p>
+<p><span class="math display">\[
+\langle Ax,y \rangle _m = \langle x,A^{\sharp}y \rangle _n \tag{10}
+\]</span></p>
+<p>此外如果 <span class="math inline">\(A^{\sharp} = A\)</span> ,
+我们称其为自伴随矩阵. (当然, 我们一般更熟悉他的另一个名字 <span
+class="math inline">\(\mathrm{Hermitian}\)</span>)</p>
+<p>这里的伴随矩阵和之前我们说的 (比如在逆矩阵一节里那个) <span
+class="math inline">\(\mathrm{adj}\)</span> 定义有所不同.</p>
+<p>在此，还有些性质:</p>
+<ul>
+<li><span class="math inline">\((A^{\sharp}) ^{\sharp} = A\)</span></li>
+<li><span class="math inline">\((AB)^{\sharp} = B^{\sharp}
+A^{\sharp}\)</span></li>
+<li><span class="math inline">\(\langle Ax,By \rangle , \forall x,y
+\Leftrightarrow A^{\sharp}B = 0\)</span></li>
+<li><span class="math inline">\(A^{\sharp} = A^T\)</span> (<span
+class="math inline">\(A\)</span> 为实矩阵) 或 <span
+class="math inline">\(A^{\sharp} = A^H\)</span> (<span
+class="math inline">\(A\)</span> 为复矩阵)</li>
+</ul>
+<h2 id="最小范数解的求取">4. 最小范数解的求取</h2>
+<p>定理 7: 若 <span class="math inline">\(Gy\)</span> 是一致方程 <span
+class="math inline">\(Ax = y\)</span> 的最小范数解, 当且仅当:</p>
+<p><span class="math display">\[
+AGA=A ,\quad (GA)^{\sharp} = GA \tag{11}
+\]</span></p>
+<p>前一个条件很容易就能看出来, 是定义所决定的.</p>
+<p>至于第二个条件, 我们已经知道通解是 <span class="math inline">\(x =
+A^-y + (I-A^-A)z\)</span>, 即 <span class="math inline">\(x = Gy +
+(I-GA)z\)</span> ( 由定理 6 可得 ), 我们只需证明:</p>
+<p><span class="math display">\[
+\lVert Gy \rVert \leq \lVert Gy + (I-GA)z \rVert , \quad \forall z
+\]</span></p>
+<p>或者：</p>
+<p><span class="math display">\[
+\begin{aligned}
+  &amp; \lVert GAb \rVert \leq \lVert GAb + (I-GA)z \rVert , \quad
+\forall b,z \\
+  \Leftrightarrow &amp; \langle GAb,(I-GA)z \rangle = 0 , \quad \forall
+b,z \\ \Leftrightarrow &amp; (GA)^{\sharp}(I-GA) = O \\
+  \Leftrightarrow &amp; (GA)^{\sharp} = (GA)^{\sharp}GA \\
+\end{aligned}
+\]</span></p>
+<p>因为我们最后要得到 <span class="math inline">\((GA)^{\sharp} =
+GA\)</span> , 即我们易知:</p>
+<p><span class="math display">\[
+(GA)^{\sharp}GA = GAGA = GA = (GA)^{\sharp}
+\]</span></p>
+<p>使用 <span class="math inline">\(AGA = A\)</span>, 易知</p>
+<p><span class="math display">\[
+(GA)^{\sharp}GA=GA \Rightarrow GAGA \neq GA \Rightarrow GA  \neq GA
+\]</span></p>
+<p>这样就使用了反证法得出结果.</p>
+<h2 id="注释">5. 注释</h2>
+<p>关于最小范数解还有两点需要强调的:</p>
+<ul>
+<li><p>充要条件 <span class="math inline">\(AGA = A , \quad
+(GA)^{\sharp} = GA\)</span> , 我们能够写成等价形式 <span
+class="math inline">\(GAA^{\sharp} = A^{\sharp}\)</span></p></li>
+<li><p>令 <span class="math inline">\(G_1,G_2\)</span> 是矩阵 <span
+class="math inline">\(A\)</span> 的两个不同的广义逆矩阵, 由上得知 <span
+class="math inline">\(G_iAA^{\sharp} = A^{\sharp}\)</span>,
+即有:</p></li>
+</ul>
+<p><span class="math display">\[
+(G_1-G_2)AA^{\sharp} = O \Leftrightarrow (G_1-G_2)AA^{\sharp} = O
+\Leftrightarrow G_1A = G_2A
+\]</span></p>
+<p>由于 <span class="math inline">\(Ax = y\)</span> 是一致方程, 即有
+<span class="math inline">\(\mathrm{rank}([A, y]) =
+\mathrm{rank}(A)\)</span> , 我们因此可以将 <span
+class="math inline">\(y\)</span> 写作 <span
+class="math inline">\(Ab\)</span> , 其中 <span
+class="math inline">\(b\)</span> 是一个非零向量 , 即有：</p>
+<p><span class="math display">\[
+G_1Ab=G_2Ab \Rightarrow G_1y = G_2y
+\]</span></p>
+<p>我们可以看到最小范数解是唯一的.</p>
+<h2 id="特别情况">6. 特别情况</h2>
+<p>我们讨论 <span class="math inline">\(A_{m \times n}\)</span>
+具有满行秩 <span class="math inline">\(m\)</span> 时, 线性方程 <span
+class="math inline">\(Ax = y\)</span> 的最小范数解.</p>
+<p>我们知道 <span class="math inline">\(A\)</span> 满行秩,
+即是有增广矩阵 <span class="math inline">\(\mathrm{rank}([A, y]) =
+\mathrm{rank}(A)\)</span> , 即线性方程 <span class="math inline">\(Ax =
+y\)</span> 是一致方程. 此外, 又因为矩阵乘积 <span
+class="math inline">\(AA^H\)</span> 可逆, 故存在右伪逆矩阵 <span
+class="math inline">\(A^H (A A^H) ^{-1}\)</span></p>
+<p>即我们与之对应的解为：</p>
+<p><span class="math display">\[
+x^{\circ} = A^H(AA^H)^{-1}y \tag{12}
+\]</span></p>
+<p>但它是否是最小范数解呢？</p>
+<p>我们简单的证明一下：</p>
+<p>假设 <span class="math inline">\(x\)</span>
+是不同的任意解，则有：</p>
+<p><span class="math display">\[
+\lVert x \rVert ^2 = \lVert x^{\circ} + x - x^{\circ} \rVert ^2 = \lVert
+x^{\circ} \rVert ^2 + \lVert x -x^{\circ} \rVert ^2 +
+2(x^{\circ})^H(x-x^{\circ}) \tag{13}
+\]</span></p>
+<p>带入 <span class="math inline">\(x^{\circ} = A^H(A A^H) ^{-1}y =
+A^H(A A^H) ^{-1}Ax\)</span> 的值, 我们得到:</p>
+<p><span class="math display">\[
+\begin{aligned}
+  (x^{\circ})^H(x-x^{\circ}) &amp;= y^H(AA^H)^{-1}A [I-A^H(AA^H)^{-1}A]x
+\\
+  &amp;= y^H[(AA^H)^{-1}A-(AA^H)^{-1}A]x = 0
+\end{aligned}
+\]</span></p>
+<p>即, 我们可以化简得到：</p>
+<p><span class="math display">\[
+\lVert x \rVert ^2 = \lVert x^{\circ} \rVert ^2 + \lVert x -x^{\circ}
+\rVert ^2
+\]</span></p>
+<p>由于向量范数的非负性, 我们得到:</p>
+<p><span class="math display">\[
+\lVert x \rVert ^2 \geq \lVert x^{\circ} \rVert ^2
+\]</span></p>
+<p>即 <span class="math inline">\(x^{\circ}\)</span>
+确实为最小范数解。</p>
+<p>右伪逆矩阵满足最小范数解</p>
+<p>右伪逆矩阵 <span class="math inline">\(G = A^{H} (AA^H)
+^{-1}\)</span> 满足最小范数解的条件 <span class="math inline">\(AGA = A,
+\quad (GA)^{\sharp} = GA\)</span></p>
+<p>用伴随矩阵特性 <span class="math inline">\(B^{\sharp} = B^H\)</span>
+就能证明</p>
+<h1 id="五非一致方程的最小二乘解">五、非一致方程的最小二乘解</h1>
+<p>对于非一致方程, 其没有严格满足方程的解, 即只能有近似解.
+我们需要寻找一个使得方程两边的误差平方和最小的解.
+我们称这个解为非一致方程的最小二乘解.</p>
+<p>我们使用 <span class="math inline">\(\hat{x}\)</span>
+表示最小二乘解.</p>
+<p>而它满足条件:</p>
+<p><span class="math display">\[
+\lVert A\hat{x}-y \rVert = \inf_{x} \lVert Ax-y \rVert \tag{14}
+\]</span></p>
+<p>我们用 $ $ 表示函数的下确界</p>
+<h2 id="最小二乘解的条件">1. 最小二乘解的条件</h2>
+<p>定理 8: 令 <span class="math inline">\(G\)</span> 为某个矩阵, 要使得
+<span class="math inline">\(\hat{x} = Gy\)</span> 是非一致方程 $Ax = y
+$的最小二乘解, 当且仅当:</p>
+<p><span class="math display">\[
+A^{\sharp}AG = A^{\sharp} \tag{15}
+\]</span></p>
+<p>或者等价于:</p>
+<p><span class="math display">\[
+AGA = A, \quad (AG)^{\sharp} = AG \tag{16}
+\]</span></p>
+<p>我们注意其与上面所讲的一致方程的最小范数解之间的区别</p>
+<p>为此, 我们对这个也给予证明:</p>
+<p>我们已知前提:</p>
+<p><span class="math display">\[
+\lVert A\hat{x} - y \rVert \leq \lVert Ax - y \rVert , \quad \forall x,y
+\]</span></p>
+<p>而带入 <span class="math inline">\(\hat{x} = Gy\)</span></p>
+<p>我们有:</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \lVert AGy - y \rVert &amp;\leq \lVert Ax - y \rVert , \quad \forall
+x,y\\
+  &amp;\leq \lVert AGy - y + Aw \rVert , \quad \forall x,w = x - Gy \\
+  &amp;\Leftrightarrow \langle Aw,(AG-I)y \rangle = 0 , \quad \forall
+y,w \\
+  &amp;\Leftrightarrow A^{\sharp}(AG-I) = O \\
+  &amp;\Leftrightarrow A^{\sharp}AG = A^{\sharp}
+\end{aligned}
+\]</span></p>
+<p>我们看得出来,
+这个证明过程和之前的一致方程的最小范数解的证明很相似.</p>
+<ul>
+<li><p>上面两边同时右乘 $ A $ ，即有：</p>
+<p><span class="math display">\[
+A^{\sharp}(AGA) = A^{\sharp}A
+\]</span></p>
+<p>要使得对所有矩阵 $ A $ 都存在，即我们有：</p>
+<p><span class="math display">\[ AGA = A \]</span></p></li>
+<li><p>上面两边同时左乘矩阵 <span
+class="math inline">\(G^{\sharp}\)</span> , 我们能够得到:</p>
+<p><span class="math display">\[
+G^{\sharp}A^{\sharp}AG = (AG)^{\sharp}AG = (AG)^{\sharp}
+\]</span></p>
+<p>我们可以使用之前的方式证明其充要条件是:</p>
+<p><span class="math display">\[
+(AG)^{\sharp} = AG
+\]</span></p></li>
+</ul>
+<h2 id="注释-1">2. 注释</h2>
+<ul>
+<li><p>非一致方程的最小二乘解有可能不是唯一的,
+但是不同的最小二乘解得到的 <span class="math inline">\(Ax\)</span> 和
+<span class="math inline">\(Ax - y\)</span> 是唯一的.</p></li>
+<li><p>非一致方程的最小二乘解的通解形式为:</p>
+<p><span class="math display">\[
+  \hat{x} = Gy + (I-GA)z , \quad \forall z \tag{17}
+\]</span></p></li>
+</ul>
+<h2 id="特别情况-1">3. 特别情况</h2>
+<p>当非一致方程 <span class="math inline">\(Ax = y\)</span> 的矩阵 <span
+class="math inline">\(A\)</span> 有满列秩的特殊情况, 此时 <span
+class="math inline">\(A^HA\)</span> 显然是非奇异的.</p>
+<p>而此时解:</p>
+<p><span class="math display">\[
+x^{\circ} = (A^HA)^{-1}A^Hy \tag{18}
+\]</span></p>
+<p>是一个最小二乘解</p>
+<h2 id="左伪逆矩阵满足最小二乘解">4. 左伪逆矩阵满足最小二乘解</h2>
+<p>左伪逆矩阵 <span class="math inline">\(G = (AA^H) ^{-1}
+A^{H}\)</span> 满足最小二乘解的条件 <span class="math inline">\(AGA = A,
+\quad (AG)^{\sharp} = AG\)</span></p>
+<p>用伴随矩阵特性 <span class="math inline">\(B^{\sharp} = B^H\)</span>
+就能证明</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="category-chain-item">线性代数</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/" class="category-chain-item">矩阵分析与应用</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%9F%A9%E9%98%B5/" class="print-no-link">#矩阵</a>
+      
+        <a href="/tags/Linear-Algebra/" class="print-no-link">#Linear Algebra</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/82aba15a/" title="矩阵分析与应用-1.9-Moore-Penrose逆矩阵-Section1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">矩阵分析与应用-1.9-Moore-Penrose逆矩阵-Section1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/7c6bed7/" title="矩阵分析与应用-1.7-逆矩阵">
+                        <span class="hidden-mobile">矩阵分析与应用-1.7-逆矩阵</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

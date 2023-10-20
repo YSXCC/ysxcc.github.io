@@ -1,0 +1,916 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言 本文大多内容来自 知乎文章: 卷积神经网络CNN完全指南终极版（一） 我将借用文章中的图片用自己的方式去理解 CNN. 图片最初来源是 YouTube 上一位博主的视频截图. B 站有视频转载【CNN】Youtube上迄今为止最好的卷积神经网络入门教程 卷积神经网络 (理论篇) 一、卷积核 卷积神经网络在现在已经被应用于各个领域, 尤其是图像识别这个方面. 但 CNN 真正能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习-Day36">
+<meta property="og:url" content="http://yoursite.com/posts/5e008ef5/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="前言 本文大多内容来自 知乎文章: 卷积神经网络CNN完全指南终极版（一） 我将借用文章中的图片用自己的方式去理解 CNN. 图片最初来源是 YouTube 上一位博主的视频截图. B 站有视频转载【CNN】Youtube上迄今为止最好的卷积神经网络入门教程 卷积神经网络 (理论篇) 一、卷积核 卷积神经网络在现在已经被应用于各个领域, 尤其是图像识别这个方面. 但 CNN 真正能">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-27T02:22:06.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.669Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="idea">
+<meta property="article:tag" content="CNN">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Java学习-Day36 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Java学习-Day36</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-27 10:22" pubdate>
+          2022年5月27日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java学习-Day36</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言">前言</h1>
+<p>本文大多内容来自 <a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27908027">知乎文章:
+卷积神经网络CNN完全指南终极版（一）</a></p>
+<p>我将借用文章中的图片用自己的方式去理解 CNN.</p>
+<p>图片最初来源是 YouTube 上一位博主的视频截图. B 站有视频转载<a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Fx41177ws/">【CNN】Youtube上迄今为止最好的卷积神经网络入门教程</a></p>
+<h1 id="卷积神经网络-理论篇">卷积神经网络 (理论篇)</h1>
+<h2 id="一卷积核">一、卷积核</h2>
+<p>卷积神经网络在现在已经被应用于各个领域, 尤其是图像识别这个方面. 但
+CNN 真正能做的, 只是起到一个特征提取器的作用.
+所以诸多看似不同领域的应用, 都是建立在 CNN
+对图像进行特征提取的基础上进行的.</p>
+<p>说到特征提取, 可能有点抽象. 简单举个例子,
+比如我现在拿到一堆动物园里面动物的照片, 这时我想找到长颈鹿,
+我就会去看哪张照片里面哪个动物有长颈这个特征.</p>
+<p>这算是主观上的特征提取, 但在计算机中就不太会这样做.
+因为计算机哪知道什么叫长颈, 说不定还会把东方明珠塔也看做长颈鹿.
+如何避免这种情况以后再议, 不过现在总算对特征提取有些感触了.</p>
+<p>那么现在有一张图片如下所示</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527161445.png" srcset="/img/loading.gif" lazyload /></p>
+<p>我们要让计算机知道这张图片是 'X' 还是 'O'. 当然不仅仅是这一种 'X',
+还有一些奇奇怪怪的 'X' 也需要被识别出来.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527161833.png" srcset="/img/loading.gif" lazyload /></p>
+<p>计算机中对图片的存储是以像素值的方式来存储的,
+本文中的图片都是黑白图片, 那么对应的像素值就只有两种. 那么就可以用值 1
+表示白色像素点, 值 -1 表示黑色像素点. 当然用值 0 1 来表示也可以.
+要是彩色图片就要转为灰度图, 要是色彩是 RGB, 灰度值就是在 (0, 255)
+中的某个整数.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527162547.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527163214.png" srcset="/img/loading.gif" lazyload /></p>
+<p>假设上面两张图分别是训练集和测试集,
+最简单的方式就是逐一对比之间的像素点, 那么这样虽然可以说是识别字符,
+实际上却是判断两张图片在磁盘中存储内容是否一致了.
+这种方式是首先被排除的.</p>
+<p>然后我们观察到两张图中实际是有一部分相似的, 可以把这部分叫做特征.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527163923.png" srcset="/img/loading.gif" lazyload /></p>
+<p>在图中三个同色区域的结构完全一致.
+所以我们就从全局像素点的匹配转化为了局部像素点的匹配.
+那么这个局部像素点就有之前所提到的特征提取那味道了.</p>
+<p>那么我们从图中找出几个特征.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527165019.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527165118.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527165052.png" srcset="/img/loading.gif" lazyload /></p>
+<p>这样就能通过这些特征定位到图片的某个局部图像. 那么这些特征在 CNN
+中也被称为卷积核.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527165205.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="二卷积运算">二、卷积运算</h2>
+<p>卷积就是卷起来的乘积, 可以理解为累加或叠加 (对连续函数为积分)
+起来的乘积.</p>
+<p>连续形式:</p>
+<p><span class="math display">\[
+f(x) * g(x) = \int_{-\infty}^{\infty}f(\tau) \times g(x - \tau) d\tau
+\tag{1}
+\]</span></p>
+<p>离散形式:</p>
+<p><span class="math display">\[
+f[n] * g[n] = \sum_{m=-\infty}^{\infty} f[m] \times g[n-m] \tag{2}
+\]</span></p>
+<p>不必太过在意这些公式,
+只需要记住卷积的本质是过滤信息然后得到我们想要的那部分.
+接下来才是重中之重, 怎么算?</p>
+<p>取一个特征, 再在目标图像中找一个和特征同样大小的像素值集合,
+二者相同位置的相乘, 最后在矩形方框中这个位置填入相乘的值.
+具体过程如下图所示.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527173151.png" srcset="/img/loading.gif" lazyload /></p>
+<p>当计算完成后就会得到下图中右侧的矩形方框.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527173706.png" srcset="/img/loading.gif" lazyload /></p>
+<p>接下来就是对得到的矩形方框中九个值求平均,
+得到的均值将作为新图像中一个像素点.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527173814.png" srcset="/img/loading.gif" lazyload /></p>
+<p>新图像只有一个像素点怎么可以呢, 这时考虑到图片中蓝色方框的位置,
+要是有不同位置的蓝色方框那么通过卷积运算不就有多个像素点了.
+正是由于这种想法, 我们就把这个蓝色方框叫做窗口.</p>
+<p>窗口的起始位置是在图像的左上角</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527174458.png" srcset="/img/loading.gif" lazyload /></p>
+<p>当进行完当前的运算后, 窗口就会发生移动. 涉及移动,
+自然就要考虑移动的方向和快慢, 方向先是自左向右, 再是自上向下,
+快慢程度叫做步长.</p>
+<p>比如若步长为 1, 就往右边移动一个像素点,
+当不能右移时就回到最左边并向下移动一个像素点.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527174857.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527174914.png" srcset="/img/loading.gif" lazyload /></p>
+<p>当我们对整个图像进行处理后就会得到这样一个图像.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527174945.png" srcset="/img/loading.gif" lazyload /></p>
+<p>其中的值, 越接近为 1 表示对应位置和特征的匹配越完整, 越是接近 -1,
+表示对应位置和特征的反面匹配越完整, 而值接近 0
+的表示对应位置没有任何匹配或者说没有什么关联.</p>
+<h2 id="三非线性激活层">三、非线性激活层</h2>
+<p>在神经网络中用到最多的非线性激活函数是 Relu 函数,
+它的公式定义如下：</p>
+<p><span class="math display">\[
+f(x)=max(0,x)
+\]</span></p>
+<p>这个函数的输出是, 保留大于等于 0 的值, 其余所有小于 0
+的数值直接改写为 0.</p>
+<p>为什么要这么做呢? 上面说到, 卷积后产生的特征图中的值, 越靠近 1
+表示与该特征越关联, 越靠近 -1 表示越不关联, 而我们进行特征提取时,
+为了使得数据更少, 操作更方便, 就直接舍弃掉那些不相关联的数据.</p>
+<p>那么之前通过卷积运算得到的图像进行处理后就会得到以下图像.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527175559.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="四池化层">四、池化层</h2>
+<p>卷积操作后, 我们得到了一张张有着不同值的特征图,
+尽管数据量比原图少了很多, 但还是过于庞大
+(比较深度学习动不动就几十万张训练图片),
+因此接下来的池化操作就可以发挥作用了, 它最大的目标就是减少数据量.</p>
+<p>池化分为两种, Max Pooling 最大池化、Average Pooling 平均池化.
+顾名思义, 最大池化就是取最大值, 平均池化就是取平均值.</p>
+<p>拿最大池化举例：选择池化尺寸为 2x2, 因为选定一个 2x2 的窗口,
+在其内选出最大值更新进新的特征图.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527181548.png" srcset="/img/loading.gif" lazyload /></p>
+<p>窗口滑动和之前做卷积运算时一样, 这里设置步长为 2.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527181637.png" srcset="/img/loading.gif" lazyload /></p>
+<p>在做完所有操作后就能得到一个新的特征图.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527181746.png" srcset="/img/loading.gif" lazyload /></p>
+<p>很明显地可以发现相比起之前的图缩小了很大一部分.</p>
+<p>因为最大池化保留了每一个小块内的最大值,
+所以它相当于保留了这一块最佳匹配结果 (因为值越接近1表示匹配越好).
+这也就意味着它不会具体关注窗口内到底是哪一个地方匹配了,
+而只关注是不是有某个地方匹配上了. 这也就能够看出, CNN
+能够发现图像中是否具有某种特征, 而不用在意到底在哪里具有这种特征.
+这也就能够帮助解决之前提到的计算机逐一像素匹配的死板做法.</p>
+<h2 id="五全连接层">五、全连接层</h2>
+<p>在之前了解了 CNN 的卷积层、池化层和激活层.
+整个处理流程如下图所示.</p>
+<p>我们通过三个不同的卷积核得到了不同的三个特征图.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527202524.png" srcset="/img/loading.gif" lazyload /></p>
+<p>但是光凭这些还是不能识别出图片中的字符是什么, 这就需要提到 CNN
+的两个精髓, 局部连接和参数共享.</p>
+<p>说局部连接前先说全连接, 之前所学的 BP 神经网络就是全连接,
+这一层的每一个节点都会指向下一层的同一个节点.
+下一层有多少个节点就会进行这样的操作多少次. 例如, 输入层有 10 个节点,
+隐藏层有 3 个节点, 那么两层之间就应该有 <span class="math inline">\(10
+\times 3\)</span> 条代表权值的线.</p>
+<p>反观 CNN 要是采用全连接就是要对每一个像素点建立一个节点,
+而不是人为制造一个窗口. 这样的形式就是局部连接,
+层与层之间联系的最小单位就是窗口的大小.
+参数共享就是指窗口滑动的过程.</p>
+<p>之前一直在说识别图像, 其实这个表达存在问题. 因为字符是有限的,
+所以我们解决的问题其实是分类问题. 正如我们发现了外星人的语言文字,
+我们不能准确用外星语言说出来,
+但是我们可以说这个像字母表中的某个字母.</p>
+<p>我们对结果进行统计分析后可判断这张图片里的字母为 X.
+这里的统计分析实际上是对所得到的特征表进行一个整合,
+在之前这些特征表相当于图中的碎片,
+在这一步我们就是要把碎片拼接起来形成一个值.
+这个值的大小就代表了图片中的字符属于哪个类别.</p>
+<p>得到这个值归根结底是需要一个激活函数, 采用 <span
+class="math inline">\(Softmax\)</span> 函数.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022527204737.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="六训练和优化">六、训练和优化</h2>
+<p>可以看出整个算法的关键在于卷积核,
+有几个卷积核就表示需要提取到几个特征表.</p>
+<p>在全文中对于卷积核采用的是直接取得原始图像中的一部分,
+这样是有失偏颇的. 因为我们对图像的认识有了一个直觉性的判断,
+在实际训练中采用的还是对卷积核随机化.</p>
+<p>和矩阵分解以及 BP 神经网络一样, CNN 采用的也是随机那个关键性的数据.
+那么要使得模型的准确性高,
+和之前学过的算法一样也要采用梯度下降的方式.</p>
+<p>具体内容就在代码篇进行详细的解释.</p>
+<h1 id="总结">总结</h1>
+<p>开始写文章的时候, 总觉得 CNN 对图像的处理是将图像进行 "马赛克" 化,
+就像图片压缩算法那样, 将一个像素点的颜色延伸到周围,
+最后就感觉图像就成为了一个又一个的小方块集合,
+但是我们还是能辨认出图像表达的意思.</p>
+<p>写完文章后发现, CNN 其实更像是在 "拼拼图". 例如我们要拼一只猫,
+我们会找它的眼睛、耳朵和尾巴等具有代表性的东西,
+这些东西在算法中就是得到的特征图,
+但是怎么区别眼睛、耳朵和尾巴呢？和拼猫一样,
+总有小的碎片能够拼成眼睛、耳朵和尾巴,
+这些就类似算法上一层的到的特征图.</p>
+<p>"马赛克" 的思想是从整体到局部, 可能有效但不能被计算机采纳. 而
+"拼拼图" 的思想是从局部到整体, 将混乱整理为有序.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BB%A3%E7%A0%81/" class="category-chain-item">代码</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BB%A3%E7%A0%81/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/" class="print-no-link">#java</a>
+      
+        <a href="/tags/idea/" class="print-no-link">#idea</a>
+      
+        <a href="/tags/CNN/" class="print-no-link">#CNN</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2907be63/" title="Java学习-Day37">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java学习-Day37</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/c709df4f/" title="Java学习-Day35">
+                        <span class="hidden-mobile">Java学习-Day35</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

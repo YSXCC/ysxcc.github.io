@@ -1,0 +1,930 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 一、矩阵分解的分类 矩阵分解顾名思义就是通过线性变换把某个已知矩阵分解成多个矩阵, 这多个矩阵之间的关系是怎样的呢? 一般情况下分解为两个或者三个标准型矩阵的乘积. 个别情况是两个标准型矩阵之和. 这里提到的标准型矩阵就是若尔当标准型矩阵. 虽然在 《Introduction to Linear">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵分析与应用-4.4~4.6章节内容">
+<meta property="og:url" content="http://yoursite.com/posts/7a56f122/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 一、矩阵分解的分类 矩阵分解顾名思义就是通过线性变换把某个已知矩阵分解成多个矩阵, 这多个矩阵之间的关系是怎样的呢? 一般情况下分解为两个或者三个标准型矩阵的乘积. 个别情况是两个标准型矩阵之和. 这里提到的标准型矩阵就是若尔当标准型矩阵. 虽然在 《Introduction to Linear">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+<meta property="article:published_time" content="2022-06-20T01:46:05.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.683Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="矩阵">
+<meta property="article:tag" content="Linear Algebra">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>矩阵分析与应用-4.4~4.6章节内容 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">矩阵分析与应用-4.4~4.6章节内容</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-20 09:46" pubdate>
+          2022年6月20日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">矩阵分析与应用-4.4~4.6章节内容</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言">前言</h1>
+<p>本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 <a
+target="_blank" rel="noopener" href="https://zh.zlib.life">z-lib</a> 下载.</p>
+<h1 id="一矩阵分解的分类">一、矩阵分解的分类</h1>
+<p>矩阵分解顾名思义就是通过线性变换把某个已知矩阵分解成多个矩阵,
+这多个矩阵之间的关系是怎样的呢?</p>
+<p>一般情况下分解为两个或者三个标准型矩阵的乘积.
+个别情况是两个标准型矩阵之和.</p>
+<p>这里提到的标准型矩阵就是若尔当标准型矩阵.</p>
+<p>虽然在 《Introduction to Linear Algebra》
+附录中记载着十五种矩阵分解的方法,
+但是我们通过矩阵分解后得到的标准型据以及是对单个矩阵还是两个矩阵组成的矩阵束或矩阵对进行分解来划分矩阵的分解类别.</p>
+<h2 id="单个矩阵的分解">1. 单个矩阵的分解</h2>
+<p>根据矩阵 <span class="math inline">\(A\)</span> 分解后的标准型矩阵,
+可以分为以下四大类</p>
+<ul>
+<li><p>对角化分解</p>
+<p>通过正交变换, 将矩阵 <span class="math inline">\(A\)</span>
+对角化的</p>
+<ul>
+<li><p>奇异值分解 (SVD) : <span class="math inline">\(A = U \Sigma
+V^{\mathrm{H}}\)</span> 或 <span class="math inline">\(U A
+V^{\mathrm{H}} = \Sigma\)</span>. 式中 <span
+class="math inline">\(U\)</span> 和 <span
+class="math inline">\(V\)</span> 二者为酉矩阵, <span
+class="math inline">\(\Sigma\)</span> 为对角矩阵.
+这也就是针对一般矩阵的对角化分解.</p></li>
+<li><p>特征值分解 (EVD) : (考研数学线代部分的必备内容) <span
+class="math inline">\(A^{\mathrm{H}}A=V\Sigma V^{\mathrm{H}}\)</span> 或
+<span class="math inline">\(AA^{\mathrm{H}} = U \Sigma
+U^{\mathrm{H}}\)</span>. 针对对称矩阵的对角化分解.</p></li>
+<li><p><span class="math inline">\(\mathrm{CS}\)</span> 分解 :
+可以看作正交矩阵分块的同时对角化分解.</p></li>
+</ul></li>
+<li><p>三角化分解</p>
+<p>将矩阵 <span class="math inline">\(A\)</span>
+分解成正交矩阵与三角矩阵之积,
+或分解为一个上三角矩阵与一个下三角矩阵之积, 主要有三种形式.</p>
+<ul>
+<li><p><span class="math inline">\(\mathrm{Cholcsky}\)</span> 分解 :
+<span class="math inline">\(A = GG^{\mathrm{T}}\)</span>, 其中, <span
+class="math inline">\(G\)</span> 为下三角矩阵
+(针对对称正定矩阵的三角化分解)</p></li>
+<li><p><span class="math inline">\(\mathrm{QR}\)</span> 分解 : <span
+class="math inline">\(A = QR\)</span> 或 <span
+class="math inline">\(Q^{\mathrm{T}}A = R\)</span>, 其中, <span
+class="math inline">\(Q\)</span> 是正交矩阵, 而 <span
+class="math inline">\(R\)</span> 是上三角矩阵
+(针对一般矩阵的三角化分解)</p></li>
+<li><p><span class="math inline">\(\mathrm{LU}\)</span> 分解 : <span
+class="math inline">\(A=LU\)</span>, 其中, <span
+class="math inline">\(L\)</span> 是单位下三角矩阵, 而 <span
+class="math inline">\(U\)</span> 是上三角矩阵
+(针对非奇异矩阵的三角化分解)</p></li>
+</ul></li>
+<li><p>三角 - 对角化分解</p>
+<p>把矩阵分解为三个标准型矩阵 (两个三角矩阵和一个对角矩阵) 之积,
+或分解为两个标准型矩阵 (对角矩阵和上三角矩阵) 之和.</p>
+<ul>
+<li><p><span class="math inline">\(\mathrm{LDM}^{\mathrm{T}}\)</span>
+分解 : <span class="math inline">\(A = LDM^{\mathrm{T}}\)</span>, 其中,
+<span class="math inline">\(L\)</span> 和 <span
+class="math inline">\(M\)</span> 为单位下三角矩阵, 而 <span
+class="math inline">\(D\)</span> 为对角矩阵 (针对非对称矩阵的三角 -
+对角化分解)</p></li>
+<li><p><span class="math inline">\(\mathrm{LDL}^{\mathrm{T}}\)</span>
+分解 : <span class="math inline">\(A = LDL^{\mathrm{T}}\)</span>
+(针对对称矩阵的三角 - 对角化分解).</p></li>
+<li><p><span class="math inline">\(\mathrm{Schur}\)</span> 分解 : <span
+class="math inline">\(Q^{\mathrm{H}}AQ=D+N\)</span>, 其中, <span
+class="math inline">\(Q\)</span> 是酉矩阵, <span
+class="math inline">\(D\)</span> 是对角矩阵, 而 <span
+class="math inline">\(N\)</span> 是严格上三角矩阵 (针对复矩阵的三角 -
+对角化分解).</p></li>
+</ul></li>
+<li><p>三对角化分解</p>
+<p><span class="math inline">\(\mathrm{Householder}\)</span>
+三对角化分解 : <span class="math inline">\(H^{\mathrm{T}}AH=T\)</span>,
+其中, <span class="math inline">\(H = H_1H_2 \dots H_{n-2}\)</span> 为
+<span class="math inline">\(\mathrm{Householder}\)</span> 变换之积, 且
+<span class="math inline">\(T\)</span> 是三对角矩阵.</p></li>
+</ul>
+<p>总之就是有很多种方法来分解矩阵, 所得到的结果也可以有一定的规范性.</p>
+<h2 id="矩阵束的分解">2. 矩阵束的分解</h2>
+<p>矩阵束的分解主要用于求解矩阵束的广义特征值分解 (<span
+class="math inline">\(\mathrm{GEVD}\)</span>) 问题 <span
+class="math inline">\(Ax = \lambda Bx (x \neq 0)\)</span> 的 <span
+class="math inline">\(\mathrm{QZ}\)</span> 方法中,
+它涉及两个矩阵的同时分解. 这类分解的主要形式是广义 <span
+class="math inline">\(\mathrm{Schur}\)</span> 分解.</p>
+<p><span class="math inline">\(\mathrm{Schur}\)</span> 分解 : <span
+class="math inline">\(Q^{\mathrm{H}}AZ=T\)</span> 和 <span
+class="math inline">\(Q^{\mathrm{H}}BZ=S\)</span>, 其中, <span
+class="math inline">\(Q\)</span> 和 <span
+class="math inline">\(Z\)</span> 为酉矩阵, 而 <span
+class="math inline">\(T\)</span> 和 <span
+class="math inline">\(S\)</span> 为上三角矩阵.</p>
+<p>实现广义 <span class="math inline">\(\mathrm{Schur}\)</span>
+分解需要先使用 <span class="math inline">\(\mathrm{Hessenberg}\)</span>
+三对角化分解: <span class="math inline">\(Q^{\mathrm{T}}AZ=H\)</span> 和
+<span class="math inline">\(Q^{\mathrm{T}}BZ=T\)</span>, 其中, <span
+class="math inline">\(Q\)</span> 和 <span
+class="math inline">\(Z\)</span> 为正交矩阵, <span
+class="math inline">\(H\)</span> 为上 <span
+class="math inline">\(\mathrm{Hessenberg}\)</span> 矩阵, 而 <span
+class="math inline">\(T\)</span> 是上三角矩阵.</p>
+<p>只能说是非常有趣了.</p>
+<h1 id="二对角化分解">二、对角化分解</h1>
+<p>定理 1 : (<span class="math inline">\(\mathrm{CS}\)</span> 分解) 若
+<span class="math inline">\((k + j) \times (k + j)\)</span> 矩阵</p>
+<p><span class="math display">\[
+Q = \begin{bmatrix}
+  Q_{11}&amp; Q_{12}\\
+  Q_{21}&amp; Q_{22}
+\end{bmatrix}
+\]</span></p>
+<p>是正交的, 其中, <span class="math inline">\(Q_{11}\)</span> 是 <span
+class="math inline">\(k \times k\)</span> 矩阵, 并且 <span
+class="math inline">\(k \ge j\)</span>; 则存在正交矩阵 <span
+class="math inline">\(U_1,V_1 \in R^{k \times k}\)</span> 和正交矩阵
+<span class="math inline">\(U_2,V_2 \in R^{j \times j}\)</span> 使得</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+  U_1&amp; O\\
+  O&amp; U_2
+\end{bmatrix}\begin{bmatrix}
+  Q_{11}&amp; Q_{12}\\
+  Q_{21}&amp; Q_{22}
+\end{bmatrix}\begin{bmatrix}
+  V_1&amp; O\\
+  O&amp; V_2
+\end{bmatrix}=\begin{bmatrix}
+  I_{k-j}&amp; O &amp; O\\
+  O&amp; C &amp; S\\
+  O&amp; -S&amp; C
+\end{bmatrix} \tag{1}
+\]</span></p>
+<p>其中</p>
+<p><span class="math display">\[
+C = \mathrm{diag}(c_1,c_2,\dots,c_j), \quad c_i = \cos \theta_i \tag{2}
+\]</span></p>
+<p><span class="math display">\[
+S = \mathrm{diag}(s_1,s_2,\dots,s_j), \quad s_i = \sin \theta_i \tag{3}
+\]</span></p>
+<p>且 <span class="math inline">\(0 \le \theta_1 \le \theta_2 \le \cdots
+\le \theta_j \le \pi / 2\)</span>.</p>
+<p>简而言之就是将一个正交矩阵的各个分块同时对角化.</p>
+<h1 id="三mathrmcholcsky-分解与-mathrmlu-分解">三、<span
+class="math inline">\(\mathrm{Cholcsky}\)</span> 分解与 <span
+class="math inline">\(\mathrm{LU}\)</span> 分解</h1>
+<p>三角化分解的两种形式</p>
+<h2 id="mathrmcholcsky-分解">1. <span
+class="math inline">\(\mathrm{Cholcsky}\)</span> 分解</h2>
+<p>定理 2 : (<span class="math inline">\(\mathrm{Cholesky}\)</span>
+分解) 如果 <span class="math inline">\(A \in R^{n \times n}\)</span>
+是对称正定矩阵, 则 <span
+class="math inline">\(\mathrm{Cholesky}\)</span> 分解 <span
+class="math inline">\(A = GG^{\mathrm{T}}\)</span> 是唯一的, 其中,
+下三角矩阵 <span class="math inline">\(G \in R^{n \times n}\)</span>
+的非零元素由式 <span class="math inline">\(g_{ij} = v(i)/g_{jj} =
+v(i)/\sqrt{v(j)}\)</span> 决定.</p>
+<p>下三角矩阵 <span class="math inline">\(G\)</span> 称为 <span
+class="math inline">\(\mathrm{Cholesky}\)</span> 三角. 另外, <span
+class="math inline">\(\mathrm{Cholesky}\)</span> 分解也谓之平方根方法,
+因为下三角矩阵 <span class="math inline">\(G\)</span> 可以视为矩阵 <span
+class="math inline">\(A\)</span> 的 "平方根".</p>
+<p>一个非奇异矩阵 <span class="math inline">\(A\)</span> 的逆矩阵 <span
+class="math inline">\(A^{-1}\)</span> 可以通过 <span
+class="math inline">\(\mathrm{Cholesky}\)</span> 分解求得, 即有</p>
+<p><span class="math display">\[
+A^{-1} = G^{\mathrm{-T}}G^{-1} \tag{4}
+\]</span></p>
+<p>其中 <span class="math inline">\(G^{\mathrm{-T}}=
+(G^{\mathrm{-T}})^{-1}\)</span>.</p>
+<h2 id="mathrmlu-分解">2. <span
+class="math inline">\(\mathrm{LU}\)</span> 分解</h2>
+<p>在线性代数中这应该是学到的第一个矩阵分解算法了.
+该矩阵分解算法的本质就是消元, 需要分解的矩阵 <span
+class="math inline">\(A\)</span> 通过左乘一系列消元矩阵 <span
+class="math inline">\(E_1,E_2,\cdots,E_n\)</span> (统称为 <span
+class="math inline">\(E\)</span>) 得到上三角矩阵 <span
+class="math inline">\(U\)</span>, 式子两边同时左乘 <span
+class="math inline">\(E^{-1}\)</span> 就得到 <span
+class="math inline">\(A = E^{-1}U\)</span>. 这里的 <span
+class="math inline">\(E^{-1}\)</span> 被写作 <span
+class="math inline">\(L\)</span>, 同时它也是下三角矩阵. 那么 <span
+class="math inline">\(\mathrm{LU}\)</span> 分解就是如此.</p>
+<p>求解线性方程组 <span class="math inline">\(LUx=b\)</span>, 令 <span
+class="math inline">\(y = Ux\)</span>.</p>
+<p>具体算法如下:</p>
+<p>Step 1 : 计算 <span class="math inline">\(A = LU\)</span></p>
+<p>Step 2 : 用前向回代法求解下三角矩阵方程 <span
+class="math inline">\(Ly=b\)</span></p>
+<p>Step 3 : 用后向回代法求解下三角矩阵方程 <span
+class="math inline">\(Ux=y\)</span></p>
+<p>这个算法推广到线性矩阵方程 <span class="math inline">\(AX=B\)</span>
+的求解, 其中, <span class="math inline">\(A \in R^{n \times n}\)</span>
+非奇异, <span class="math inline">\(B,X \in R^{n \times p}\)</span>.</p>
+<p>就是拆开一列一列地计算.</p>
+<p><span class="math inline">\(\mathrm{LU}\)</span>
+分解在这里单纯没有意义, 主要目的还是为了求解线性方程组.</p>
+<p>定理 3 (<span class="math inline">\(\mathrm{LU}\)</span>): 如果 <span
+class="math inline">\(A \in R^{n \times n}\)</span> 非奇异, 并且其 <span
+class="math inline">\(\mathrm{LU}\)</span> 分解存在的话, 则 <span
+class="math inline">\(A\)</span> 的 <span
+class="math inline">\(\mathrm{LU}\)</span> 分解是唯一的, 且 <span
+class="math inline">\(\mathrm{det}(A)=u_{11} u_{22} \cdots
+u_{nn}\)</span></p>
+<p>算法很简单, 就是高斯消元法用消元矩阵表示,
+然后再将一系列消元矩阵求它的逆矩阵. 在这一小段的开头已经简单提到.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="category-chain-item">线性代数</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/" class="category-chain-item">矩阵分析与应用</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%9F%A9%E9%98%B5/" class="print-no-link">#矩阵</a>
+      
+        <a href="/tags/Linear-Algebra/" class="print-no-link">#Linear Algebra</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/9c377384/" title="矩阵分析与应用-4.7-QR分解及其应用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">矩阵分析与应用-4.7-QR分解及其应用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/1f0a122c/" title="矩阵分析与应用-1.10-Hadamard积与Kronecker积">
+                        <span class="hidden-mobile">矩阵分析与应用-1.10-Hadamard积与Kronecker积</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

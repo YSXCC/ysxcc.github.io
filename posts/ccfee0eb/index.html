@@ -1,0 +1,1024 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 这部分内容与线性代数的内容重合. 在 \(n\) 阶 \(\mathrm{Euclidean}\) 空间 \(R^n\) 只有一个, 但 \(n\) 阶向量空间却有很多. 例如对所有实数 \(\alpha, \beta, \gamma\), 向量 \(x&#x3D;[0,0,\alpha,\beta,\gamma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵分析与应用-1.5-基与Gram-Schmidt正交化">
+<meta property="og:url" content="http://yoursite.com/posts/ccfee0eb/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="前言 本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 z-lib 下载. 这部分内容与线性代数的内容重合. 在 \(n\) 阶 \(\mathrm{Euclidean}\) 空间 \(R^n\) 只有一个, 但 \(n\) 阶向量空间却有很多. 例如对所有实数 \(\alpha, \beta, \gamma\), 向量 \(x&#x3D;[0,0,\alpha,\beta,\gamma">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+<meta property="article:published_time" content="2022-06-02T01:30:08.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.682Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="矩阵">
+<meta property="article:tag" content="Linear Algebra">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>矩阵分析与应用-1.5-基与Gram-Schmidt正交化 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">矩阵分析与应用-1.5-基与Gram-Schmidt正交化</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-02 09:30" pubdate>
+          2022年6月2日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          44 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">矩阵分析与应用-1.5-基与Gram-Schmidt正交化</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言">前言</h1>
+<p>本文学习过程来源是《矩阵分析与应用-张贤达》一书. 可以通过 <a
+target="_blank" rel="noopener" href="https://zh.zlib.life">z-lib</a> 下载.</p>
+<p>这部分内容与线性代数的内容重合.</p>
+<p>在 <span class="math inline">\(n\)</span> 阶 <span
+class="math inline">\(\mathrm{Euclidean}\)</span> 空间 <span
+class="math inline">\(R^n\)</span> 只有一个, 但 <span
+class="math inline">\(n\)</span> 阶向量空间却有很多. 例如对所有实数
+<span class="math inline">\(\alpha, \beta, \gamma\)</span>, 向量 <span
+class="math inline">\(x=[0,0,\alpha,\beta,\gamma]^{\mathrm{T}}\)</span>
+的集合 <span class="math inline">\(W_1\)</span> 是一个 5 阶向量空间.
+这里需要注意的是向量 <span class="math inline">\(x\)</span> 的前两项是为
+0 的, 所以 <span class="math inline">\(W_1\)</span> 中的每一个向量都属于
+<span class="math inline">\(R^5\)</span> 空间,
+但是实际上它只是构成了一个 <span class="math inline">\(R^3\)</span>
+空间.</p>
+<p>对向量 <span
+class="math inline">\(y=[1,5,\alpha,\beta,\gamma]^{\mathrm{T}}\)</span>
+虽然在 <span class="math inline">\(R^5\)</span> 空间中, 但是不属于 <span
+class="math inline">\(W_1\)</span>. 此时我们就把 <span
+class="math inline">\(W_1\)</span> 叫做 <span
+class="math inline">\(R^5\)</span> 内的一个子空间.</p>
+<h1 id="一向量子空间的基">一、向量子空间的基</h1>
+<p>由向量空间的定义可知, <span class="math inline">\(R^n\)</span>
+空间的多个向量的所有线性组合也属于 <span
+class="math inline">\(R^n\)</span>.
+这就是之前所说的向量线性变换的闭合性.
+子空间中的向量数乘和相加得到的向量仍在子空间内.</p>
+<p>例如 <span class="math inline">\(R^n\)</span> 的三个 <span
+class="math inline">\(n \times 1\)</span> 向量 <span
+class="math inline">\(x_1,x_2,x_3\)</span>. 对于实数 <span
+class="math inline">\(a_1,a_2,a_3\)</span>, 可知 <span
+class="math inline">\(a_1x_1\)</span> 和 <span
+class="math inline">\(a_2x_2\)</span> 均在 <span
+class="math inline">\(\mathrm{Euclidean}\)</span> <span
+class="math inline">\(n\)</span> 空间 <span
+class="math inline">\(R^n\)</span>, <span
+class="math inline">\(a_1x_1+a_2x_2\)</span> 在 <span
+class="math inline">\(R^n\)</span> 内. 同理可证明 <span
+class="math inline">\((a_1x_1 + a_2x_2)+a_3x_3\)</span> 也在 <span
+class="math inline">\(R^n\)</span> 内.</p>
+<p>那么我们就可以得出一个比较感性的认识: 有几个线性无关的向量,
+就可以形成几维的子空间.</p>
+<p>从这个意义上讲, 可以认为这三个线性无关向量的集合 <span
+class="math inline">\(\{x_1,x_2,x_3\}\)</span> 张成或生成了一个 <span
+class="math inline">\(\mathrm{Euclidean}\)</span> <span
+class="math inline">\(n\)</span> 空间 <span
+class="math inline">\(R^n\)</span> 的一个子空间. 这个概念一推广可得.</p>
+<p>定义 1: 向量 <span class="math inline">\(x_1,x_2,\dots,x_d\)</span>
+的所有线性组合的集合称为由 <span
+class="math inline">\(x_1,x_2,\dots,x_d\)</span> 张成 (或生成)
+的子空间或闭包, 记作</p>
+<p><span class="math display">\[
+W = \mathrm{Span} \{ x_1,x_2,\dots,x_d \} = \mathrm{Close} \{
+x_1,x_2,\dots,x_d \} \tag{1}
+\]</span></p>
+<p>向量 <span class="math inline">\(x_1,x_2,\dots,x_d\)</span>
+称为子空间 <span class="math inline">\(W\)</span> 的张成集或生成元.</p>
+<p>需要注意是一个子空间的张成集不是唯一的, 拿三维空间举例. 固定 <span
+class="math inline">\(z\)</span> 轴, 在 <span
+class="math inline">\(xy\)</span>
+平面任意找两条不重合不平行的线是不是都能构成一个三维空间. 需要注意的是,
+可以通过这样的方式来理解, 但是绝对不能再拓展到高维,
+毕竟人只是三维生物.</p>
+<p>就上述例子, 在 <span class="math inline">\(xy\)</span>
+平面能不能找多条线呢? 答案是可以的, 只要能构成 <span
+class="math inline">\(xy\)</span> 平面就行.</p>
+<p>所以在矩阵分析及其应用中, 重要的是寻找生成一个子空间 <span
+class="math inline">\(W\)</span> 的生成元的最小集合, 即 <span
+class="math inline">\(W\)</span> 只需要用 <span
+class="math inline">\(d\)</span> 个向量即可生成,
+这就是子空间基向量的概念.</p>
+<p>定义 2: 生成子空间 <span class="math inline">\(W\)</span>
+的线性无关的向量 <span class="math inline">\(\{ u_1,u_2,\dots,u_d
+\}\)</span> 称为子空间 <span class="math inline">\(W\)</span>
+的基向量或简称为基. 生成子空间 <span class="math inline">\(W\)</span>
+的基向量的个数称为子空间 <span class="math inline">\(W\)</span> 的维数,
+即有</p>
+<p><span class="math display">\[
+d = \mathrm{dim}( \mathrm{Span} \{ u_1,u_2,\dots,u_d \}) \tag{2}
+\]</span></p>
+<p><span class="math inline">\(\{ u_1,u_2,\dots,u_d \}\)</span>
+只是子空间 <span class="math inline">\(W\)</span> 的一组基,
+并非唯一的基. 这是因为, 对于 <span class="math inline">\(n\)</span>
+阶向量空间的一个 <span class="math inline">\(d\)</span> 维子空间 <span
+class="math inline">\(W\)</span> 而言, 向量空间 <span
+class="math inline">\(V\)</span> 中的任何 <span
+class="math inline">\(d\)</span> 个线性无关向量的集合都张成子空间 <span
+class="math inline">\(W\)</span>. 虽然一个子空间有多个基,
+但是所有基都具有相同的向量个数.</p>
+<p>例如</p>
+<p><span class="math display">\[
+e_1 = \begin{bmatrix}
+1\\
+0\\
+\vdots \\
+0
+\end{bmatrix}, \quad
+e_2 = \begin{bmatrix}
+0\\
+1\\
+\vdots \\
+0
+\end{bmatrix}, \quad , \quad
+e_n = \begin{bmatrix}
+0\\
+0\\
+\vdots \\
+1
+\end{bmatrix}
+\]</span></p>
+<p>是 <span class="math inline">\(\mathrm{Euclidean}\)</span> <span
+class="math inline">\(n\)</span> 空间 <span
+class="math inline">\(R^n\)</span> 的一组基向量, 因为任何一个向量 <span
+class="math inline">\(x=[x(1),x(2),\dots,x(n)]^{\mathrm{T}} \in
+R^n\)</span> 都可以用 <span class="math inline">\(e_i\)</span>
+向量表示为</p>
+<p><span class="math display">\[
+x = \sum_{i=1}^{n}x_ie_i = [x(1),x(2),\dots,x(n)]^{\mathrm{T}}
+\]</span></p>
+<p>定义 3: 若 <span class="math inline">\(\{
+\alpha_1,\alpha_2,\dots,\alpha_n \}\)</span> 和 <span
+class="math inline">\(\{ \beta_1,\beta_2,\dots,\beta_n \}\)</span>
+是两组不同的基, 并且 <span
+class="math inline">\(\alpha_i^{\mathrm{H}}\beta_i = 0\)</span>,
+则称其中一组基是另一组基的对偶基.</p>
+<p>定义 4: 令 <span class="math inline">\(\{ x_1,x_2,\dots,x_n
+\}\)</span> 是子空间 <span class="math inline">\(\mathrm{Span}\{
+x_1,x_2,\dots,x_n \}\)</span> 的基向量. 若这些基向量满足正交条件</p>
+<p><span class="math display">\[
+\left \langle x_i,x_j \right \rangle = x_i^{\mathrm{T}}x_j=0, \quad
+\forall i \neq j \tag{3}
+\]</span></p>
+<p>则称这些基向量为正交基向量. 想象一下空间坐标系的三根轴,
+它们就是三维空间的正交基向量. 然后三根轴旋转之后也还是正交基向量.</p>
+<p>定义 5: 若正交基向量 <span class="math inline">\(\{ x_1,x_2,\dots,x_n
+\}\)</span> 中所有向量的范数均等于 1, 即</p>
+<p><span class="math display">\[
+\left \| x_i \right \| = 1, \quad i = 1,2,\dots,n \tag{4}
+\]</span></p>
+<p>称为标准正交基向量. 想象一下空间坐标系的三根轴,
+标准正交基向量就是把这三根轴的长度压缩成单位长度 1.</p>
+<p>向量空间的子空间具有以下性质.</p>
+<ol type="1">
+<li><p>设 <span class="math inline">\(W_1\)</span> 和 <span
+class="math inline">\(W_2\)</span> 是向量空间 <span
+class="math inline">\(V\)</span> 中的两个子空间, 则它们的交集 <span
+class="math inline">\(W_1 \cap W_2\)</span>, 也是 <span
+class="math inline">\(V\)</span> 的子空间.</p></li>
+<li><p>设 <span class="math inline">\(W_1\)</span> 和 <span
+class="math inline">\(W_2\)</span> 是向量空间 <span
+class="math inline">\(V\)</span> 中的两个子空间, 则它们的和 <span
+class="math inline">\(W_1 + W_2\)</span>, 也是 <span
+class="math inline">\(V\)</span> 的子空间.</p></li>
+</ol>
+<h1 id="二gram-schmidt-正交化">二、Gram-Schmidt 正交化</h1>
+<p>有几个线性无关的向量就可以构成几维的向量子空间.
+但应用更多的是需要标准正交基,
+那我们就要想个办法让不是标准正交的基向量变成标准正交的基向量.</p>
+<p>由此可得到一个定理, 这个定理给出了 <span class="math inline">\(\{
+x_1,x_2,\dots,x_n \}\)</span> 转换为标准正交向量组 <span
+class="math inline">\(\{ u_1,u_2,\dots,u_n \}\)</span> 的方法,
+也就是本节所提到的 <span
+class="math inline">\(\mathrm{Gram-Schmidt}\)</span> 正交化.</p>
+<p>定理 1: 令 <span class="math inline">\(\{ x_1,x_2,\dots,x_n
+\}\)</span> 是 <span class="math inline">\(p\)</span> 维向量子空间 <span
+class="math inline">\(W\)</span> 的任意一组基 (即线性无关的向量). 于是,
+子空间 <span class="math inline">\(W\)</span> 的标准正交基 <span
+class="math inline">\(\{ u_1,u_2,\dots,u_n \}\)</span> 可以通过 <span
+class="math inline">\(\mathrm{Gram-Schmidt}\)</span> 正交化构造如下:</p>
+<p><span class="math display">\[
+p_1 = x_1, \quad u_1 = \frac{p_1}{\left \| p_1 \right \|} =
+\frac{x_1}{\left \| x_1 \right \|} \\
+p_k = x_k - \sum_{i=1}^{k-1}(u_i^{\mathrm{H}}x_k)u_i, \quad u_k =
+\frac{p_k}{\left \| p_k \right \|} \tag{5}
+\]</span></p>
+<p>式子中, <span class="math inline">\(2 \le k \le n\)</span>. 向量集
+<span class="math inline">\(\{ p_1,p_2,\dots,p_n \}\)</span>
+是一组正交基, 但不一定是标准正交基.</p>
+<p>书中关于这个式子的证明是先使用数学归纳法证明 (5) 式构造的向量 <span
+class="math inline">\(u_1,u_2,\dots,u_n\)</span>
+全部都是非零和有限大的向量, 然后再使用数学归纳法证明 <span
+class="math inline">\(p_i\)</span> 之间的正交性.</p>
+<p>但是这都是建立在已知式子的前提下完成的, 没有一个追本溯源的过程.
+当然在数学的发展史上也有不少直接猜个式子出来, 然后证明其合理性的例子.
+这里我就不按书上的公式证明了, 而是追本溯源地说说这个公式的来历.</p>
+<p>这个解释来自 <a
+target="_blank" rel="noopener" href="https://open.163.com/newview/movie/free?pid=M6V0BQC4M&amp;mid=M6V2AORLS">MIT线性代数公开课-正交矩阵和Gram-Schmidt正交化</a>.</p>
+<p>第一种情况, 如果有一组正交基 <span class="math inline">\(A\)</span>
+和 <span class="math inline">\(B\)</span>, 我们需要得到两个标准正交基
+<span class="math inline">\(q_1\)</span> 和 <span
+class="math inline">\(q_2\)</span>,
+那么我们就令那组正交基除以自己的长度即可.</p>
+<p><span class="math display">\[
+q_1 = \frac{A}{\left \| A \right \|} \quad q_2 = \frac{B}{\left \| B
+\right \|} \tag{6}
+\]</span></p>
+<p>第二种情况, 很不幸我们只有两个线性无关的向量 <span
+class="math inline">\(a\)</span> 和 <span
+class="math inline">\(b\)</span>, 而且它们之间还不互相正交.
+我们首先需要做的就是把这两个向量进行处理使它们变成一组正交基, 也就是
+<span class="math inline">\(a,b\)</span> 到上面提到的 <span
+class="math inline">\(A,B\)</span> 之间的转换.</p>
+<p>首先令 <span class="math inline">\(A = a\)</span>, 我们在 <span
+class="math inline">\(a\)</span> 和 <span
+class="math inline">\(b\)</span> 张成的空间中, 取与 <span
+class="math inline">\(A\)</span> 正交的向量做为正交基. 方法就是将 <span
+class="math inline">\(b\)</span> 投影到 <span
+class="math inline">\(a\)</span> 的方向, 投影向量记作 <span
+class="math inline">\(p\)</span>, 然后可得 <span
+class="math inline">\(B=b-p\)</span>, 如下图所示.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/202262170251.png" srcset="/img/loading.gif" lazyload /></p>
+<p>关键的点就在如何求得 <span class="math inline">\(p\)</span>, 想象一下
+<span class="math inline">\(p\)</span> 是不是只有 <span
+class="math inline">\(A\)</span> 的一部分, 那么此时就需要一个比例,
+这个比例就是由长度来的. 只需要求出 <span
+class="math inline">\(p\)</span> 的长度就能求到 <span
+class="math inline">\(B\)</span>.</p>
+<p><span class="math inline">\(p\)</span> 的长度是 <span
+class="math inline">\(b\)</span> 的长度乘以 <span
+class="math inline">\(b\)</span> 和 <span
+class="math inline">\(A\)</span> 夹角 <span
+class="math inline">\(\theta\)</span> 的余弦值.</p>
+<p><span class="math display">\[
+cos\theta = \frac{A^{\mathrm{H}}b}{\left \| A \right \|\left \| b \right
+\|} \tag{7}
+\]</span></p>
+<p>故 <span class="math display">\[
+B = b - \left \| b \right \| cos\theta \cdot A = b -
+\frac{A^{\mathrm{H}}b}{\left \| A \right \|} A \tag{8}
+\]</span></p>
+<p>这个式子怎么看起来和之前公式的式子 (5) 不太一样呢?
+仔细一看是分母多了一个 <span class="math inline">\(\left \| A \right
+\|\)</span>. 为什么会出现这样的情况?
+是因为公式每次都是使用的已经标准化后的向量.</p>
+<p>推广到三维就有: <span class="math display">\[
+C = c - \frac{A^{\mathrm{H}}c}{\left \| A \right \|} A -
+\frac{B^{\mathrm{H}}c}{\left \| B \right \|} B \tag{9}
+\]</span></p>
+<p>以此类推.</p>
+<p>多说无益, 举个例子.</p>
+<p>例: 令 <span class="math inline">\(W=\mathrm{Span}\{ x_1,x_2
+\}\)</span> 是 <span class="math inline">\(R^3\)</span> 的子空间, 其中
+<span class="math display">\[
+x_1 = \begin{bmatrix}
+1\\
+1\\
+2
+\end{bmatrix}, \quad
+x_2 = \begin{bmatrix}
+0\\
+2\\
+-7
+\end{bmatrix}
+\]</span></p>
+<p>解：令所构造的 <span class="math inline">\(W\)</span>
+子空间的正交基向量为 <span class="math inline">\(p_1\)</span> 和 <span
+class="math inline">\(p_2\)</span>.</p>
+<p>方法 (1): 利用公式, <span class="math inline">\(p_1 = x_1\)</span>,
+<span class="math inline">\(p_2 = x_2 - \frac{p_1^{\mathrm{H}}x_2}{\left
+\| p_1 \right \|} p_1\)</span>.</p>
+<p>可得 <span class="math display">\[
+p_1 = \begin{bmatrix}
+1\\
+1\\
+2
+\end{bmatrix}, \quad
+p_2 = \begin{bmatrix}
+2\\
+4\\
+-3
+\end{bmatrix}
+\]</span></p>
+<p>验证一下 <span class="math inline">\(p_1^{\mathrm{T}}p_2\)</span>
+确实是等于 0 的.</p>
+<p>最后对这两个向量进行单位化得到标准正交基向量 <span
+class="math display">\[
+u_1 = \begin{bmatrix}
+\frac{1}{\sqrt{6}}\\
+\frac{1}{\sqrt{6}}\\
+\frac{2}{\sqrt{6}}
+\end{bmatrix}, \quad
+u_2 = \begin{bmatrix}
+\frac{2}{\sqrt{29}}\\
+\frac{4}{\sqrt{29}}\\
+\frac{-3}{\sqrt{29}}
+\end{bmatrix}
+\]</span></p>
+<p>方法 (2): 书上还提到了一种方法, 虽然它算错了,
+但是按照步骤还是可以得到最后结果.</p>
+<p>定义 <span class="math inline">\(p_1 = x_1, p_2 = x_2 +
+ap_1\)</span>, 其中, 常数 <span class="math inline">\(a\)</span>
+是根据正交条件 <span
+class="math inline">\(p_1^{\mathrm{T}}p_2=0\)</span> 确定. 由 <span
+class="math display">\[
+p_1^{\mathrm{T}}p_2 = p_1^{\mathrm{T}}(x_2+ap_1) = p_1^{\mathrm{T}} +
+ap_1^{\mathrm{T}}p_1 = -12+6a=0
+\]</span></p>
+<p>可得 <span class="math inline">\(a=2\)</span>, <span
+class="math inline">\(p_2 = x_2+2p_1 = [2,3,-4]^{\mathrm{T}}\)</span>.
+得到的结果和方法 (1) 得到的结果是一样的.</p>
+<p>这样做是通过向量之间的线性组合然后再解方程来计算的. 本质上和方法 (1)
+没有差别.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="category-chain-item">线性代数</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/" class="category-chain-item">矩阵分析与应用</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%9F%A9%E9%98%B5/" class="print-no-link">#矩阵</a>
+      
+        <a href="/tags/Linear-Algebra/" class="print-no-link">#Linear Algebra</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/732cd49f/" title="矩阵分析与应用-1.6-矩阵的标量函数">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">矩阵分析与应用-1.6-矩阵的标量函数</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/cc2f06bd/" title="矩阵分析与应用-1.4-内积与范数">
+                        <span class="hidden-mobile">矩阵分析与应用-1.4-内积与范数</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

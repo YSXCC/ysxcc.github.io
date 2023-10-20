@@ -1,0 +1,748 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Huffman 编码 (建树) 一、描述 在之前的基础上增加了两个函数. 一个是构建字母表 constructAlphabet() , 另一个就是通过字母表来建立起 Huffman 树 constructTree(). 二、构建字母表 1. 三部分 完整的字母映射其实是需要存储出现字符和每个字符出现次数的两个辅助结构才能达到查询的目的. 在代码中这三部分使用三个数组来表示. 分别是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习-Day15">
+<meta property="og:url" content="http://yoursite.com/posts/f53fbdcd/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="Huffman 编码 (建树) 一、描述 在之前的基础上增加了两个函数. 一个是构建字母表 constructAlphabet() , 另一个就是通过字母表来建立起 Huffman 树 constructTree(). 二、构建字母表 1. 三部分 完整的字母映射其实是需要存储出现字符和每个字符出现次数的两个辅助结构才能达到查询的目的. 在代码中这三部分使用三个数组来表示. 分别是">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-18T01:18:02.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.664Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="eclipse">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Java学习-Day15 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Java学习-Day15</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-18 09:18" pubdate>
+          2022年4月18日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          15k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          127 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java学习-Day15</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="huffman-编码-建树">Huffman 编码 (建树)</h1>
+<h2 id="一描述">一、描述</h2>
+<p>在之前的基础上增加了两个函数. 一个是构建字母表 constructAlphabet() ,
+另一个就是通过字母表来建立起 Huffman 树 constructTree().</p>
+<h2 id="二构建字母表">二、构建字母表</h2>
+<h3 id="三部分">1. 三部分</h3>
+<p>完整的字母映射其实是需要存储出现字符和每个字符出现次数的两个辅助结构才能达到查询的目的.</p>
+<p>在代码中这三部分使用三个数组来表示. 分别是 alphabet 、 charCounts 和
+charMapping .</p>
+<p>alphabet 中存储的是输入字符串中出现了哪些字符.</p>
+<p>charCounts 中存储的是每个字符出现的次数,
+我们可以把它看做每个字符的权重. 需要注意的是 charCounts 数组的长度为
+alphabet 长度的两倍减一. 因为构建 Huffman 树时,
+当节点结合之后会产生新的权值. 多出来的部分用于存储这部分的值.
+在初始化后字符和它的权重在不同数组的下标是一样的可以做到一一对应.</p>
+<p>charMapping 存储的是某个字符在 alphabet 或 charCounts 的数组下标.</p>
+<p>整体流程是先获取字符的 ASCII 码, 以 ASCII 码为下标在 charMapping
+查找到该字符在 alphabet 和 charCounts 中的 下标从而获得需要的数据.</p>
+<h3 id="具体代码">2. 具体代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Construct the alphabet. The results are stored in the member variables</span><br><span class="hljs-comment"> * charMapping and alphabet.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">constructAlphabet</span><span class="hljs-params">()</span> &#123;<br>	<span class="hljs-comment">// Initialize.</span><br>	Arrays.fill(charMapping, -<span class="hljs-number">1</span>);<br><br>	<span class="hljs-comment">// The count for each char. At most NUM_CHARS chars.</span><br>	<span class="hljs-type">int</span>[] tempCharCounts = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[NUM_CHARS];<br><br>	<span class="hljs-comment">// The index of the char in the ASCII charset.</span><br>	<span class="hljs-type">int</span> tempCharIndex;<br><br>	<span class="hljs-comment">// Step 1. Scan the string to obtain the counts.</span><br>	<span class="hljs-type">char</span> tempChar;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; inputText.length(); i++) &#123;<br>		tempChar = inputText.charAt(i);<br>		tempCharIndex = (<span class="hljs-type">int</span>) tempChar;<br><br>		System.out.print(<span class="hljs-string">&quot;&quot;</span> + tempCharIndex + <span class="hljs-string">&quot; &quot;</span>);<br><br>		tempCharCounts[tempCharIndex]++;<br>	&#125; <span class="hljs-comment">// Of for i</span><br><br>	<span class="hljs-comment">// Step 2. Scan to determine the size of the alphabet.</span><br>	alphabetLength = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">255</span>; i++) &#123;<br>		<span class="hljs-keyword">if</span> (tempCharCounts[i] &gt; <span class="hljs-number">0</span>) &#123;<br>			alphabetLength++;<br>		&#125; <span class="hljs-comment">// Of if</span><br>	&#125; <span class="hljs-comment">// Of for i</span><br><br>	<span class="hljs-comment">// Step 3. Compress to the alphabet</span><br>	alphabet = <span class="hljs-keyword">new</span> <span class="hljs-title class_">char</span>[alphabetLength];<br>	charCounts = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">2</span> * alphabetLength - <span class="hljs-number">1</span>];<br><br>	<span class="hljs-type">int</span> <span class="hljs-variable">tempCounter</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; NUM_CHARS; i++) &#123;<br>		<span class="hljs-keyword">if</span> (tempCharCounts[i] &gt; <span class="hljs-number">0</span>) &#123;<br>			alphabet[tempCounter] = (<span class="hljs-type">char</span>) i;<br>			charCounts[tempCounter] = tempCharCounts[i];<br>			charMapping[i] = tempCounter;<br>			tempCounter++;<br>		&#125; <span class="hljs-comment">// Of if</span><br>	&#125; <span class="hljs-comment">// Of for i</span><br><br>	System.out.println();<br>	System.out.println(<span class="hljs-string">&quot;The alphabet is: &quot;</span> + Arrays.toString(alphabet));<br>	System.out.println(<span class="hljs-string">&quot;Their counts are: &quot;</span> + Arrays.toString(charCounts));<br>	System.out.println(<span class="hljs-string">&quot;The char mappings are: &quot;</span> + Arrays.toString(charMapping));<br>&#125;<span class="hljs-comment">// Of constructAlphabet</span><br></code></pre></td></tr></table></figure>
+<h3 id="运行截图">3. 运行截图</h3>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022419153349.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="三建立-huffman-树">三、建立 Huffman 树</h2>
+<h3 id="描述">1. 描述</h3>
+<p>找 charCounts 中最小的两个值作为左右子节点,
+然后加起来构成一个新的值加入到 charCounts 中,
+这里就对应了之前为什么要设置 charCounts 的长度为 alphabet
+的两倍减一.</p>
+<p>然后就是就是将这些节点连接起来, 和之前构造树结构是一样的处理方法.</p>
+<h3 id="具体代码-1">2. 具体代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Construct the tree.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">constructTree</span><span class="hljs-params">()</span> &#123;<br>	<span class="hljs-comment">// Step 1. Allocate space.</span><br>	nodes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HuffmanNode</span>[alphabetLength * <span class="hljs-number">2</span> - <span class="hljs-number">1</span>];<br>	<span class="hljs-type">boolean</span>[] tempProcessed = <span class="hljs-keyword">new</span> <span class="hljs-title class_">boolean</span>[alphabetLength * <span class="hljs-number">2</span> - <span class="hljs-number">1</span>];<br><br>	<span class="hljs-comment">// Step 2. Initialize leaves.</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; alphabetLength; i++) &#123;<br>		nodes[i] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HuffmanNode</span>(alphabet[i], charCounts[i], <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>);<br>	&#125; <span class="hljs-comment">// Of for i</span><br><br>	<span class="hljs-comment">// Step 3. Construct the tree.</span><br>	<span class="hljs-type">int</span> tempLeft, tempRight, tempMinimal;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> alphabetLength; i &lt; <span class="hljs-number">2</span> * alphabetLength - <span class="hljs-number">1</span>; i++) &#123;<br>		<span class="hljs-comment">// Step 3.1 Select the first minimal as the left child.</span><br>		tempLeft = -<span class="hljs-number">1</span>;<br>		tempMinimal = Integer.MAX_VALUE;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>			<span class="hljs-keyword">if</span> (tempProcessed[j]) &#123;<br>				<span class="hljs-keyword">continue</span>;<br>			&#125; <span class="hljs-comment">// Of if</span><br><br>			<span class="hljs-keyword">if</span> (tempMinimal &gt; charCounts[j]) &#123;<br>				tempMinimal = charCounts[j];<br>				tempLeft = j;<br>			&#125; <span class="hljs-comment">// Of if</span><br>		&#125; <span class="hljs-comment">// Of for j</span><br>		tempProcessed[tempLeft] = <span class="hljs-literal">true</span>;<br><br>		<span class="hljs-comment">// Step 3.2 Select the second minimal as the right child.</span><br>		tempRight = -<span class="hljs-number">1</span>;<br>		tempMinimal = Integer.MAX_VALUE;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>			<span class="hljs-keyword">if</span> (tempProcessed[j]) &#123;<br>				<span class="hljs-keyword">continue</span>;<br>			&#125; <span class="hljs-comment">// Of if</span><br><br>			<span class="hljs-keyword">if</span> (tempMinimal &gt; charCounts[j]) &#123;<br>				tempMinimal = charCounts[j];<br>				tempRight = j;<br>			&#125; <span class="hljs-comment">// Of if</span><br>		&#125; <span class="hljs-comment">// Of for j</span><br>		tempProcessed[tempRight] = <span class="hljs-literal">true</span>;<br>		System.out.println(<span class="hljs-string">&quot;Selecting &quot;</span> + tempLeft + <span class="hljs-string">&quot; and &quot;</span> + tempRight);<br><br>		<span class="hljs-comment">// Step 3.3 Construct the new node.</span><br>		charCounts[i] = charCounts[tempLeft] + charCounts[tempRight];<br>		nodes[i] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HuffmanNode</span>(<span class="hljs-string">&#x27;*&#x27;</span>, charCounts[i], nodes[tempLeft], nodes[tempRight], <span class="hljs-literal">null</span>);<br><br>		<span class="hljs-comment">// Step 3.4 Link with children.</span><br>		nodes[tempLeft].parent = nodes[i];<br>		nodes[tempRight].parent = nodes[i];<br>		System.out.println(<span class="hljs-string">&quot;The children of &quot;</span> + i + <span class="hljs-string">&quot; are &quot;</span> + tempLeft + <span class="hljs-string">&quot; and &quot;</span> + tempRight);<br>	&#125; <span class="hljs-comment">// Of for i</span><br>&#125;<span class="hljs-comment">// Of constructTree</span><br></code></pre></td></tr></table></figure>
+<h3 id="运行截图-1">3. 运行截图</h3>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022419155924.png" srcset="/img/loading.gif" lazyload /></p>
+<h1 id="huffman-编码-编码与解码">Huffman 编码 (编码与解码)</h1>
+<h2 id="一描述-1">一、描述</h2>
+<p>将一棵 Huffman 树转换为 Huffman 编码.
+毕竟一棵只在内存里面的树对于现实没有很大作用,
+我们需要的是将信息压缩以及将压缩信息还原.</p>
+<h2 id="二编码">二、编码</h2>
+<h3 id="描述-1">1. 描述</h3>
+<p>将一段字符串转换为一段二进制, 这里为了简单起见用字符串代表二进制.</p>
+<p>从根开始, 向左编码 0 , 向右编码 1.</p>
+<h3 id="具体内容">2. 具体内容</h3>
+<h4 id="输入">输入</h4>
+<p>一行字符串</p>
+<h4 id="输出">输出</h4>
+<p>由 0 1 组成的字符串</p>
+<h4 id="具体代码-2">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Encode the given string.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraString The given string.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> String <span class="hljs-title function_">coding</span><span class="hljs-params">(String paraString)</span> &#123;<br>	<span class="hljs-type">String</span> <span class="hljs-variable">resultCodeString</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>	<span class="hljs-type">int</span> tempIndex;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraString.length(); i++) &#123;<br>		<span class="hljs-comment">// From the original char to the location in the alphabet.</span><br>		tempIndex = charMapping[(<span class="hljs-type">int</span>) paraString.charAt(i)];<br><br>		<span class="hljs-comment">// From the location in the alphabet to the code.</span><br>		resultCodeString += huffmanCodes[tempIndex];<br>	&#125; <span class="hljs-comment">// Of for i</span><br>	<span class="hljs-keyword">return</span> resultCodeString;<br>&#125;<span class="hljs-comment">// Of coding</span><br></code></pre></td></tr></table></figure>
+<h4 id="运行截图-2">运行截图</h4>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022419162444.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="三解码">三、解码</h2>
+<h3 id="描述-2">1. 描述</h3>
+<p>将一段二进制字符串转换为一个字符串.</p>
+<p>节点从根开始, 二进制字符串扫描从左到右. 扫描遇到 0 ,
+节点往左节点移动. 扫描遇到 1 , 节点往右节点移动.
+若解析到字符节点退回到根节点位置.</p>
+<p>这里字符节点的判断是通过左子树是否为 null. 因为根据 Huffman 树的结构,
+字符节点所在的位置都是叶节点.</p>
+<h3 id="具体内容-1">2. 具体内容</h3>
+<h4 id="输入-1">输入</h4>
+<p>由 0 1 组成的字符串</p>
+<h4 id="输出-1">输出</h4>
+<p>一行字符串</p>
+<h4 id="具体代码-3">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Decode the given string.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraString The given string.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> String <span class="hljs-title function_">decoding</span><span class="hljs-params">(String paraString)</span> &#123;<br>	<span class="hljs-type">String</span> <span class="hljs-variable">resultCodeString</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>	<span class="hljs-type">HuffmanNode</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> getRoot();<br><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraString.length(); i++) &#123;<br>		<span class="hljs-keyword">if</span> (paraString.charAt(i) == <span class="hljs-string">&#x27;0&#x27;</span>) &#123;<br>			tempNode = tempNode.leftChild;<br>			System.out.println(tempNode);<br>		&#125; <span class="hljs-keyword">else</span> &#123;<br>			tempNode = tempNode.rightChild;<br>			System.out.println(tempNode);<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		<span class="hljs-keyword">if</span> (tempNode.leftChild == <span class="hljs-literal">null</span>) &#123;<br>			System.out.println(<span class="hljs-string">&quot;Decode one:&quot;</span> + tempNode);<br>			<span class="hljs-comment">// Decode one char.</span><br>			resultCodeString += tempNode.character;<br><br>			<span class="hljs-comment">// Return to the root.</span><br>			tempNode = getRoot();<br>		&#125; <span class="hljs-comment">// Of if</span><br>	&#125; <span class="hljs-comment">// Of for i</span><br><br>	<span class="hljs-keyword">return</span> resultCodeString;<br>&#125;<span class="hljs-comment">// Of decoding</span><br></code></pre></td></tr></table></figure>
+<h4 id="运行截图-3">运行截图</h4>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022419162603.png" srcset="/img/loading.gif" lazyload /></p>
+<h1 id="总结">总结</h1>
+<p>编码和解码需要注意的是字符的取值必须要是之前在文本文件中出现过的,
+那个文本文件实际上模拟的就是人书信时各字符出现的样例.
+当然这部分并没有出现对不识别字符的处理.</p>
+<h1 id="附录完整代码">附录(完整代码)</h1>
+<p>这部分代码比较多, 所以我把它拆开, 以及其中还有一些辅助函数.</p>
+<p>完整代码如下 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> datastructure.tree;<br><br><span class="hljs-keyword">import</span> java.nio.charset.StandardCharsets;<br><span class="hljs-keyword">import</span> java.nio.file.Files;<br><span class="hljs-keyword">import</span> java.nio.file.Paths;<br><span class="hljs-keyword">import</span> java.util.Arrays;<br><span class="hljs-keyword">import</span> java.util.stream.Collectors;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Huffman tree, encoding, and decoding. For simplicity, only ASCII characters</span><br><span class="hljs-comment"> * are supported.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Shihuai Wen Email:wshysxcc@outlook.com</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Huffman</span> &#123;<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * An inner class for Huffman nodes.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">class</span> <span class="hljs-title class_">HuffmanNode</span> &#123;<br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * The char. Only valid for leaf nodes.</span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-type">char</span> character;<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * Weight. It can also be double.</span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-type">int</span> weight;<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * The left child.</span><br><span class="hljs-comment">		 */</span><br>		HuffmanNode leftChild;<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * The right child.</span><br><span class="hljs-comment">		 */</span><br>		HuffmanNode rightChild;<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * The parent. It helps constructing the Huffman code of each character.</span><br><span class="hljs-comment">		 */</span><br>		HuffmanNode parent;<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 ******************* </span><br><span class="hljs-comment">		 * The first constructor</span><br><span class="hljs-comment">		 ******************* </span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-keyword">public</span> <span class="hljs-title function_">HuffmanNode</span><span class="hljs-params">(<span class="hljs-type">char</span> paraCharacter, <span class="hljs-type">int</span> paraWeight, HuffmanNode paraLeftChild, HuffmanNode paraRightChild,</span><br><span class="hljs-params">				HuffmanNode paraParent)</span> &#123;<br>			character = paraCharacter;<br>			weight = paraWeight;<br>			leftChild = paraLeftChild;<br>			rightChild = paraRightChild;<br>			parent = paraParent;<br>		&#125;<span class="hljs-comment">// Of HuffmanNode</span><br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 ******************* </span><br><span class="hljs-comment">		 * To string.</span><br><span class="hljs-comment">		 ******************* </span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-keyword">public</span> String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span> &#123;<br>			<span class="hljs-type">String</span> <span class="hljs-variable">resultString</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;(&quot;</span> + character + <span class="hljs-string">&quot;, &quot;</span> + weight + <span class="hljs-string">&quot;)&quot;</span>;<br><br>			<span class="hljs-keyword">return</span> resultString;<br>		&#125;<span class="hljs-comment">// Of toString</span><br><br>	&#125;<span class="hljs-comment">// Of class HuffmanNode</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The number of characters. 256 for ASCII.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">NUM_CHARS</span> <span class="hljs-operator">=</span> <span class="hljs-number">256</span>;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The input text. It is stored in a string for simplicity.</span><br><span class="hljs-comment">	 */</span><br>	String inputText;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The length of the alphabet, also the number of leaves.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">int</span> alphabetLength;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The alphabet.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">char</span>[] alphabet;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The count of chars. The length is 2 * alphabetLength - 1 to include non-leaf</span><br><span class="hljs-comment">	 * nodes.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">int</span>[] charCounts;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The mapping of chars to the indices in the alphabet.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">int</span>[] charMapping;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * Codes for each char in the alphabet. It should have the same length as</span><br><span class="hljs-comment">	 * alphabet.</span><br><span class="hljs-comment">	 */</span><br>	String[] huffmanCodes;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * All nodes. The last node is the root.</span><br><span class="hljs-comment">	 */</span><br>	HuffmanNode[] nodes;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * The first constructor.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraFilename The text filename.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">Huffman</span><span class="hljs-params">(String paraFilename)</span> &#123;<br>		charMapping = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[NUM_CHARS];<br><br>		readText(paraFilename);<br>	&#125;<span class="hljs-comment">// Of the first constructor</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Read text.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraFilename The text filename.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">readText</span><span class="hljs-params">(String paraFilename)</span> &#123;<br>		<span class="hljs-keyword">try</span> &#123;<br>			inputText = Files.newBufferedReader(Paths.get(paraFilename), StandardCharsets.UTF_8).lines()<br>					.collect(Collectors.joining(<span class="hljs-string">&quot;\n&quot;</span>));<br>		&#125; <span class="hljs-keyword">catch</span> (Exception ee) &#123;<br>			System.out.println(ee);<br>			System.exit(<span class="hljs-number">0</span>);<br>		&#125; <span class="hljs-comment">// Of try</span><br><br>		System.out.println(<span class="hljs-string">&quot;The text is:\r\n&quot;</span> + inputText);<br>	&#125;<span class="hljs-comment">// Of readText</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Construct the alphabet. The results are stored in the member variables</span><br><span class="hljs-comment">	 * charMapping and alphabet.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">constructAlphabet</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-comment">// Initialize.</span><br>		Arrays.fill(charMapping, -<span class="hljs-number">1</span>);<br><br>		<span class="hljs-comment">// The count for each char. At most NUM_CHARS chars.</span><br>		<span class="hljs-type">int</span>[] tempCharCounts = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[NUM_CHARS];<br><br>		<span class="hljs-comment">// The index of the char in the ASCII charset.</span><br>		<span class="hljs-type">int</span> tempCharIndex;<br><br>		<span class="hljs-comment">// Step 1. Scan the string to obtain the counts.</span><br>		<span class="hljs-type">char</span> tempChar;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; inputText.length(); i++) &#123;<br>			tempChar = inputText.charAt(i);<br>			tempCharIndex = (<span class="hljs-type">int</span>) tempChar;<br><br>			System.out.print(<span class="hljs-string">&quot;&quot;</span> + tempCharIndex + <span class="hljs-string">&quot; &quot;</span>);<br><br>			tempCharCounts[tempCharIndex]++;<br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		<span class="hljs-comment">// Step 2. Scan to determine the size of the alphabet.</span><br>		alphabetLength = <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">255</span>; i++) &#123;<br>			<span class="hljs-keyword">if</span> (tempCharCounts[i] &gt; <span class="hljs-number">0</span>) &#123;<br>				alphabetLength++;<br>			&#125; <span class="hljs-comment">// Of if</span><br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		<span class="hljs-comment">// Step 3. Compress to the alphabet</span><br>		alphabet = <span class="hljs-keyword">new</span> <span class="hljs-title class_">char</span>[alphabetLength];<br>		charCounts = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">2</span> * alphabetLength - <span class="hljs-number">1</span>];<br><br>		<span class="hljs-type">int</span> <span class="hljs-variable">tempCounter</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; NUM_CHARS; i++) &#123;<br>			<span class="hljs-keyword">if</span> (tempCharCounts[i] &gt; <span class="hljs-number">0</span>) &#123;<br>				alphabet[tempCounter] = (<span class="hljs-type">char</span>) i;<br>				charCounts[tempCounter] = tempCharCounts[i];<br>				charMapping[i] = tempCounter;<br>				tempCounter++;<br>			&#125; <span class="hljs-comment">// Of if</span><br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		System.out.println();<br>		System.out.println(<span class="hljs-string">&quot;The alphabet is: &quot;</span> + Arrays.toString(alphabet));<br>		System.out.println(<span class="hljs-string">&quot;Their counts are: &quot;</span> + Arrays.toString(charCounts));<br>		System.out.println(<span class="hljs-string">&quot;The char mappings are: &quot;</span> + Arrays.toString(charMapping));<br>	&#125;<span class="hljs-comment">// Of constructAlphabet</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Construct the tree.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">constructTree</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-comment">// Step 1. Allocate space.</span><br>		nodes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HuffmanNode</span>[alphabetLength * <span class="hljs-number">2</span> - <span class="hljs-number">1</span>];<br>		<span class="hljs-type">boolean</span>[] tempProcessed = <span class="hljs-keyword">new</span> <span class="hljs-title class_">boolean</span>[alphabetLength * <span class="hljs-number">2</span> - <span class="hljs-number">1</span>];<br><br>		<span class="hljs-comment">// Step 2. Initialize leaves.</span><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; alphabetLength; i++) &#123;<br>			nodes[i] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HuffmanNode</span>(alphabet[i], charCounts[i], <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>);<br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		<span class="hljs-comment">// Step 3. Construct the tree.</span><br>		<span class="hljs-type">int</span> tempLeft, tempRight, tempMinimal;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> alphabetLength; i &lt; <span class="hljs-number">2</span> * alphabetLength - <span class="hljs-number">1</span>; i++) &#123;<br>			<span class="hljs-comment">// Step 3.1 Select the first minimal as the left child.</span><br>			tempLeft = -<span class="hljs-number">1</span>;<br>			tempMinimal = Integer.MAX_VALUE;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>				<span class="hljs-keyword">if</span> (tempProcessed[j]) &#123;<br>					<span class="hljs-keyword">continue</span>;<br>				&#125; <span class="hljs-comment">// Of if</span><br><br>				<span class="hljs-keyword">if</span> (tempMinimal &gt; charCounts[j]) &#123;<br>					tempMinimal = charCounts[j];<br>					tempLeft = j;<br>				&#125; <span class="hljs-comment">// Of if</span><br>			&#125; <span class="hljs-comment">// Of for j</span><br>			tempProcessed[tempLeft] = <span class="hljs-literal">true</span>;<br><br>			<span class="hljs-comment">// Step 3.2 Select the second minimal as the right child.</span><br>			tempRight = -<span class="hljs-number">1</span>;<br>			tempMinimal = Integer.MAX_VALUE;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>				<span class="hljs-keyword">if</span> (tempProcessed[j]) &#123;<br>					<span class="hljs-keyword">continue</span>;<br>				&#125; <span class="hljs-comment">// Of if</span><br><br>				<span class="hljs-keyword">if</span> (tempMinimal &gt; charCounts[j]) &#123;<br>					tempMinimal = charCounts[j];<br>					tempRight = j;<br>				&#125; <span class="hljs-comment">// Of if</span><br>			&#125; <span class="hljs-comment">// Of for j</span><br>			tempProcessed[tempRight] = <span class="hljs-literal">true</span>;<br>			System.out.println(<span class="hljs-string">&quot;Selecting &quot;</span> + tempLeft + <span class="hljs-string">&quot; and &quot;</span> + tempRight);<br><br>			<span class="hljs-comment">// Step 3.3 Construct the new node.</span><br>			charCounts[i] = charCounts[tempLeft] + charCounts[tempRight];<br>			nodes[i] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HuffmanNode</span>(<span class="hljs-string">&#x27;*&#x27;</span>, charCounts[i], nodes[tempLeft], nodes[tempRight], <span class="hljs-literal">null</span>);<br><br>			<span class="hljs-comment">// Step 3.4 Link with children.</span><br>			nodes[tempLeft].parent = nodes[i];<br>			nodes[tempRight].parent = nodes[i];<br>			System.out.println(<span class="hljs-string">&quot;The children of &quot;</span> + i + <span class="hljs-string">&quot; are &quot;</span> + tempLeft + <span class="hljs-string">&quot; and &quot;</span> + tempRight);<br>		&#125; <span class="hljs-comment">// Of for i</span><br>	&#125;<span class="hljs-comment">// Of constructTree</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Get the root of the binary tree.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> The root.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> HuffmanNode <span class="hljs-title function_">getRoot</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">return</span> nodes[nodes.length - <span class="hljs-number">1</span>];<br>	&#125;<span class="hljs-comment">// Of getRoot</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Pre-order visit.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">preOrderVisit</span><span class="hljs-params">(HuffmanNode paraNode)</span> &#123;<br>		System.out.print(<span class="hljs-string">&quot;(&quot;</span> + paraNode.character + <span class="hljs-string">&quot;, &quot;</span> + paraNode.weight + <span class="hljs-string">&quot;) &quot;</span>);<br><br>		<span class="hljs-keyword">if</span> (paraNode.leftChild != <span class="hljs-literal">null</span>) &#123;<br>			preOrderVisit(paraNode.leftChild);<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		<span class="hljs-keyword">if</span> (paraNode.rightChild != <span class="hljs-literal">null</span>) &#123;<br>			preOrderVisit(paraNode.rightChild);<br>		&#125; <span class="hljs-comment">// Of if</span><br>	&#125;<span class="hljs-comment">// Of preOrderVisit</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Generate codes for each character in the alphabet.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">generateCodes</span><span class="hljs-params">()</span> &#123;<br>		huffmanCodes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[alphabetLength];<br>		HuffmanNode tempNode;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; alphabetLength; i++) &#123;<br>			tempNode = nodes[i];<br>			<span class="hljs-comment">// Use tempCharCode instead of tempCode such that it is unlike</span><br>			<span class="hljs-comment">// tempNode.</span><br>			<span class="hljs-comment">// This is an advantage of long names.</span><br>			<span class="hljs-type">String</span> <span class="hljs-variable">tempCharCode</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br>			<span class="hljs-keyword">while</span> (tempNode.parent != <span class="hljs-literal">null</span>) &#123;<br>				<span class="hljs-keyword">if</span> (tempNode == tempNode.parent.leftChild) &#123;<br>					tempCharCode = <span class="hljs-string">&quot;0&quot;</span> + tempCharCode;<br>				&#125; <span class="hljs-keyword">else</span> &#123;<br>					tempCharCode = <span class="hljs-string">&quot;1&quot;</span> + tempCharCode;<br>				&#125; <span class="hljs-comment">// Of if</span><br><br>				tempNode = tempNode.parent;<br>			&#125; <span class="hljs-comment">// Of while</span><br><br>			huffmanCodes[i] = tempCharCode;<br>			System.out.println(<span class="hljs-string">&quot;The code of &quot;</span> + alphabet[i] + <span class="hljs-string">&quot; is &quot;</span> + tempCharCode);<br>		&#125; <span class="hljs-comment">// Of for i</span><br>	&#125;<span class="hljs-comment">// Of generateCodes</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Encode the given string.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraString The given string.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">coding</span><span class="hljs-params">(String paraString)</span> &#123;<br>		<span class="hljs-type">String</span> <span class="hljs-variable">resultCodeString</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>		<span class="hljs-type">int</span> tempIndex;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraString.length(); i++) &#123;<br>			<span class="hljs-comment">// From the original char to the location in the alphabet.</span><br>			tempIndex = charMapping[(<span class="hljs-type">int</span>) paraString.charAt(i)];<br><br>			<span class="hljs-comment">// From the location in the alphabet to the code.</span><br>			resultCodeString += huffmanCodes[tempIndex];<br>		&#125; <span class="hljs-comment">// Of for i</span><br>		<span class="hljs-keyword">return</span> resultCodeString;<br>	&#125;<span class="hljs-comment">// Of coding</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Decode the given string.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraString The given string.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">decoding</span><span class="hljs-params">(String paraString)</span> &#123;<br>		<span class="hljs-type">String</span> <span class="hljs-variable">resultCodeString</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>		<span class="hljs-type">HuffmanNode</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> getRoot();<br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraString.length(); i++) &#123;<br>			<span class="hljs-keyword">if</span> (paraString.charAt(i) == <span class="hljs-string">&#x27;0&#x27;</span>) &#123;<br>				tempNode = tempNode.leftChild;<br>				System.out.println(tempNode);<br>			&#125; <span class="hljs-keyword">else</span> &#123;<br>				tempNode = tempNode.rightChild;<br>				System.out.println(tempNode);<br>			&#125; <span class="hljs-comment">// Of if</span><br><br>			<span class="hljs-keyword">if</span> (tempNode.leftChild == <span class="hljs-literal">null</span>) &#123;<br>				System.out.println(<span class="hljs-string">&quot;Decode one:&quot;</span> + tempNode);<br>				<span class="hljs-comment">// Decode one char.</span><br>				resultCodeString += tempNode.character;<br><br>				<span class="hljs-comment">// Return to the root.</span><br>				tempNode = getRoot();<br>			&#125; <span class="hljs-comment">// Of if</span><br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		<span class="hljs-keyword">return</span> resultCodeString;<br>	&#125;<span class="hljs-comment">// Of decoding</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * The entrance of the program.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> args Not used now.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> &#123;<br>		<span class="hljs-type">Huffman</span> <span class="hljs-variable">tempHuffman</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Huffman</span>(<span class="hljs-string">&quot;D:/wenshihuai/huffmantext-small.txt&quot;</span>);<br>		tempHuffman.constructAlphabet();<br>		tempHuffman.constructTree();<br><br>		<span class="hljs-type">HuffmanNode</span> <span class="hljs-variable">tempRoot</span> <span class="hljs-operator">=</span> tempHuffman.getRoot();<br>		System.out.println(<span class="hljs-string">&quot;The root is: &quot;</span> + tempRoot);<br>		System.out.println(<span class="hljs-string">&quot;Preorder visit:&quot;</span>);<br>		tempHuffman.preOrderVisit(tempHuffman.getRoot());<br><br>		tempHuffman.generateCodes();<br><br>		<span class="hljs-type">String</span> <span class="hljs-variable">tempCoded</span> <span class="hljs-operator">=</span> tempHuffman.coding(<span class="hljs-string">&quot;a-efx&quot;</span>);<br>		System.out.println(<span class="hljs-string">&quot;Coded: &quot;</span> + tempCoded);<br>		<span class="hljs-type">String</span> <span class="hljs-variable">tempDecoded</span> <span class="hljs-operator">=</span> tempHuffman.decoding(tempCoded);<br>		System.out.println(<span class="hljs-string">&quot;Decoded: &quot;</span> + tempDecoded);<br><br>	&#125;<span class="hljs-comment">// Of main</span><br><br>&#125; <span class="hljs-comment">// Of class Huffman</span><br></code></pre></td></tr></table></figure></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BB%A3%E7%A0%81/" class="category-chain-item">代码</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BB%A3%E7%A0%81/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/" class="print-no-link">#java</a>
+      
+        <a href="/tags/eclipse/" class="print-no-link">#eclipse</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/6c36ec77/" title="Java学习-Day16">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java学习-Day16</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/82388d5b/" title="Java学习-Day14">
+                        <span class="hidden-mobile">Java学习-Day14</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

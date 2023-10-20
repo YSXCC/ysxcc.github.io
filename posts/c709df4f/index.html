@@ -1,0 +1,845 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="BP 神经网络 一、前言 神经网络顾名思义是利用类似生物神经元的结构来完成数据处理的任务, 进而实现分类或者识别的功能. 生物神经网络处理的是电信号, 处理的基本单元就叫做神经元, 如下 图1 所示.   图 1. 生物神经元  一个神经元的突触与其他一个或者多个神经元的树突相连接, 以此来传递电信号. 数以亿计的神经元相互连接就构成了神经网络, 也被叫做生物神经网络.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习-Day35">
+<meta property="og:url" content="http://yoursite.com/posts/c709df4f/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="BP 神经网络 一、前言 神经网络顾名思义是利用类似生物神经元的结构来完成数据处理的任务, 进而实现分类或者识别的功能. 生物神经网络处理的是电信号, 处理的基本单元就叫做神经元, 如下 图1 所示.   图 1. 生物神经元  一个神经元的突触与其他一个或者多个神经元的树突相连接, 以此来传递电信号. 数以亿计的神经元相互连接就构成了神经网络, 也被叫做生物神经网络.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022525102120.png">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022525110145.png">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022525152035.png">
+<meta property="article:published_time" content="2022-05-22T07:45:35.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.668Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="idea">
+<meta property="article:tag" content="BP">
+<meta property="article:tag" content="神经网络">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.omnitrix.top/MDImage/img/2022525102120.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Java学习-Day35 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Java学习-Day35</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-22 15:45" pubdate>
+          2022年5月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          95 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java学习-Day35</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="bp-神经网络">BP 神经网络</h1>
+<h2 id="一前言">一、前言</h2>
+<p>神经网络顾名思义是利用类似生物神经元的结构来完成数据处理的任务,
+进而实现分类或者识别的功能.</p>
+<p>生物神经网络处理的是电信号, 处理的基本单元就叫做神经元, 如下 图1
+所示.</p>
+<img src="https://img.omnitrix.top/MDImage/img/2022525102120.png" srcset="/img/loading.gif" lazyload />
+<center>
+图 1. 生物神经元
+</center>
+<p>一个神经元的突触与其他一个或者多个神经元的树突相连接,
+以此来传递电信号. 数以亿计的神经元相互连接就构成了神经网络,
+也被叫做生物神经网络.</p>
+<p>按照这样的思想, 通过代码构建出类似的结构, 这就叫做人工神经网络. BP
+神经网络不过是人工神经网络的一种, 是因为其中采用了 BP 算法.</p>
+<p>更加详细的解释和内容可以观看视频 <a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1bx411M7Zx">https://www.bilibili.com/video/BV1bx411M7Zx</a></p>
+<h2 id="二神经元模型">二、神经元模型</h2>
+<p>在周志华的机器学习一书中提到了一种简单但是非常经典的模型, 就是 "M-P
+神经元模型", 如下 图2 所示.</p>
+<img src="https://img.omnitrix.top/MDImage/img/2022525110145.png" srcset="/img/loading.gif" lazyload />
+<center>
+图 2. M-P 神经元模型
+</center>
+<p>在这个模型中, 神经元接收到来自 <span class="math inline">\(n\)</span>
+个其他神经元传递过来的输入信号, 这些输入信号通过带权重的连接进行传递,
+神经元接收到的总输入将与神经元的阈值进行比较,
+然后通过激活函数处理以产生神经元的输出.</p>
+<p>激活函数和其他的函数并无差别. 作为函数,
+我们通过上面的图就已经了解到了函数的输入. 此时函数的输出就只有一个值,
+这个值根据不同的激活函数有不同的表示.</p>
+<p>最简单的激活函数跃迁函数 <span class="math inline">\(Sgn\)</span>,
+其表达式如下:</p>
+<p><span class="math display">\[
+sgn(x) = \left\{
+\begin{array}{c}
+    1,\ x \ge 0; \\
+    0,\ x &lt; 0;
+\end{array}
+\right. \tag{1}
+\]</span></p>
+<p>这就好像一种非黑即白的思想,
+当然对于函数图像来说自然也就是不平滑和不连续.
+所以在神经网络中常用的是另一个激活函数 <span
+class="math inline">\(Sigmoid\)</span>, 其表达式如下.</p>
+<p><span class="math display">\[
+sigmoid(x) = \frac{1}{1+e^{-x}} \tag{2}
+\]</span></p>
+<p>该函数输出值的范围在 <span class="math inline">\((0,1)\)</span> 之间,
+函数图像平滑且连续. 并且这个函数的导数为: <span class="math display">\[
+sigmoid(x)&#39; =
+\frac{1}{1+e^{-x}}(1-\frac{1}{1+e^{-x}})=sigmoid(x)(1-sigmoid(x))
+\tag{3}
+\]</span></p>
+<h2 id="三bp-神经网络机制">三、BP 神经网络机制</h2>
+<p>BP神经网络是一种多层前馈神经网络, 主要特点是信号前向传递,
+误差反向传播.</p>
+<p>在前向传递中, 输入信号从输入层经隐含层逐层处理, 直至输出层.
+每一层的神经元状态只影响下一层神经元状态.</p>
+<p>如果输出层得不到期望输出, 则转入反向传播,
+根据预测误差调整网络权值和阈值, 从而使 BP
+神经网络预测输出不断逼近期望输出.</p>
+<p>单隐藏层 BP 神经网络的拓扑结构如下 图3 所示:</p>
+<img src="https://img.omnitrix.top/MDImage/img/2022525152035.png" srcset="/img/loading.gif" lazyload />
+<center>
+图 3. 单隐藏层 BP 神经网络拓扑结构
+</center>
+<h3 id="前向-forward-预测">1. 前向 forward 预测</h3>
+<p>以上图为例, 输入层有 <span class="math inline">\(n\)</span> 个节点,
+隐藏层有 <span class="math inline">\(q\)</span> 各节点, 输出层有 <span
+class="math inline">\(j\)</span> 个节点. 输入层和隐藏层间的权重为 <span
+class="math inline">\(V\)</span>, 隐藏层与输出层的权重为 <span
+class="math inline">\(W\)</span>, 输入变量为 <span
+class="math inline">\(X\)</span></p>
+<p>则隐藏层的输出为: <span class="math display">\[
+Z_k = f_1(\sum_{i=1}^{n}V_{ki}X_i), \ k = 1,\dots,q \tag{4}
+\]</span></p>
+<p>输出层的输出为: <span class="math display">\[
+O_l = f_2(\sum_{k=1}^{q}W_{lk}Z_k), \ l = 1,\dots,j \tag{5}
+\]</span></p>
+<p>输出层有几个节点就代表有几个类别, 哪个节点的输出值大就判断为哪类.</p>
+<h3 id="后向-backpropagation-调整权重">2. 后向 backpropagation
+调整权重</h3>
+<p>虽然在输出层说过谁的输出值大就归到哪一类,
+但是输出结果往往不尽人意.</p>
+<p>例如有三个类别 A B C, 有个物品是 A 类, 用三元组表示输出就应该是
+[1,0,0]. 可实际结果却是 [0.3,0.5,0.6], 错误就是 [0.7,-0.5,-0.6].</p>
+<p>为了缓解这种问题的出现,
+所以就需要对与输出层相连的隐藏层进行一个问责机制,
+因为是隐藏层的输入导致了最后的输出.
+由此问题转换为了调节权重进而降低错误偏差. 这是一个函数,
+很自然的就联想到之前矩阵分解中的梯度下降方法.</p>
+<p>整体来看, 这是一个迭代的过程, 反向地对节点间权重都进行了修改.</p>
+<p><b>误差函数:</b> 假设有 <span class="math inline">\(p\)</span>
+个输入样本, 则每个输入样本的误差函数为: <span class="math display">\[
+E_p=\frac{1}{2}\sum_{l=1}^{j}(y_{lp} - y&#39;_{lp})^2 \tag{6}
+\]</span></p>
+<h3 id="固定网络结构">3. 固定网络结构</h3>
+<p>隐藏层的节点个数是人为设置的, 各个节点之间的权值也是随机生成的.</p>
+<p>对于不同的问题, 存在着不同的节点和权值.</p>
+<h2 id="四具体实现">四、具体实现</h2>
+<h3 id="代码">1. 代码</h3>
+<p>将读取数据和一些工具类函数例如 <span
+class="math inline">\(argmax\)</span>
+用以获取数组中最大值的下标封装为一个抽象类.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> ann;<br><br><span class="hljs-keyword">import</span> java.io.FileReader;<br><span class="hljs-keyword">import</span> java.util.Arrays;<br><span class="hljs-keyword">import</span> java.util.Random;<br><br><span class="hljs-keyword">import</span> weka.core.Instances;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * General ANN. Two methods are abstract: forward and backPropagation.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Shi-Huai Wen Email: shihuaiwen@outlook.com.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GeneralAnn</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The whole dataset.</span><br><span class="hljs-comment">     */</span><br>    Instances dataset;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Number of layers. It is counted according to nodes instead of edges.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> numLayers;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The number of nodes for each layer, e.g., [3, 4, 6, 2] means that there</span><br><span class="hljs-comment">     * are 3 input nodes (conditional attributes), 2 hidden layers with 4 and 6</span><br><span class="hljs-comment">     * nodes, respectively, and 2 class values (binary classification).</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span>[] layerNumNodes;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Momentum coefficient.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> mobp;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Learning rate.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> learningRate;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * For random number generation.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">Random</span> <span class="hljs-variable">random</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Random</span>();<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * The first constructor.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraFilename      The arff filename.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraLayerNumNodes The number of nodes for each layer (maybe different).</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraLearningRate  Learning rate.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraMobp          Momentum coefficient.</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">GeneralAnn</span><span class="hljs-params">(String paraFilename, <span class="hljs-type">int</span>[] paraLayerNumNodes, <span class="hljs-type">double</span> paraLearningRate, <span class="hljs-type">double</span> paraMobp)</span> &#123;<br>        <span class="hljs-comment">// Step 1. Read data.</span><br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">FileReader</span> <span class="hljs-variable">tempReader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileReader</span>(paraFilename);<br>            dataset = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Instances</span>(tempReader);<br>            <span class="hljs-comment">// The last attribute is the decision class.</span><br>            dataset.setClassIndex(dataset.numAttributes() - <span class="hljs-number">1</span>);<br>            tempReader.close();<br>        &#125; <span class="hljs-keyword">catch</span> (Exception ee) &#123;<br>            System.out.println(<span class="hljs-string">&quot;Error occurred while trying to read &#x27;&quot;</span> + paraFilename + <span class="hljs-string">&quot;&#x27; in GeneralAnn constructor.\r\n&quot;</span> + ee);<br>            System.exit(<span class="hljs-number">0</span>);<br>        &#125; <span class="hljs-comment">// Of try</span><br><br>        <span class="hljs-comment">// Step 2. Accept parameters.</span><br>        layerNumNodes = paraLayerNumNodes;<br>        numLayers = layerNumNodes.length;<br>        <span class="hljs-comment">// Adjust if necessary.</span><br>        layerNumNodes[<span class="hljs-number">0</span>] = dataset.numAttributes() - <span class="hljs-number">1</span>;<br>        layerNumNodes[numLayers - <span class="hljs-number">1</span>] = dataset.numClasses();<br>        learningRate = paraLearningRate;<br>        mobp = paraMobp;<br>    &#125;<span class="hljs-comment">//Of the first constructor</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * Forward prediction.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraInput The input data of one instance.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The data at the output end.</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-type">double</span>[] forward(<span class="hljs-type">double</span>[] paraInput);<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * Back propagation.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraTarget For 3-class data, it is [0, 0, 1], [0, 1, 0] or [1, 0, 0].</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">backPropagation</span><span class="hljs-params">(<span class="hljs-type">double</span>[] paraTarget)</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * Train using the dataset.</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">train</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">double</span>[] tempInput = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[dataset.numAttributes() - <span class="hljs-number">1</span>];<br>        <span class="hljs-type">double</span>[] tempTarget = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[dataset.numClasses()];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; dataset.numInstances(); i++) &#123;<br>            <span class="hljs-comment">// Fill the data.</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; tempInput.length; j++) &#123;<br>                tempInput[j] = dataset.instance(i).value(j);<br>            &#125; <span class="hljs-comment">// Of for j</span><br><br>            <span class="hljs-comment">// Fill the class label.</span><br>            Arrays.fill(tempTarget, <span class="hljs-number">0</span>);<br>            tempTarget[(<span class="hljs-type">int</span>) dataset.instance(i).classValue()] = <span class="hljs-number">1</span>;<br><br>            <span class="hljs-comment">// Train with this instance.</span><br>            forward(tempInput);<br>            backPropagation(tempTarget);<br>        &#125; <span class="hljs-comment">// Of for i</span><br>    &#125;<span class="hljs-comment">// Of train</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * Get the index corresponding to the max value of the array.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> the index.</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">argmax</span><span class="hljs-params">(<span class="hljs-type">double</span>[] paraArray)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">resultIndex</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br>        <span class="hljs-type">double</span> <span class="hljs-variable">tempMax</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1e10</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraArray.length; i++) &#123;<br>            <span class="hljs-keyword">if</span> (tempMax &lt; paraArray[i]) &#123;<br>                tempMax = paraArray[i];<br>                resultIndex = i;<br>            &#125; <span class="hljs-comment">// Of if</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-keyword">return</span> resultIndex;<br>    &#125;<span class="hljs-comment">// Of argmax</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * Test using the dataset.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The precision.</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">double</span>[] tempInput = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[dataset.numAttributes() - <span class="hljs-number">1</span>];<br><br>        <span class="hljs-type">double</span> <span class="hljs-variable">tempNumCorrect</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">double</span>[] tempPrediction;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">tempPredictedClass</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; dataset.numInstances(); i++) &#123;<br>            <span class="hljs-comment">// Fill the data.</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; tempInput.length; j++) &#123;<br>                tempInput[j] = dataset.instance(i).value(j);<br>            &#125; <span class="hljs-comment">// Of for j</span><br><br>            <span class="hljs-comment">// Train with this instance.</span><br>            tempPrediction = forward(tempInput);<br><br>            tempPredictedClass = argmax(tempPrediction);<br>            <span class="hljs-keyword">if</span> (tempPredictedClass == (<span class="hljs-type">int</span>) dataset.instance(i).classValue()) &#123;<br>                tempNumCorrect++;<br>            &#125; <span class="hljs-comment">// Of if</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        System.out.println(<span class="hljs-string">&quot;Correct: &quot;</span> + tempNumCorrect + <span class="hljs-string">&quot; out of &quot;</span> + dataset.numInstances());<br><br>        <span class="hljs-keyword">return</span> tempNumCorrect / dataset.numInstances();<br>    &#125;<span class="hljs-comment">// Of test</span><br>&#125; <span class="hljs-comment">//Of class GeneralAnn</span><br></code></pre></td></tr></table></figure>
+<p>在进行 forward 时,
+对输入层和隐藏层之间的加权计算添加了一个偏移值.</p>
+<p>在进行 backPropagation 时, 一个样本只进行一次权重修改.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> ann;<br><br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Back-propagation neural networks.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Shi-Huai Wen Email: shihuaiwen@outlook.com.</span><br><span class="hljs-comment"> */</span><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SimpleAnn</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">GeneralAnn</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The value of each node that changes during the forward process. The first</span><br><span class="hljs-comment">     * dimension stands for the layer, and the second stands for the node.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span>[][] layerNodeValues;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The error on each node that changes during the back-propagation process.</span><br><span class="hljs-comment">     * The first dimension stands for the layer, and the second stands for the</span><br><span class="hljs-comment">     * node.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span>[][] layerNodeErrors;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The weights of edges. The first dimension stands for the layer, the</span><br><span class="hljs-comment">     * second stands for the node index of the layer, and the third dimension</span><br><span class="hljs-comment">     * stands for the node index of the next layer.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span>[][][] edgeWeights;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The change of edge weights. It has the same size as edgeWeights.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span>[][][] edgeWeightsDelta;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * The first constructor.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraFilename      The arff filename.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraLayerNumNodes The number of nodes for each layer (maybe different).</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraLearningRate  Learning rate.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraMobp          Momentum coefficient.</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">SimpleAnn</span><span class="hljs-params">(String paraFilename, <span class="hljs-type">int</span>[] paraLayerNumNodes, <span class="hljs-type">double</span> paraLearningRate, <span class="hljs-type">double</span> paraMobp)</span> &#123;<br>        <span class="hljs-comment">// Father constructor</span><br>        <span class="hljs-built_in">super</span>(paraFilename, paraLayerNumNodes, paraLearningRate, paraMobp);<br><br>        <span class="hljs-comment">// Step 1. Across layer initialization.</span><br>        layerNodeValues = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[numLayers][];<br>        layerNodeErrors = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[numLayers][];<br>        edgeWeights = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[numLayers - <span class="hljs-number">1</span>][][];<br>        edgeWeightsDelta = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[numLayers - <span class="hljs-number">1</span>][][];<br><br>        <span class="hljs-comment">// Step 2. Inner layer initialization.</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">l</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; l &lt; numLayers; l++) &#123;<br>            layerNodeValues[l] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[layerNumNodes[l]];<br>            layerNodeErrors[l] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[layerNumNodes[l]];<br><br>            <span class="hljs-comment">// One less layer because each edge crosses two layers.</span><br>            <span class="hljs-keyword">if</span> (l + <span class="hljs-number">1</span> == numLayers) &#123;<br>                <span class="hljs-keyword">break</span>;<br>            &#125; <span class="hljs-comment">// of if</span><br><br>            <span class="hljs-comment">// In layerNumNodes[l] + 1, the last one is reserved for the offset.</span><br>            edgeWeights[l] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[layerNumNodes[l] + <span class="hljs-number">1</span>][layerNumNodes[l + <span class="hljs-number">1</span>]];<br>            edgeWeightsDelta[l] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[layerNumNodes[l] + <span class="hljs-number">1</span>][layerNumNodes[l + <span class="hljs-number">1</span>]];<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; layerNumNodes[l] + <span class="hljs-number">1</span>; j++) &#123;<br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; layerNumNodes[l + <span class="hljs-number">1</span>]; i++) &#123;<br>                    <span class="hljs-comment">// Initialize weights.</span><br>                    edgeWeights[l][j][i] = random.nextDouble();<br>                &#125; <span class="hljs-comment">// Of for i</span><br>            &#125; <span class="hljs-comment">// Of for j</span><br>        &#125; <span class="hljs-comment">// Of for l</span><br>    &#125;<span class="hljs-comment">// Of the constructor</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * Forward prediction.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraInput The input data of one instance.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The data at the output end.</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span>[] forward(<span class="hljs-type">double</span>[] paraInput) &#123;<br>        <span class="hljs-comment">// Initialize the input layer.</span><br>        System.arraycopy(paraInput, <span class="hljs-number">0</span>, layerNodeValues[<span class="hljs-number">0</span>], <span class="hljs-number">0</span>, layerNodeValues[<span class="hljs-number">0</span>].length);<br><br>        <span class="hljs-comment">// Calculate the node values of each layer.</span><br>        <span class="hljs-type">double</span> z;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">l</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; l &lt; numLayers; l++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; layerNodeValues[l].length; j++) &#123;<br>                <span class="hljs-comment">// Initialize according to the offset, which is always +1</span><br>                z = edgeWeights[l - <span class="hljs-number">1</span>][layerNodeValues[l - <span class="hljs-number">1</span>].length][j];<br>                <span class="hljs-comment">// Weighted sum on all edges for this node.</span><br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; layerNodeValues[l - <span class="hljs-number">1</span>].length; i++) &#123;<br>                    z += edgeWeights[l - <span class="hljs-number">1</span>][i][j] * layerNodeValues[l - <span class="hljs-number">1</span>][i];<br>                &#125; <span class="hljs-comment">// Of for i</span><br><br>                <span class="hljs-comment">// Sigmoid activation.</span><br>                <span class="hljs-comment">// This line should be changed for other activation functions.</span><br>                layerNodeValues[l][j] = <span class="hljs-number">1</span> / (<span class="hljs-number">1</span> + Math.exp(-z));<br>            &#125; <span class="hljs-comment">// Of for j</span><br>        &#125; <span class="hljs-comment">// Of for l</span><br><br>        <span class="hljs-keyword">return</span> layerNodeValues[numLayers - <span class="hljs-number">1</span>];<br>    &#125;<span class="hljs-comment">// Of forward</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * Back propagation and change the edge weights.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraTarget For 3-class data, it is [0, 0, 1], [0, 1, 0] or [1, 0, 0].</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">backPropagation</span><span class="hljs-params">(<span class="hljs-type">double</span>[] paraTarget)</span> &#123;<br>        <span class="hljs-comment">// Step 1. Initialize the output layer error.</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">l</span> <span class="hljs-operator">=</span> numLayers - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; layerNodeErrors[l].length; j++) &#123;<br>            layerNodeErrors[l][j] = layerNodeValues[l][j] * (<span class="hljs-number">1</span> - layerNodeValues[l][j]) * (paraTarget[j] - layerNodeValues[l][j]);<br>        &#125; <span class="hljs-comment">// Of for j</span><br><br>        <span class="hljs-comment">// Step 2. Back-propagation even for l == 0</span><br>        <span class="hljs-keyword">while</span> (l &gt; <span class="hljs-number">0</span>) &#123;<br>            l--;<br>            <span class="hljs-comment">// Layer l, for each node.</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; layerNumNodes[l]; j++) &#123;<br>                <span class="hljs-type">double</span> <span class="hljs-variable">z</span> <span class="hljs-operator">=</span> <span class="hljs-number">0.0</span>;<br>                <span class="hljs-comment">// For each node of the next layer.</span><br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; layerNumNodes[l + <span class="hljs-number">1</span>]; i++) &#123;<br>                    <span class="hljs-keyword">if</span> (l &gt; <span class="hljs-number">0</span>) &#123;<br>                        z += layerNodeErrors[l + <span class="hljs-number">1</span>][i] * edgeWeights[l][j][i];<br>                    &#125; <span class="hljs-comment">// Of if</span><br><br>                    <span class="hljs-comment">// Weight adjusting.</span><br>                    edgeWeightsDelta[l][j][i] = mobp * edgeWeightsDelta[l][j][i] + learningRate * layerNodeErrors[l + <span class="hljs-number">1</span>][i] * layerNodeValues[l][j];<br>                    edgeWeights[l][j][i] += edgeWeightsDelta[l][j][i];<br>                    <span class="hljs-keyword">if</span> (j == layerNumNodes[l] - <span class="hljs-number">1</span>) &#123;<br>                        <span class="hljs-comment">// Weight adjusting for the offset part.</span><br>                        edgeWeightsDelta[l][j + <span class="hljs-number">1</span>][i] = mobp * edgeWeightsDelta[l][j + <span class="hljs-number">1</span>][i] + learningRate * layerNodeErrors[l + <span class="hljs-number">1</span>][i];<br>                        edgeWeights[l][j + <span class="hljs-number">1</span>][i] += edgeWeightsDelta[l][j + <span class="hljs-number">1</span>][i];<br>                    &#125; <span class="hljs-comment">// Of if</span><br>                &#125; <span class="hljs-comment">// Of for i</span><br><br>                <span class="hljs-comment">// Record the error according to the differential of Sigmoid.</span><br>                <span class="hljs-comment">// This line should be changed for other activation functions.</span><br>                layerNodeErrors[l][j] = layerNodeValues[l][j] * (<span class="hljs-number">1</span> - layerNodeValues[l][j]) * z;<br>            &#125; <span class="hljs-comment">// Of for j</span><br>        &#125; <span class="hljs-comment">// Of while</span><br>    &#125;<span class="hljs-comment">// Of backPropagation</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     * Test the algorithm.</span><br><span class="hljs-comment">     * *******************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">int</span>[] tempLayerNodes = &#123;<span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">8</span>, <span class="hljs-number">3</span>&#125;;<br>        <span class="hljs-type">SimpleAnn</span> <span class="hljs-variable">tempNetwork</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SimpleAnn</span>(<span class="hljs-string">&quot;D:/Work/sampledata/iris.arff&quot;</span>, tempLayerNodes, <span class="hljs-number">0.01</span>, <span class="hljs-number">0.6</span>);<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">round</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; round &lt; <span class="hljs-number">5000</span>; round++) &#123;<br>            tempNetwork.train();<br>        &#125; <span class="hljs-comment">// Of for n</span><br><br>        <span class="hljs-type">double</span> <span class="hljs-variable">tempAccuracy</span> <span class="hljs-operator">=</span> tempNetwork.test();<br>        System.out.println(<span class="hljs-string">&quot;The accuracy is: &quot;</span> + tempAccuracy);<br>    &#125;<span class="hljs-comment">// Of main</span><br>&#125;<span class="hljs-comment">// Of class SimpleAnn</span><br></code></pre></td></tr></table></figure>
+<h3 id="运行截图">2. 运行截图</h3>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022525171841.png" srcset="/img/loading.gif" lazyload /></p>
+<h1 id="总结">总结</h1>
+<p>和矩阵分解的思想类似, 通过随机然后再来靠近真实值.
+实际代码和公式推导还存在存在着一些问题, 尤其是进行后向 backPropagation
+的权值调整公式. 还是需要多动手推导一下.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BB%A3%E7%A0%81/" class="category-chain-item">代码</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BB%A3%E7%A0%81/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/" class="print-no-link">#java</a>
+      
+        <a href="/tags/idea/" class="print-no-link">#idea</a>
+      
+        <a href="/tags/BP/" class="print-no-link">#BP</a>
+      
+        <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="print-no-link">#神经网络</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/5e008ef5/" title="Java学习-Day36">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java学习-Day36</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/b00eefd9/" title="Java学习-Day34">
+                        <span class="hidden-mobile">Java学习-Day34</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

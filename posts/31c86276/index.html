@@ -1,0 +1,749 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="链队列 一、描述 链队列比较容易写. 只要之前的链表增删改查没问题, 那么这个链队列也不在话下. 二、思路 为方便操作, 空队列也需要一个节点. 这和以前的链表同理. 头节点的引用 (指针) 称为 header. 也被称为带有头节点的链队列. 所谓链队列入队仅操作尾部, 出队仅操作头部. 换句话说就是只在头进行删除操作, 只在尾进行插入操作. 节点的结构如下: 123456789">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习-Day9">
+<meta property="og:url" content="http://yoursite.com/posts/31c86276/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="链队列 一、描述 链队列比较容易写. 只要之前的链表增删改查没问题, 那么这个链队列也不在话下. 二、思路 为方便操作, 空队列也需要一个节点. 这和以前的链表同理. 头节点的引用 (指针) 称为 header. 也被称为带有头节点的链队列. 所谓链队列入队仅操作尾部, 出队仅操作头部. 换句话说就是只在头进行删除操作, 只在尾进行插入操作. 节点的结构如下: 123456789">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-12T08:28:15.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.670Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="eclipse">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Java学习-Day9 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Java学习-Day9</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-12 16:28" pubdate>
+          2022年4月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          68 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java学习-Day9</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="链队列">链队列</h2>
+<h3 id="一描述">一、描述</h3>
+<p>链队列比较容易写. 只要之前的链表增删改查没问题,
+那么这个链队列也不在话下.</p>
+<h3 id="二思路">二、思路</h3>
+<p>为方便操作, 空队列也需要一个节点. 这和以前的链表同理. 头节点的引用
+(指针) 称为 header. 也被称为带有头节点的链队列.
+所谓链队列入队仅操作尾部, 出队仅操作头部.
+换句话说就是只在头进行删除操作, 只在尾进行插入操作.</p>
+<p>节点的结构如下: <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * An inner class.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Node</span> &#123;<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The data.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">int</span> data;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The reference to the next node.</span><br><span class="hljs-comment">	 */</span><br>	Node next;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 ******************* </span><br><span class="hljs-comment">	 * The constructor.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraValue The data.</span><br><span class="hljs-comment">	 ******************* </span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">Node</span><span class="hljs-params">(<span class="hljs-type">int</span> paraValue)</span> &#123;<br>		data = paraValue;<br>		next = <span class="hljs-literal">null</span>;<br>	&#125;<span class="hljs-comment">// Of the constructor</span><br>&#125;<span class="hljs-comment">// Of class Node</span><br></code></pre></td></tr></table></figure></p>
+<h3 id="三入队操作">三、入队操作</h3>
+<h4 id="输入">输入</h4>
+<p>一个整数</p>
+<h4 id="输出">输出</h4>
+<p>无</p>
+<h4 id="具体代码">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Enqueue.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraValue The value of the new node.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">enqueue</span><span class="hljs-params">(<span class="hljs-type">int</span> paraValue)</span> &#123;<br>	<span class="hljs-type">Node</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(paraValue);<br>	tail.next = tempNode;<br>	tail = tempNode;<br>&#125;<span class="hljs-comment">// Of enqueue</span><br></code></pre></td></tr></table></figure>
+<h3 id="四出队操作">四、出队操作</h3>
+<h4 id="输入-1">输入</h4>
+<p>无</p>
+<h4 id="输出-1">输出</h4>
+<p>若队列不为空则输出一个数值</p>
+<p>若队列为空先打印字符串 "No element in the queue" 再返回 -1</p>
+<h4 id="具体代码-1">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Dequeue.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> The value at the header.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">dequeue</span><span class="hljs-params">()</span> &#123;<br>	<span class="hljs-keyword">if</span> (header == tail) &#123;<br>		System.out.println(<span class="hljs-string">&quot;No element in the queue&quot;</span>);<br>		<span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>	&#125; <span class="hljs-comment">// Of if</span><br><br>	<span class="hljs-type">int</span> <span class="hljs-variable">resultValue</span> <span class="hljs-operator">=</span> header.next.data;<br><br>	header.next = header.next.next;<br><br>	<span class="hljs-comment">// The queue becomes empty.</span><br>	<span class="hljs-keyword">if</span> (header.next == <span class="hljs-literal">null</span>) &#123;<br>		tail = header;<br>	&#125; <span class="hljs-comment">// Of if</span><br><br>	<span class="hljs-keyword">return</span> resultValue;<br>&#125;<span class="hljs-comment">// Of dequeue</span><br></code></pre></td></tr></table></figure>
+<h3 id="五完整代码">五、完整代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> datastructure.queue;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Linked queue.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Shihuai Wen Email:wshysxcc@outlook.com</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LinkedQueue</span> &#123;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * An inner class.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">class</span> <span class="hljs-title class_">Node</span> &#123;<br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * The data.</span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-type">int</span> data;<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * The reference to the next node.</span><br><span class="hljs-comment">		 */</span><br>		Node next;<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 ******************* </span><br><span class="hljs-comment">		 * The constructor.</span><br><span class="hljs-comment">		 * </span><br><span class="hljs-comment">		 * <span class="hljs-doctag">@param</span> paraValue The data.</span><br><span class="hljs-comment">		 ******************* </span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-keyword">public</span> <span class="hljs-title function_">Node</span><span class="hljs-params">(<span class="hljs-type">int</span> paraValue)</span> &#123;<br>			data = paraValue;<br>			next = <span class="hljs-literal">null</span>;<br>		&#125;<span class="hljs-comment">// Of the constructor</span><br>	&#125;<span class="hljs-comment">// Of class Node</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The header of the queue.</span><br><span class="hljs-comment">	 */</span><br>	Node header;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The tail of the queue.</span><br><span class="hljs-comment">	 */</span><br>	Node tail;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Construct an empty sequential list.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">LinkedQueue</span><span class="hljs-params">()</span> &#123;<br>		header = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(-<span class="hljs-number">1</span>);<br>		tail = header;<br>	&#125;<span class="hljs-comment">// Of the first constructor</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Enqueue.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraValue The value of the new node.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">enqueue</span><span class="hljs-params">(<span class="hljs-type">int</span> paraValue)</span> &#123;<br>		<span class="hljs-type">Node</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(paraValue);<br>		tail.next = tempNode;<br>		tail = tempNode;<br>	&#125;<span class="hljs-comment">// Of enqueue</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Dequeue.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> The value at the header.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">dequeue</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">if</span> (header == tail) &#123;<br>			System.out.println(<span class="hljs-string">&quot;No element in the queue&quot;</span>);<br>			<span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		<span class="hljs-type">int</span> <span class="hljs-variable">resultValue</span> <span class="hljs-operator">=</span> header.next.data;<br><br>		header.next = header.next.next;<br><br>		<span class="hljs-comment">// The queue becomes empty.</span><br>		<span class="hljs-keyword">if</span> (header.next == <span class="hljs-literal">null</span>) &#123;<br>			tail = header;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		<span class="hljs-keyword">return</span> resultValue;<br>	&#125;<span class="hljs-comment">// Of dequeue</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Overrides the method claimed in Object, the superclass of any class.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-type">String</span> <span class="hljs-variable">resultString</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>		<span class="hljs-keyword">if</span> (header.next == <span class="hljs-literal">null</span>) &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-string">&quot;empty&quot;</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		<span class="hljs-type">Node</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> header.next;<br>		<span class="hljs-keyword">while</span> (tempNode != <span class="hljs-literal">null</span>) &#123;<br>			resultString += tempNode.data + <span class="hljs-string">&quot;, &quot;</span>;<br>			tempNode = tempNode.next;<br>		&#125; <span class="hljs-comment">// Of while</span><br><br>		<span class="hljs-keyword">return</span> resultString;<br>	&#125;<span class="hljs-comment">// Of toString</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * The entrance of the program.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> args Not used now.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> &#123;<br>		<span class="hljs-type">LinkedQueue</span> <span class="hljs-variable">tempQueue</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedQueue</span>();<br>		System.out.println(<span class="hljs-string">&quot;Initialized, the list is: &quot;</span> + tempQueue.toString());<br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;<br>			tempQueue.enqueue(i + <span class="hljs-number">1</span>);<br>		&#125; <span class="hljs-comment">// Of for i</span><br>		System.out.println(<span class="hljs-string">&quot;Enqueue, the queue is: &quot;</span> + tempQueue.toString());<br><br>		tempQueue.dequeue();<br>		System.out.println(<span class="hljs-string">&quot;Dequeue, the queue is: &quot;</span> + tempQueue.toString());<br><br>		<span class="hljs-type">int</span> tempValue;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;<br>			tempValue = tempQueue.dequeue();<br>			System.out.println(<span class="hljs-string">&quot;Looped delete &quot;</span> + tempValue + <span class="hljs-string">&quot;, the new queue is: &quot;</span> + tempQueue.toString());<br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++) &#123;<br>			tempQueue.enqueue(i + <span class="hljs-number">10</span>);<br>		&#125; <span class="hljs-comment">// Of for i</span><br>		System.out.println(<span class="hljs-string">&quot;Enqueue, the queue is: &quot;</span> + tempQueue.toString());<br>	&#125;<span class="hljs-comment">// Of main</span><br>&#125;<span class="hljs-comment">// Of class LinkedQueue</span><br></code></pre></td></tr></table></figure>
+<h3 id="六运行截图">六、运行截图</h3>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022412175313.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="循环队列">循环队列</h2>
+<h3 id="一描述-1">一、描述</h3>
+<p>乌洛波洛斯是传说中头衔自己尾巴的一条蛇, 象征着 "无限" "循环".
+由此来引出循环队列是再好不过的了.</p>
+<p>想像操场跑道里放一队人, 循环的感觉就出来了.</p>
+<p>跑道可能占满, 也有可能一部分学生在跑步,
+自然这些学生不同时间就会出现在不同位置. 像极了循环队列中元素的移动.</p>
+<h3 id="二思路-1">二、思路</h3>
+<h4 id="存储结构">存储结构</h4>
+<p>对于队列中元素的存储可以选择顺序表, 当然也可以选择链表的结构.
+从示例代码来看这里选择的是顺序表, 简而言之就是数组.</p>
+<p>循环队列首先应该考虑的就是循环的问题,
+求余的作用就是超过限度之后回到数组开头.</p>
+<p>要是循环队列采用的是链表的结构呢？
+想必可能就不需要这个求余过程了.</p>
+<p>用链式结构, 空间的分配与回收由系统做, 用循环队列, 则是自己把控.
+想像自己写的是操作系统,
+从这个代码可以感受下内存的管理（内存管理绝不是如此简单的一个过程）.</p>
+<h4 id="关键操作">关键操作</h4>
+<p>为了区分空队列与满队列, 需要留一个空间. 相当于不允许首尾相连.</p>
+<p>当头和尾相同时队列为空, 那么此时判空表达式为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">head == tail<br></code></pre></td></tr></table></figure>
+<p>当尾下一个位置为头时队列为满, 那么此时判空表达式为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">(tail + <span class="hljs-number">1</span>) % TOTAL_SPACE == head<br></code></pre></td></tr></table></figure>
+<h3 id="三入队操作-1">三、入队操作</h3>
+<h4 id="输入-2">输入</h4>
+<p>一个整数</p>
+<h4 id="输出-2">输出</h4>
+<p>若队列满则打印 "Queue full.", 返回空值</p>
+<p>若队列未满只返回空值</p>
+<h4 id="具体代码-2">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Enqueue.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraValue The value of the new node.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">enqueue</span><span class="hljs-params">(<span class="hljs-type">int</span> paraValue)</span> &#123;<br>	<span class="hljs-keyword">if</span> ((tail + <span class="hljs-number">1</span>) % TOTAL_SPACE == head) &#123;<br>		System.out.println(<span class="hljs-string">&quot;Queue full.&quot;</span>);<br>		<span class="hljs-keyword">return</span>;<br>	&#125; <span class="hljs-comment">// Of if</span><br><br>	data[tail % TOTAL_SPACE] = paraValue;<br>	tail++;<br>&#125;<span class="hljs-comment">// Of enqueue</span><br></code></pre></td></tr></table></figure>
+<h3 id="四出队操作-1">四、出队操作</h3>
+<h4 id="输入-3">输入</h4>
+<p>无</p>
+<h4 id="输出-3">输出</h4>
+<p>若队列不为空则输出一个数值</p>
+<p>若队列为空先打印字符串 "No element in the queue." 再返回 -1</p>
+<h4 id="具体代码-3">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Dequeue.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> The value at the head.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">dequeue</span><span class="hljs-params">()</span> &#123;<br>	<span class="hljs-keyword">if</span> (head == tail) &#123;<br>		System.out.println(<span class="hljs-string">&quot;No element in the queue.&quot;</span>);<br>		<span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>	&#125; <span class="hljs-comment">// Of if</span><br><br>	<span class="hljs-type">int</span> <span class="hljs-variable">resultValue</span> <span class="hljs-operator">=</span> data[head % TOTAL_SPACE];<br><br>	head++;<br><br>	<span class="hljs-keyword">return</span> resultValue;<br>&#125;<span class="hljs-comment">// Of dequeue</span><br></code></pre></td></tr></table></figure>
+<h3 id="五完整代码-1">五、完整代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> datastructure.queue;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Circle char queue.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Shihuai Wen Email:wshysxcc@outlook.com</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CircleIntQueue</span> &#123;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The total space. One space can never be used.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">TOTAL_SPACE</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The data.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">int</span>[] data;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The index for calculating the head. The actual head is head % TOTAL_SPACE.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">int</span> head;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The index for calculating the tail.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">int</span> tail;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 ******************* </span><br><span class="hljs-comment">	 * The constructor</span><br><span class="hljs-comment">	 ******************* </span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">CircleIntQueue</span><span class="hljs-params">()</span> &#123;<br>		data = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[TOTAL_SPACE];<br>		head = <span class="hljs-number">0</span>;<br>		tail = <span class="hljs-number">0</span>;<br>	&#125;<span class="hljs-comment">// Of the first constructor</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Enqueue.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraValue The value of the new node.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">enqueue</span><span class="hljs-params">(<span class="hljs-type">int</span> paraValue)</span> &#123;<br>		<span class="hljs-keyword">if</span> ((tail + <span class="hljs-number">1</span>) % TOTAL_SPACE == head) &#123;<br>			System.out.println(<span class="hljs-string">&quot;Queue full.&quot;</span>);<br>			<span class="hljs-keyword">return</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		data[tail % TOTAL_SPACE] = paraValue;<br>		tail++;<br>	&#125;<span class="hljs-comment">// Of enqueue</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Dequeue.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> The value at the head.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">dequeue</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">if</span> (head == tail) &#123;<br>			System.out.println(<span class="hljs-string">&quot;No element in the queue.&quot;</span>);<br>			<span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		<span class="hljs-type">int</span> <span class="hljs-variable">resultValue</span> <span class="hljs-operator">=</span> data[head % TOTAL_SPACE];<br><br>		head++;<br><br>		<span class="hljs-keyword">return</span> resultValue;<br>	&#125;<span class="hljs-comment">// Of dequeue</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Overrides the method claimed in Object, the superclass of any class.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-type">String</span> <span class="hljs-variable">resultString</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>		<span class="hljs-keyword">if</span> (head == tail) &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-string">&quot;empty&quot;</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> head; i &lt; tail; i++) &#123;<br>			resultString += data[i % TOTAL_SPACE] + <span class="hljs-string">&quot;, &quot;</span>;<br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		<span class="hljs-keyword">return</span> resultString;<br>	&#125;<span class="hljs-comment">// Of toString</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * The entrance of the program.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> args Not used now.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> &#123;<br>		<span class="hljs-type">CircleIntQueue</span> <span class="hljs-variable">tempQueue</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CircleIntQueue</span>();<br>		System.out.println(<span class="hljs-string">&quot;Initialized, the list is: &quot;</span> + tempQueue.toString());<br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;<br>			tempQueue.enqueue(i + <span class="hljs-number">1</span>);<br>		&#125; <span class="hljs-comment">// Of for i</span><br>		System.out.println(<span class="hljs-string">&quot;Enqueue, the queue is: &quot;</span> + tempQueue.toString());<br><br>		<span class="hljs-type">int</span> <span class="hljs-variable">tempValue</span> <span class="hljs-operator">=</span> tempQueue.dequeue();<br>		System.out.println(<span class="hljs-string">&quot;Dequeue &quot;</span> + tempValue + <span class="hljs-string">&quot;, the queue is: &quot;</span> + tempQueue.toString());<br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">6</span>; i++) &#123;<br>			tempQueue.enqueue(i + <span class="hljs-number">10</span>);<br>			System.out.println(<span class="hljs-string">&quot;Enqueue, the queue is: &quot;</span> + tempQueue.toString());<br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++) &#123;<br>			tempValue = tempQueue.dequeue();<br>			System.out.println(<span class="hljs-string">&quot;Dequeue &quot;</span> + tempValue + <span class="hljs-string">&quot;, the queue is: &quot;</span> + tempQueue.toString());<br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">6</span>; i++) &#123;<br>			tempQueue.enqueue(i + <span class="hljs-number">100</span>);<br>			System.out.println(<span class="hljs-string">&quot;Enqueue, the queue is: &quot;</span> + tempQueue.toString());<br>		&#125; <span class="hljs-comment">// Of for i</span><br>	&#125;<span class="hljs-comment">// Of main</span><br><br>&#125; <span class="hljs-comment">// Of class CircleIntQueue</span><br><br></code></pre></td></tr></table></figure>
+<h3 id="六运行截图-1">六、运行截图</h3>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022413101435.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="总结">总结</h2>
+<p>队列呢在现实生活中真的比栈要常见得多了, 先来先到的概念深入人心.
+而在计算机的世界中我只能想到操作系统进程调度的先来先服务和消息队列.</p>
+<p>总之, 伟大的算法或者数据结构和现实世界是息息相关的.
+毕竟计算机无非就是为了更好模拟现实世界, 然后尽可能地提高算力.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BB%A3%E7%A0%81/" class="category-chain-item">代码</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BB%A3%E7%A0%81/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/" class="print-no-link">#java</a>
+      
+        <a href="/tags/eclipse/" class="print-no-link">#eclipse</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/85554942/" title="Java学习-Day10">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java学习-Day10</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/46cf52e0/" title="Java学习-Day8">
+                        <span class="hidden-mobile">Java学习-Day8</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

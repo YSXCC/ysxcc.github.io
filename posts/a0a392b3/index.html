@@ -1,0 +1,725 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="kMeans 聚类 一、聚类 监督式学习: 训练集有明确答案, 监督学习就是寻找问题 (又称输入、特征、自变量) 与答案 (又称输出、目标、因变量) 之间关系的学习方式. 监督学习模型有两类, 分类和回归.  分类模型: 目标变量是离散的分类型变量 回归模型: 目标变量是连续性数值型变量  无监督式学习: 只有数据, 无明确答案, 即训练集没有标签. 常见的无监督学习算法有聚类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习-Day28">
+<meta property="og:url" content="http://yoursite.com/posts/a0a392b3/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="kMeans 聚类 一、聚类 监督式学习: 训练集有明确答案, 监督学习就是寻找问题 (又称输入、特征、自变量) 与答案 (又称输出、目标、因变量) 之间关系的学习方式. 监督学习模型有两类, 分类和回归.  分类模型: 目标变量是离散的分类型变量 回归模型: 目标变量是连续性数值型变量  无监督式学习: 只有数据, 无明确答案, 即训练集没有标签. 常见的无监督学习算法有聚类">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-04T07:42:32.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.667Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="idea">
+<meta property="article:tag" content="kMeans">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Java学习-Day28 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Java学习-Day28</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-04 15:42" pubdate>
+          2022年5月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          63 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java学习-Day28</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="kmeans-聚类">kMeans 聚类</h1>
+<h2 id="一聚类">一、聚类</h2>
+<p><b>监督式学习:</b> 训练集有明确答案, 监督学习就是寻找问题
+(又称输入、特征、自变量) 与答案 (又称输出、目标、因变量)
+之间关系的学习方式. 监督学习模型有两类, 分类和回归.</p>
+<ul>
+<li><p>分类模型: 目标变量是离散的分类型变量</p></li>
+<li><p>回归模型: 目标变量是连续性数值型变量</p></li>
+</ul>
+<p><b>无监督式学习:</b> 只有数据, 无明确答案, 即训练集没有标签.
+常见的无监督学习算法有聚类 (clustering), 由计算机自己找出规律,
+把有相似属性的样本放在一组, 每个组也称为簇 (cluster). 接下来要谈到的
+KMeans 就是其中之一.</p>
+<h2 id="二kmeans步骤">二、kMeans步骤</h2>
+<p>K-Means 聚类步骤是一个循环迭代的算法, 非常简单易懂：</p>
+<ol type="1">
+<li><p>假定我们要对 N 个样本观测做聚类, 要求聚为 K 类, 首先选择 K
+个点作为初始中心点</p></li>
+<li><p>接下来, 按照距离初始中心点最小的原则,
+把所有观测分到各中心点所在的类中</p></li>
+<li><p>每类中有若干个观测, 计算 K 个类中所有样本点的均值,
+作为第二次迭代的 K 个中心点</p></li>
+<li><p>然后根据这个中心重复第2、3步，直到收敛
+(中心点不再改变或达到指定的迭代次数), 聚类过程结束</p></li>
+</ol>
+<h2 id="三代码分析">三、代码分析</h2>
+<h3 id="流程">1. 流程</h3>
+<p>Step 1: 从特定文件 iris.arff 读入数据存放在一个特定的数据结构中,
+我将它命名为 dataset.</p>
+<p>Step 2: 人为地为最后要分的类个数做出规定, 我们这里把类别固定为3,
+当然这一操作就感觉是一种上帝视角了.</p>
+<p>Step 3: 开始聚类</p>
+<p>Step 3.1: 获得一个混淆后的整数数组, 其中存放的是下标,
+这个下标指的是数据在 dataset 里的下标.</p>
+<p>Step 3.2: 用欧式距离找到各点到中心点距离,
+然后把它归到最近的那个类中.</p>
+<p>Step 3.3: 重新找中心点, 就是将每个类中所有数据各类别加起来取平均值.
+重复 Step 3的步骤直到中心点不变.</p>
+<h3 id="完整代码">2. 完整代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> kmeans;<br><br><span class="hljs-keyword">import</span> java.io.FileReader;<br><span class="hljs-keyword">import</span> java.util.Arrays;<br><span class="hljs-keyword">import</span> java.util.Random;<br><br><span class="hljs-keyword">import</span> weka.core.Instances;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * kMeans clustering.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Shihuai Wen Email: shihuaiwen@outlook.com.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">KMeans</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Manhattan distance.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">MANHATTAN</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Euclidean distance.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">EUCLIDEAN</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The distance measure.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-variable">distanceMeasure</span> <span class="hljs-operator">=</span> EUCLIDEAN;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * A random instance;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">Random</span> <span class="hljs-variable">random</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Random</span>();<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The data.</span><br><span class="hljs-comment">     */</span><br>    Instances dataset;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The number of clusters.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">numClusters</span> <span class="hljs-operator">=</span> <span class="hljs-number">2</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The clusters.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span>[][] clusters;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ******************************</span><br><span class="hljs-comment">     * The first constructor.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraFilename The data filename.</span><br><span class="hljs-comment">     *  ******************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">KMeans</span><span class="hljs-params">(String paraFilename)</span> &#123;<br>        dataset = <span class="hljs-literal">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">FileReader</span> <span class="hljs-variable">fileReader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileReader</span>(paraFilename);<br>            dataset = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Instances</span>(fileReader);<br>            fileReader.close();<br>        &#125; <span class="hljs-keyword">catch</span> (Exception ee) &#123;<br>            System.out.println(<span class="hljs-string">&quot;Cannot read the file: &quot;</span> + paraFilename + <span class="hljs-string">&quot;\r\n&quot;</span> + ee);<br>            System.exit(<span class="hljs-number">0</span>);<br>        &#125; <span class="hljs-comment">// Of try</span><br>    &#125;<span class="hljs-comment">// Of the first constructor</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ******************************</span><br><span class="hljs-comment">     * A setter.</span><br><span class="hljs-comment">     * ******************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setNumClusters</span><span class="hljs-params">(<span class="hljs-type">int</span> paraNumClusters)</span> &#123;<br>        numClusters = paraNumClusters;<br>    &#125;<span class="hljs-comment">// Of the setter</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ********************</span><br><span class="hljs-comment">     * Get a random indices for data randomization.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraLength The length of the sequence.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> An array of indices, e.g., &#123;4, 3, 1, 5, 0, 2&#125; with length 6.</span><br><span class="hljs-comment">     * ********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[] getRandomIndices(<span class="hljs-type">int</span> paraLength) &#123;<br>        <span class="hljs-type">int</span>[] resultIndices = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[paraLength];<br><br>        <span class="hljs-comment">// Step 1. Initialize.</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraLength; i++) &#123;<br>            resultIndices[i] = i;<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-comment">// Step 2. Randomly swap.</span><br>        <span class="hljs-type">int</span> tempFirst, tempSecond, tempValue;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraLength; i++) &#123;<br>            <span class="hljs-comment">// Generate two random indices.</span><br>            tempFirst = random.nextInt(paraLength);<br>            tempSecond = random.nextInt(paraLength);<br><br>            <span class="hljs-comment">// Swap.</span><br>            tempValue = resultIndices[tempFirst];<br>            resultIndices[tempFirst] = resultIndices[tempSecond];<br>            resultIndices[tempSecond] = tempValue;<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-keyword">return</span> resultIndices;<br>    &#125;<span class="hljs-comment">// Of getRandomIndices</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ********************</span><br><span class="hljs-comment">     * The distance between two instances.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraI     The index of the first instance.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> paraArray The array representing a point in the space.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> The distance.</span><br><span class="hljs-comment">     * ********************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">distance</span><span class="hljs-params">(<span class="hljs-type">int</span> paraI, <span class="hljs-type">double</span>[] paraArray)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">resultDistance</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">double</span> tempDifference;<br>        <span class="hljs-keyword">switch</span> (distanceMeasure) &#123;<br>            <span class="hljs-keyword">case</span> MANHATTAN:<br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; dataset.numAttributes() - <span class="hljs-number">1</span>; i++) &#123;<br>                    tempDifference = dataset.instance(paraI).value(i) - paraArray[i];<br>                    <span class="hljs-keyword">if</span> (tempDifference &lt; <span class="hljs-number">0</span>) &#123;<br>                        resultDistance -= tempDifference;<br>                    &#125; <span class="hljs-keyword">else</span> &#123;<br>                        resultDistance += tempDifference;<br>                    &#125; <span class="hljs-comment">// Of if</span><br>                &#125; <span class="hljs-comment">// Of for i</span><br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> EUCLIDEAN:<br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; dataset.numAttributes() - <span class="hljs-number">1</span>; i++) &#123;<br>                    tempDifference = dataset.instance(paraI).value(i) - paraArray[i];<br>                    resultDistance += tempDifference * tempDifference;<br>                &#125; <span class="hljs-comment">// Of for i</span><br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">default</span>:<br>                System.out.println(<span class="hljs-string">&quot;Unsupported distance measure: &quot;</span> + distanceMeasure);<br>        &#125;<span class="hljs-comment">// Of switch</span><br><br>        <span class="hljs-keyword">return</span> resultDistance;<br>    &#125;<span class="hljs-comment">// Of distance</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ******************************</span><br><span class="hljs-comment">     * Clustering.</span><br><span class="hljs-comment">     * ******************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">clustering</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">int</span>[] tempOldClusterArray = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[dataset.numInstances()];<br>        tempOldClusterArray[<span class="hljs-number">0</span>] = -<span class="hljs-number">1</span>;<br>        <span class="hljs-type">int</span>[] tempClusterArray = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[dataset.numInstances()];<br>        Arrays.fill(tempClusterArray, <span class="hljs-number">0</span>);<br>        <span class="hljs-type">double</span>[][] tempCenters = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[numClusters][dataset.numAttributes() - <span class="hljs-number">1</span>];<br><br>        <span class="hljs-comment">// Step 1. Initialize centers.</span><br>        <span class="hljs-type">int</span>[] tempRandomOrders = getRandomIndices(dataset.numInstances());<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; numClusters; i++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; tempCenters[<span class="hljs-number">0</span>].length; j++) &#123;<br>                tempCenters[i][j] = dataset.instance(tempRandomOrders[i]).value(j);<br>            &#125; <span class="hljs-comment">// Of for j</span><br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-type">int</span>[] tempClusterLengths = <span class="hljs-literal">null</span>;<br>        <span class="hljs-keyword">while</span> (!Arrays.equals(tempOldClusterArray, tempClusterArray)) &#123;<br>            System.out.println(<span class="hljs-string">&quot;New loop ...&quot;</span>);<br>            tempOldClusterArray = tempClusterArray;<br>            tempClusterArray = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[dataset.numInstances()];<br><br>            <span class="hljs-comment">// Step 2.1 Minimization. Assign cluster to each instance.</span><br>            <span class="hljs-type">int</span> tempNearestCenter;<br>            <span class="hljs-type">double</span> tempNearestDistance;<br>            <span class="hljs-type">double</span> tempDistance;<br><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; dataset.numInstances(); i++) &#123;<br>                tempNearestCenter = -<span class="hljs-number">1</span>;<br>                tempNearestDistance = Double.MAX_VALUE;<br><br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; numClusters; j++) &#123;<br>                    tempDistance = distance(i, tempCenters[j]);<br>                    <span class="hljs-keyword">if</span> (tempNearestDistance &gt; tempDistance) &#123;<br>                        tempNearestDistance = tempDistance;<br>                        tempNearestCenter = j;<br>                    &#125; <span class="hljs-comment">// Of if</span><br>                &#125; <span class="hljs-comment">// Of for j</span><br>                tempClusterArray[i] = tempNearestCenter;<br>            &#125; <span class="hljs-comment">// Of for i</span><br><br>            <span class="hljs-comment">// Step 2.2 Mean. Find new centers.</span><br>            tempClusterLengths = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[numClusters];<br>            Arrays.fill(tempClusterLengths, <span class="hljs-number">0</span>);<br>            <span class="hljs-type">double</span>[][] tempNewCenters = <span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[numClusters][dataset.numAttributes() - <span class="hljs-number">1</span>];<br>            <span class="hljs-comment">// Arrays.fill(tempNewCenters, 0);</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; dataset.numInstances(); i++) &#123;<br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; tempNewCenters[<span class="hljs-number">0</span>].length; j++) &#123;<br>                    tempNewCenters[tempClusterArray[i]][j] += dataset.instance(i).value(j);<br>                &#125; <span class="hljs-comment">// Of for j</span><br>                tempClusterLengths[tempClusterArray[i]]++;<br>            &#125; <span class="hljs-comment">// Of for i</span><br><br>            <span class="hljs-comment">// Step 2.3 Now average</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; tempNewCenters.length; i++) &#123;<br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; tempNewCenters[<span class="hljs-number">0</span>].length; j++) &#123;<br>                    tempNewCenters[i][j] /= tempClusterLengths[i];<br>                &#125; <span class="hljs-comment">// Of for j</span><br>            &#125; <span class="hljs-comment">// Of for i</span><br><br>            System.out.println(<span class="hljs-string">&quot;Now the new centers are: &quot;</span> + Arrays.deepToString(tempNewCenters));<br>            tempCenters = tempNewCenters;<br>        &#125; <span class="hljs-comment">// Of while</span><br><br>        <span class="hljs-comment">// Step 3. Form clusters.</span><br>        clusters = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[numClusters][];<br>        <span class="hljs-type">int</span>[] tempCounters = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[numClusters];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; numClusters; i++) &#123;<br>            <span class="hljs-keyword">if</span> (tempClusterLengths != <span class="hljs-literal">null</span>) &#123;<br>                clusters[i] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[tempClusterLengths[i]];<br>            &#125;<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; tempClusterArray.length; i++) &#123;<br>            clusters[tempClusterArray[i]][tempCounters[tempClusterArray[i]]] = i;<br>            tempCounters[tempClusterArray[i]]++;<br>        &#125; <span class="hljs-comment">// Of for i</span><br><br>        System.out.println(<span class="hljs-string">&quot;The clusters are: \r\n&quot;</span>);<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; clusters.length; i++) &#123;<br>            System.out.print(<span class="hljs-string">&quot;clusters &quot;</span> + i + <span class="hljs-string">&quot;: &quot;</span>);<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; clusters[i].length; j++) &#123;<br>                System.out.print( clusters[i][j] + <span class="hljs-string">&quot; &quot;</span>);<br>            &#125;<br>            System.out.println();<br>        &#125;<br>    &#125;<span class="hljs-comment">// Of clustering</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ******************************</span><br><span class="hljs-comment">     * Clustering.</span><br><span class="hljs-comment">     * ******************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testClustering</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">KMeans</span> <span class="hljs-variable">tempKMeans</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">KMeans</span>(<span class="hljs-string">&quot;D:/Work/sampledata/iris.arff&quot;</span>);<br>        tempKMeans.setNumClusters(<span class="hljs-number">3</span>);<br>        tempKMeans.clustering();<br>    &#125;<span class="hljs-comment">// Of testClustering</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ************************</span><br><span class="hljs-comment">     * A testing method.</span><br><span class="hljs-comment">     * ************************</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        testClustering();<br>    &#125;<span class="hljs-comment">// Of main</span><br>&#125; <span class="hljs-comment">// Of class KMeans</span><br></code></pre></td></tr></table></figure>
+<h3 id="运行截图">3. 运行截图</h3>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/202254172906.png" srcset="/img/loading.gif" lazyload /></p>
+<h1 id="总结">总结</h1>
+<p>kMeans 优点在于原理简单, 容易实现, 聚类效果好.</p>
+<p>当然, 也有一些缺点：</p>
+<ol type="1">
+<li><p>K 值、初始点的选取不好确定.</p></li>
+<li><p>得到的结果只是局部最优.</p></li>
+<li><p>受离群值影响大.</p></li>
+</ol>
+<p>计算机中的随机是伪随机. 虽然出现多种结果,
+但是随着运行次数的增加就会发现有重复的聚类出现.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BB%A3%E7%A0%81/" class="category-chain-item">代码</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BB%A3%E7%A0%81/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/" class="print-no-link">#java</a>
+      
+        <a href="/tags/idea/" class="print-no-link">#idea</a>
+      
+        <a href="/tags/kMeans/" class="print-no-link">#kMeans</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/d7a4a225/" title="Java学习-Day29">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java学习-Day29</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/301c8f22/" title="Java学习-Day27">
+                        <span class="hidden-mobile">Java学习-Day27</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

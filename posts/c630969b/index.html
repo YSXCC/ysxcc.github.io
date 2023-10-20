@@ -1,0 +1,765 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、PaddleOCR 简介 PaddleOCR 是一套丰富、领先、且实用的OCR工具库, 助力开发者训练出更好的模型, 并应用落地. 基于 PaddleOCR 训练出的模型具有良好的文本识别性. 二、移植过程 1. 编译环境准备 我们需要编译用于移动端的 Paddle Lite 以及 C++ demo.  C++ 环境  gcc、g++ &#x3D;&#x3D; 7.5.0 CMake &#x3D;&#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PaddleOCR模型移植安卓">
+<meta property="og:url" content="http://yoursite.com/posts/c630969b/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="一、PaddleOCR 简介 PaddleOCR 是一套丰富、领先、且实用的OCR工具库, 助力开发者训练出更好的模型, 并应用落地. 基于 PaddleOCR 训练出的模型具有良好的文本识别性. 二、移植过程 1. 编译环境准备 我们需要编译用于移动端的 Paddle Lite 以及 C++ demo.  C++ 环境  gcc、g++ &#x3D;&#x3D; 7.5.0 CMake &#x3D;&#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022810173653.png">
+<meta property="article:published_time" content="2022-08-10T01:27:54.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.672Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="PaddleOCR">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.omnitrix.top/MDImage/img/2022810173653.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>PaddleOCR模型移植安卓 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">PaddleOCR模型移植安卓</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-10 09:27" pubdate>
+          2022年8月10日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          47 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">PaddleOCR模型移植安卓</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="一paddleocr-简介">一、PaddleOCR 简介</h1>
+<p>PaddleOCR 是一套丰富、领先、且实用的OCR工具库,
+助力开发者训练出更好的模型, 并应用落地.</p>
+<p>基于 PaddleOCR 训练出的模型具有良好的文本识别性.</p>
+<h1 id="二移植过程">二、移植过程</h1>
+<h2 id="编译环境准备">1. 编译环境准备</h2>
+<p>我们需要编译用于移动端的 Paddle Lite 以及 C++ demo.</p>
+<h3>
+C++ 环境
+</h3>
+<p>gcc、g++ == 7.5.0</p>
+<p>CMake == 3.10.3</p>
+<p>Android NDK == r17c</p>
+<h3>
+Java 环境
+</h3>
+<p>OpenJDK == 11.0.6</p>
+<h2 id="环境安装以-ubuntu-18.04-为例">2. 环境安装(以 Ubuntu 18.04
+为例)</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. 安装 gcc g++ git make wget python unzip adb curl 等基础软件</span><br>sudo apt update<br>sudo apt get install -y --no-install-recommends gcc g++ git make wget python unzip adb curl<br><br><span class="hljs-comment"># 2. 安装 JDK 和 JRE</span><br>sudo apt install -y openjdk-11-jdk<br>sudo apt install -y openjdk-11-jre<br><br><span class="hljs-comment"># 3. 安装 CMake, 以下命令以 3.10.3 版本为例, 其他版本步骤类似</span><br>wget -c https://mms-res.cdn.bcebos.com/cmake-3.10.3-Linux-x86_64.tar.gz &amp;&amp; <br>    tar xzf cmake-3.10.3-Linux-x86_64.tar.gz &amp;&amp; \<br>    sudo <span class="hljs-built_in">mv</span> cmake-3.10.3-Linux-x86_64 /opt/cmake-3.10 &amp;&amp;<br>    sudo <span class="hljs-built_in">ln</span> -s /opt/cmake-3.10/bin/cmake /usr/bin/cmake &amp;&amp; \<br>    sudo <span class="hljs-built_in">ln</span> -s /opt/cmake-3.10/bin/ccmake /usr/bin/ccmake<br><br><span class="hljs-comment"># 4. 下载 linux-x86_64 版本的 Android NDK, 以下命令以 r17c 版本为例, 其他版本步骤类似.</span><br><span class="hljs-built_in">cd</span> /tmp &amp;&amp; curl -O https://dl.google.com/android/repository/android-ndk-r17c-linux-x86_64.zip<br><span class="hljs-built_in">cd</span> /opt &amp;&amp; unzip /tmp/android-ndk-r17c-linux-x86_64.zip<br><br><span class="hljs-comment"># 5. 添加环境变量 NDK_ROOT 指向 Android NDK 的安装路径</span><br><span class="hljs-comment"># 要是使用的 zsh Shell 就把 .bashrc 替换成 .zshrc</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;export NDK_ROOT=/opt/android-ndk-r17c&quot;</span> &gt;&gt; ~/.bashrc<br><span class="hljs-built_in">source</span> ~/.bashrc<br></code></pre></td></tr></table></figure>
+<h2 id="编译步骤">3. 编译步骤</h2>
+<p>运行编译脚本之前, 请先检查系统环境变量 NDK_ROOT 指向正确的 Android
+NDK 安装路径. 之后可以下载并构建 Paddle Lite 编译包.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. 检查环境变量 `NDK_ROOT` 指向正确的 Android NDK 安装路径</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$NDK_ROOT</span><br></code></pre></td></tr></table></figure>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022810111046.png" srcset="/img/loading.gif" lazyload /></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 2. 下载 Paddle Lite 源码并切换到发布分支, 如 release/v2.10</span><br>git <span class="hljs-built_in">clone</span> https://github.com/PaddlePaddle/Paddle-Lite.git<br><span class="hljs-built_in">cd</span> Paddle-Lite &amp;&amp; git checkout release/v2.10<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 3. 编译</span><br>./lite/tools/build_android.sh  --<span class="hljs-built_in">arch</span>=armv8  --with_cv=ON --with_extra=ON<br></code></pre></td></tr></table></figure>
+<p>这步需要花费很久的时间, 建议使用虚拟机或者 WSL 来编译.
+编译完成后我们就可以得到预测动态库 libpaddle_light_api_shared.so.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022810114153.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="模型转换">4. 模型转换</h2>
+<p>在 PC 端训练的模型是以 .pdmodel 后缀结尾的文件.
+如果要在移动端使用训练的模型就需要把 .pdmodel 的文件转换成 .nb
+的文件.</p>
+<ul>
+<li><p>步骤一 : 安装 paddlelite 用于转换 paddle inference model 为
+paddlelite 运行所需的 nb 模型.</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install paddlelite==2.10  <span class="hljs-comment"># paddlelite版本要与预测库版本一致</span><br></code></pre></td></tr></table></figure></p>
+<p>安装完后, 如下指令可以查看帮助信息</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">paddle_lite_opt<br></code></pre></td></tr></table></figure></p>
+<p>如果出现找不到命令, 那么就试着重启一下.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022810155317.png" srcset="/img/loading.gif" lazyload /></p></li>
+<li><p>步骤二 : 使用 paddle_lite_opt 将推论模型转换成移动端模型格式.</p>
+<p>以 PaddleOCR 的超轻量英文模型为例, 使用 paddle_lite_opt
+完成推论模型到 Paddle-Lite 优化模型的转换.</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 下载 PP-OCRv3 版本的中文推论模型</span><br>wget https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_slim_infer.tar &amp;&amp; tar xf ch_PP-OCRv3_det_slim_infer.tar<br>wget https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_rec_slim_infer.tar &amp;&amp; tar xf ch_PP-OCRv3_rec_slim_infer.tar<br>wget https://paddleocr.bj.bcebos.com/dygraph_v2.0/slim/ch_ppocr_mobile_v2.0_cls_slim_infer.tar &amp;&amp; tar xf ch_ppocr_mobile_v2.0_cls_slim_infer.tar<br><br><span class="hljs-comment"># 转换检测模型</span><br>paddle_lite_opt --model_file=./ch_PP-OCRv3_det_slim_infer/inference.pdmodel  --param_file=./ch_PP-OCRv3_det_slim_infer/inference.pdiparams  --optimize_out=./ch_PP-OCRv3_det_slim_opt --valid_targets=arm  --optimize_out_type=naive_buffer<br><span class="hljs-comment"># 转换识别模型</span><br>paddle_lite_opt --model_file=./ch_PP-OCRv3_rec_slim_infer/inference.pdmodel  --param_file=./ch_PP-OCRv3_rec_slim_infer/inference.pdiparams  --optimize_out=./ch_PP-OCRv3_rec_slim_opt --valid_targets=arm  --optimize_out_type=naive_buffer<br><span class="hljs-comment"># 转换方向分类器模型</span><br>paddle_lite_opt --model_file=./ch_ppocr_mobile_v2.0_cls_slim_infer/inference.pdmodel  --param_file=./ch_ppocr_mobile_v2.0_cls_slim_infer/inference.pdiparams  --optimize_out=./ch_ppocr_mobile_v2.0_cls_slim_opt --valid_targets=arm  --optimize_out_type=naive_buffer<br></code></pre></td></tr></table></figure></p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022810162554.png" srcset="/img/loading.gif" lazyload /></p></li>
+</ul>
+<h2 id="与移动设备联调">5. 与移动设备联调</h2>
+<p>在 windows 端安装 adb 并在终端输入下面指令</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">adb devices</span><br></code></pre></td></tr></table></figure>
+<p>如果有device输出, 则表示安装成功.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022810163413.png" srcset="/img/loading.gif" lazyload /></p>
+<p>准备优化后的模型、预测库文件、测试图像和使用的字典文件.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/PaddlePaddle/PaddleOCR.git<br><span class="hljs-built_in">cd</span> PaddleOCR/deploy/lite/<br><br><span class="hljs-comment"># 运行 prepare.sh, 准备预测库文件、测试图像和使用的字典文件, 并放置在预测库中的 demo/cxx/ocr 文件夹下</span><br><span class="hljs-comment"># 也就是之前编译出的三个以 .nb 为后缀的文件.</span><br>sh prepare.sh /&#123;lite prediction library path&#125;/inference_lite_lib.android.armv8<br><br><span class="hljs-comment"># 进入 OCR demo 的工作目录</span><br><span class="hljs-built_in">cd</span> /&#123;lite prediction library path&#125;/inference_lite_lib.android.armv8/<br><span class="hljs-built_in">cd</span> demo/cxx/ocr/<br><br><span class="hljs-comment"># 将C++预测动态库so文件复制到debug文件夹中</span><br><span class="hljs-built_in">cp</span> ../../../cxx/lib/libpaddle_light_api_shared.so ./debug/<br><br></code></pre></td></tr></table></figure>
+<p>移动三个模型到 ./debug/ 文件夹下, 其中的 11.jpg 是测试图像.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022810165743.png" srcset="/img/loading.gif" lazyload /></p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">demo/cxx/ocr/<br>|<span class="hljs-string">-- cls_process.cc              方向分类器的预处理和后处理文件</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- cls_process.h</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- config.txt                  超参数配置</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- crnn_process.cc             识别模型CRNN的预处理和后处理文件</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- crnn_process.h</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- db_post_process.cc          检测模型DB的后处理文件</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- db_post_process.h</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- debug/</span><br><span class="hljs-string"></span>|<span class="hljs-string">   </span>|<span class="hljs-string">--11.jpg                                待测试图像</span><br><span class="hljs-string"></span>|<span class="hljs-string">   </span>|<span class="hljs-string">--ch_ppocr_mobile_v2.0_cls_slim_opt.nb  优化后的文字方向分类器模型文件</span><br><span class="hljs-string"></span>|<span class="hljs-string">   </span>|<span class="hljs-string">--ch_PP-OCRv3_det_slim_opt.nb           优化后的检测模型文件</span><br><span class="hljs-string"></span>|<span class="hljs-string">   </span>|<span class="hljs-string">--ch_PP-OCRv3_rec_slim_opt.nb           优化后的识别模型文件</span><br><span class="hljs-string"></span>|<span class="hljs-string">   </span>|<span class="hljs-string">--config.txt                       超参数配置</span><br><span class="hljs-string"></span>|<span class="hljs-string">   </span>|<span class="hljs-string">--libpaddle_light_api_shared.so    C++预测库文件</span><br><span class="hljs-string"></span>|<span class="hljs-string">   </span>|<span class="hljs-string">--ppocr_keys_v1.txt                中文字典文件</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- Makefile                    编译文件</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- ocr_db_crnn.cc              C++预测源文件</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- prepare.sh                  文件生成脚本</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- readme_ch.md                中文文档</span><br><span class="hljs-string"></span>|<span class="hljs-string">-- readme.md                   英文文档</span><br></code></pre></td></tr></table></figure>
+<p>启动调试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 执行编译，得到可执行文件 ocr_db_crnn, 第一次执行此命令会下载 opencv 等依赖库, 下载完成后, 需要再执行一次</span><br>make -j<br></code></pre></td></tr></table></figure>
+<p>这里会出现一个 BUG, 显示头文件的缺失.</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022810171021.png" srcset="/img/loading.gif" lazyload /></p>
+<p>想必这单纯是夹带私货了, 这里就需要下载 AutoLog 这个库并编译</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 在当前文件夹下 clone 这个仓库</span><br>git <span class="hljs-built_in">clone</span> https://github.com/LDOUBLEV/AutoLog.git<br><span class="hljs-built_in">cd</span> AutoLog<br>pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple<br>python3 setup.py bdist_wheel<br>pip3 install ./dist/auto_log-1.2.0-py3-none-any.whl -i https://pypi.tuna.tsinghua.edu.cn/simple<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 将编译的可执行文件移动到 debug 文件夹中</span><br><span class="hljs-built_in">mv</span> ocr_db_crnn ./debug/<br><span class="hljs-comment"># 将 debug 文件夹 push 到手机上</span><br>adb push debug /data/local/tmp/<br>adb shell<br><span class="hljs-built_in">cd</span> /data/local/tmp/debug<br><span class="hljs-built_in">export</span> LD_LIBRARY_PATH=<span class="hljs-variable">$&#123;PWD&#125;</span>:<span class="hljs-variable">$LD_LIBRARY_PATH</span><br></code></pre></td></tr></table></figure>
+<p>! ! ! 这里需要注意 ocr_db_crnn 还不是可执行文件,
+需要给其可执行属性.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x ./ocr_db_crnn<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 开始使用，ocr_db_crnn可执行文件的使用方式为:</span><br><span class="hljs-comment"># ./ocr_db_crnn 预测模式  检测模型文件 方向分类器模型文件  识别模型文件 运行硬件 运行精度 线程数  batchsize  测试图像路径  参数配置路径  字典文件路径 是否使用benchmark参数</span><br>./ocr_db_crnn system  ch_PP-OCRv3_det_slim_opt.nb  ch_PP-OCRv3_rec_slim_opt.nb  ch_ppocr_mobile_v2.0_cls_slim_opt.nb  arm8 INT8 10 1  ./11.jpg  config.txt  ppocr_keys_v1.txt  True<br><br><span class="hljs-comment"># 仅使用文本检测模型，使用方式如下：</span><br>./ocr_db_crnn  ch_PP-OCRv3_det_slim_opt.nb arm8 INT8 10 1 ./11.jpg  config.txt<br><br><span class="hljs-comment"># 仅使用文本识别模型，使用方式如下：</span><br>./ocr_db_crnn  rec ch_PP-OCRv3_rec_slim_opt.nb arm8 INT8 10 1 word_1.jpg ppocr_keys_v1.txt config.txt<br></code></pre></td></tr></table></figure>
+<p>原图片 :</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022810172529.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>文本检测后的图片 :</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022810172616.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>识别情况 :</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022810172711.png" srcset="/img/loading.gif" lazyload /></p>
+<p>模型信息和运行速度 :</p>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022810172801.png" srcset="/img/loading.gif" lazyload /></p>
+<h1 id="三总结">三、总结</h1>
+<p>PaddleOCR 的兼容性很差, 一个小版本都可能导致无法编译.
+尤其需要注意高版本的 Android NDK, 它修改了各种库的位置,
+很容易造成编译时出现头文件缺失的情况.</p>
+<p>clone 项目尽量从 Github 进行 clone, Gitee 上虽然有相同项目文件,
+但可能会出现识别文字乱码或者编译出的 ocr_db_crnn 找不到动态链接库.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BB%A3%E7%A0%81/" class="category-chain-item">代码</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BB%A3%E7%A0%81/OCR/" class="category-chain-item">OCR</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/PaddleOCR/" class="print-no-link">#PaddleOCR</a>
+      
+        <a href="/tags/Android/" class="print-no-link">#Android</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/7cd4ed3d/" title="PaddleOCR安卓Demo存在的问题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">PaddleOCR安卓Demo存在的问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/e567e8a7/" title="极大似然估计和交叉熵">
+                        <span class="hidden-mobile">极大似然估计和交叉熵</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

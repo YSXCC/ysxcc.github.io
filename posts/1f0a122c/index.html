@@ -1,0 +1,1410 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言 一、矩阵的直和 1. 直和定义 定义 1: \(m \times m\) 矩阵 \(A\) 与 \(n \times n\) 矩阵 \(B\) 的直和记作 \(A \oplus B\), 它是一个 \((m+n) \times (m+n)\) 的矩阵, 定义为 \[ A \oplus B &#x3D; \begin{bmatrix}   A&amp; O_{m \times n}\\">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵分析与应用-1.10-Hadamard积与Kronecker积">
+<meta property="og:url" content="http://yoursite.com/posts/1f0a122c/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="前言 一、矩阵的直和 1. 直和定义 定义 1: \(m \times m\) 矩阵 \(A\) 与 \(n \times n\) 矩阵 \(B\) 的直和记作 \(A \oplus B\), 它是一个 \((m+n) \times (m+n)\) 的矩阵, 定义为 \[ A \oplus B &#x3D; \begin{bmatrix}   A&amp; O_{m \times n}\\">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+<meta property="article:published_time" content="2022-06-16T01:24:48.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.681Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="矩阵">
+<meta property="article:tag" content="Linear Algebra">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.omnitrix.top/MDImage/img/2022524104101.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>矩阵分析与应用-1.10-Hadamard积与Kronecker积 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">矩阵分析与应用-1.10-Hadamard积与Kronecker积</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-16 09:24" pubdate>
+          2022年6月16日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          100 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">矩阵分析与应用-1.10-Hadamard积与Kronecker积</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言">前言</h1>
+<h1 id="一矩阵的直和">一、矩阵的直和</h1>
+<h2 id="直和定义">1. 直和定义</h2>
+<p>定义 1: <span class="math inline">\(m \times m\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 与 <span class="math inline">\(n \times
+n\)</span> 矩阵 <span class="math inline">\(B\)</span> 的直和记作 <span
+class="math inline">\(A \oplus B\)</span>, 它是一个 <span
+class="math inline">\((m+n) \times (m+n)\)</span> 的矩阵, 定义为</p>
+<p><span class="math display">\[
+A \oplus B = \begin{bmatrix}
+  A&amp; O_{m \times n}\\
+  O_{n \times m}&amp; B
+\end{bmatrix} \tag{1}
+\]</span></p>
+<p>只是在对角线上堆加元素, 和求和并无关系, 有点像分块矩阵那种感觉.
+当然也可以定义多个矩阵的直和.</p>
+<p><span class="math display">\[
+B = \underset{i=0}{\overset{N-1}{\oplus}} A_i = A_0 \oplus A_1 \oplus
+\dots \oplus A_{N-1} = \begin{bmatrix}
+  A_0&amp;  &amp;  &amp; \\
+  &amp;  A_1&amp;  &amp; \\
+  &amp;  &amp;  \ddots&amp; \\
+  &amp;  &amp;  &amp; A_{N-1}
+\end{bmatrix} \tag{2}
+\]</span></p>
+<h2 id="直和性质">2. 直和性质</h2>
+<p>根据定义直和有一些性质:</p>
+<ul>
+<li><p>若 <span class="math inline">\(c\)</span> 是常数, 则 <span
+class="math inline">\(c(A \oplus B) = cA \oplus cB\)</span></p></li>
+<li><p>若 <span class="math inline">\(A \neq B\)</span>, 则 <span
+class="math inline">\(A \oplus B \neq B \oplus A\)</span></p></li>
+<li><p>矩阵直和的复共轭、转置、复共轭转置与逆矩阵</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+(A \oplus B)^* &amp;= A^* \oplus B^* \\
+(A \oplus B)^{\mathrm{T}} &amp;= A^{\mathrm{T}} \oplus B^{\mathrm{T}} \\
+(A \oplus B)^{\mathrm{H}} &amp;= A^{\mathrm{H}} \oplus B^{\mathrm{H}} \\
+(A \oplus B)^{-1} &amp;= A^{-1} \oplus B^{-1}, \quad A,B 可逆
+\end{aligned}
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A,B\)</span> 为 <span
+class="math inline">\(m \times m\)</span> 矩阵, 且 <span
+class="math inline">\(C,D\)</span> 为 <span class="math inline">\(n
+\times n\)</span> 矩阵, 则</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+(A \pm B) \oplus (C \pm D) &amp;= (A \oplus C) \pm (B \oplus D) \\
+(A \oplus C)(B \oplus D) &amp;= AB \oplus CD
+\end{aligned}
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A,B,C\)</span> 分别是 <span
+class="math inline">\(m \times m , n \times n , p \times p
+矩阵\)</span>, 则</li>
+</ul>
+<p><span class="math display">\[
+A \oplus (B \oplus C) = (A \oplus B) \oplus C = A \oplus B \oplus C
+\]</span></p>
+<ul>
+<li>矩阵直和的迹、秩、行列式:</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{tr}(\underset{i=0}{\overset{N-1}{\oplus}}A_i) &amp;=
+\sum_{i=0}^{N-1}\mathrm{tr}(A_i)\\
+\mathrm{rank}(\underset{i=0}{\overset{N-1}{\oplus}}A_i) &amp;=
+\sum_{i=0}^{N-1}\mathrm{rank}(A_i) \\
+\mathrm{det}(\underset{i=0}{\overset{N-1}{\oplus}}A_i) &amp;=
+\prod_{i=0}^{N-1}\mathrm{det}(A_i)
+\end{aligned}
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A,B\)</span> 分别是 <span
+class="math inline">\(m \times m , n \times n\)</span> 正交矩阵, 则
+<span class="math inline">\(A \oplus B\)</span> 是 <span
+class="math inline">\((m + n) \times (m + n)\)</span> 正交矩阵.</li>
+</ul>
+<h1 id="二mathrmhadamard-积">二、<span
+class="math inline">\(\mathrm{Hadamard}\)</span> 积</h1>
+<h2 id="mathrmhadamard-积定义">1. <span
+class="math inline">\(\mathrm{Hadamard}\)</span> 积定义</h2>
+<p>定义 2: <span class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A = [a_{ij}]\)</span> 与 <span
+class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(B = [b_{ij}]\)</span> 的 <span
+class="math inline">\(\mathrm{Hadamard}\)</span> 积记作 <span
+class="math inline">\(A \odot B\)</span>, 它仍是一个 <span
+class="math inline">\(m \times n\)</span> 矩阵, 定义为</p>
+<p><span class="math display">\[
+A \odot B = [a_{ij}b_{ij}] \tag{3}
+\]</span></p>
+<p>不得不说这比矩阵乘法简单多了.</p>
+<p>定理 1: 若 <span class="math inline">\(m \times m\)</span> 矩阵 <span
+class="math inline">\(A,B\)</span> 是正定 (或半正定) 的, 则它们的 <span
+class="math inline">\(\mathrm{Hadamard}\)</span> 积 <span
+class="math inline">\(A \odot B\)</span> 也是正定 (或半正定) 的.</p>
+<p>推论 1(<span class="math inline">\(\mathrm{Fejer}\)</span> 定理): 令
+<span class="math inline">\(A\)</span> 是一个 <span
+class="math inline">\(m \times m\)</span> 矩阵, 则 <span
+class="math inline">\(A\)</span> 是半正定矩阵, 当且仅当</p>
+<p><span class="math display">\[
+\sum_{i=1}^{m}\sum_{j=1}^{m}a_{ij}b_{ij} \ge 0
+\]</span></p>
+<p>对所有 <span class="math inline">\(m \times m\)</span> 半正定矩阵
+<span class="math inline">\(B\)</span> 成立.</p>
+<p>定理 2: 令 <span class="math inline">\(A,B,C\)</span> 为 <span
+class="math inline">\(m \times n\)</span> 矩阵, 并且 <span
+class="math inline">\(\mathbf{1} = [1,1,\dots,1]^{\mathrm{T}}\)</span>
+为 <span class="math inline">\(n \times 1\)</span> 求和向量, <span
+class="math inline">\(D = \mathrm{diag}(d_1,d_2,\dots,d_m)\)</span>,
+其中, <span class="math inline">\(d_i = \sum_{j=1}^{n}a_{ij}\)</span>,
+则</p>
+<p><span class="math display">\[
+\mathrm{tr} \left ( A^{\mathrm{T}}(B \odot C) \right ) =
+\mathrm{tr}\left ( (A^{\mathrm{T}}\odot B^{\mathrm{T}}) C \right )
+\tag{4}
+\]</span></p>
+<p>和</p>
+<p><span class="math display">\[
+\mathbf{1}^{\mathrm{T}}A^{\mathrm{T}}(B \odot C)\mathbf{1} =
+\mathrm{tr}(B^{\mathrm{T}}DC) \tag{5}
+\]</span></p>
+<p>定理 3: 令 <span class="math inline">\(A,B\)</span> 为 <span
+class="math inline">\(n \times n\)</span> 正方矩阵, 并且 <span
+class="math inline">\(\mathbf{1} = [1,1,\dots,1]^{\mathrm{T}}\)</span>
+为 <span class="math inline">\(n \times 1\)</span> 求和向量. 假定 <span
+class="math inline">\(M\)</span> 是一个 <span class="math inline">\(n
+\times n\)</span> 对角矩阵 <span class="math inline">\(M =
+\mathrm{diag}(\mu_1,\mu_2,\dots,\mu_n)\)</span>, 而 <span
+class="math inline">\(m = M\mathbf{1}\)</span> 为 <span
+class="math inline">\(n \times 1\)</span> 向量, 则有</p>
+<p><span class="math display">\[
+\mathrm{tr}(AMB^{\mathrm{T}}M) = m^{\mathrm{T}}(A \odot B)m \tag{6}
+\]</span></p>
+<p><span class="math display">\[
+\mathrm{tr}(AB^{\mathrm{T}}) = \mathbf{1}^\mathrm{T}(A \odot
+B)\mathbf{1} \tag{7}
+\]</span></p>
+<p><span class="math display">\[
+MA \odot B^{\mathrm{T}}M = M(A \odot B^{\mathrm{T}})M \tag{8}
+\]</span></p>
+<h2 id="mathrmhadamard-积性质">2. <span
+class="math inline">\(\mathrm{Hadamard}\)</span> 积性质</h2>
+<ul>
+<li>若 <span class="math inline">\(A,B\)</span> 均为 <span
+class="math inline">\(m \times n\)</span> 矩阵, 则</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+A \odot B &amp;= B \odot A \\
+(A \odot B)^{\mathrm{T}} &amp;= A^{\mathrm{T}} \odot B^{\mathrm{T}} \\
+(A \odot B)^{\mathrm{H}} &amp;= A^{\mathrm{H}} \odot B^{\mathrm{H}} \\
+(A \odot B)^* &amp;= A^{*}\odot B^{*}
+\end{aligned}
+\]</span></p>
+<ul>
+<li><p>任何一个 <span class="math inline">\(m \times n\)</span> 矩阵
+<span class="math inline">\(A\)</span> 与 <span class="math inline">\(m
+\times n\)</span> 零矩阵 <span class="math inline">\(O_{m \times
+n}\)</span> 的 <span class="math inline">\(\mathrm{Hadamard}\)</span>
+积等于 <span class="math inline">\(m \times n\)</span> 零矩阵, 即 <span
+class="math inline">\(A \odot O_{m \times n} = O_{m \times n} \odot A =
+O_{m \times n}\)</span></p></li>
+<li><p>若 <span class="math inline">\(c\)</span> 为常数, 则</p></li>
+</ul>
+<p><span class="math display">\[
+c(A \odot B) = (cA) \odot B = A \odot (cB)
+\]</span></p>
+<ul>
+<li>矩阵 <span class="math inline">\(A_{m \times m} = [a_{ij}]\)</span>
+与单位矩阵 <span class="math inline">\(I_m\)</span> 的 <span
+class="math inline">\(\mathrm{Hadamard}\)</span> 积为 <span
+class="math inline">\(m \times m\)</span> 对角矩阵, 即</li>
+</ul>
+<p><span class="math display">\[
+A \odot I_m = I_m \odot A = \mathrm{diag}(A) =
+\mathrm{diag}(a_{11},a_{22},\dots,a_{mm})
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A,B,C,D\)</span> 均为 <span
+class="math inline">\(m \times n\)</span> 矩阵, 则</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+A \odot (B \odot C) &amp;= (A \odot B)\odot C = A \odot B \odot C \\
+(A \pm B)\odot C &amp;= A \odot C \pm B \odot C \\
+(A + B) \odot (C + D) &amp;= A \odot C + A \odot D + B \odot C + B \odot
+D
+\end{aligned}
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A,C\)</span> 为 <span
+class="math inline">\(m \times m\)</span> 矩阵, 并且 <span
+class="math inline">\(B,D\)</span> 为 <span class="math inline">\(n
+\times n\)</span> 矩阵, 则</li>
+</ul>
+<p><span class="math display">\[
+(A \odot B) \odot (C \odot D) = (A \odot C) \odot (B \odot D)
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A,B,C\)</span> 为 <span
+class="math inline">\(m \times n\)</span> 矩阵, 则</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{tr}(A^{\mathrm{T}}(B \odot C)) = \mathrm{tr}((A^{\mathrm{T}}
+\odot B^{\mathrm{T}})C)
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(A,B,D\)</span> 为 <span
+class="math inline">\(m \times m\)</span> 矩阵, 则</li>
+</ul>
+<p><span class="math display">\[
+D 为对角矩阵 \Longrightarrow (DA) \odot (BD) = D(A \odot B) D
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(m \times m\)</span> 矩阵 <span
+class="math inline">\(A,B\)</span> 是正定 (或半正定) 的, 则它们的 <span
+class="math inline">\(\mathrm{Hadamard}\)</span> 积 <span
+class="math inline">\(A \odot B\)</span> 也是正定 (或半正定) 的.</li>
+</ul>
+<p>书上的例子是关于盲信号分离的问题, 还是先把这部分搁置了吧.</p>
+<h1 id="三矩阵化函数和向量化函数">三、矩阵化函数和向量化函数</h1>
+<p>矩阵和向量之间存在相互转换的函数</p>
+<p>定义 3: 一个 <span class="math inline">\(mn \times 1\)</span> 向量
+<span class="math inline">\(a =
+[a_1,a_2,\dots,a_{mn}]^{\mathrm{T}}\)</span> 的矩阵化函数 <span
+class="math inline">\(\mathrm{unver}_{m,n}\)</span> 是一个将 <span
+class="math inline">\(mn\)</span> 个元素的列向量转化为 <span
+class="math inline">\(m \times n\)</span> 矩阵的算子, 即</p>
+<p><span class="math display">\[
+\mathrm{unver}_{m,n}(a) = A_{m \times n} = \begin{bmatrix}
+  a_1&amp;  a_{m+1}&amp;  \cdots&amp; a_{m(n-1)+1}\\
+  a_2&amp;  a_{m+2}&amp;  \cdots&amp; a_{m(n-1)+2}\\
+  \vdots&amp;  \vdots&amp;  &amp; \vdots\\
+  a_m&amp;  a_{2m}&amp; \cdots &amp; a_{mn}
+\end{bmatrix} \tag{9}
+\]</span></p>
+<p>相反, 若 <span class="math inline">\(A = [a_{ij}]\)</span> 是一个
+<span class="math inline">\(m \times n\)</span> 矩阵, 则 <span
+class="math inline">\(A\)</span> 的向量化函数 <span
+class="math inline">\(\mathrm{vec}(A)\)</span> 是一个 <span
+class="math inline">\(mn \times 1\)</span> 向量, 其元素是 <span
+class="math inline">\(A\)</span> 的元素的字典式排序, 即</p>
+<p><span class="math display">\[
+\mathrm{vec}(A) =\begin{bmatrix}
+  a_{11}&amp;\\
+  \vdots&amp;\\
+  a_{m1}&amp;\\
+  \vdots&amp;\\
+  a_{1n}&amp;\\
+  \vdots&amp;\\
+  a_{mn}&amp;  
+\end{bmatrix} \tag{10}
+\]</span></p>
+<p>矩阵元素的字典式排序也叫做按列堆栈.</p>
+<p>所以两者一结合就可以得到</p>
+<p><span class="math display">\[
+\mathrm{unver}_{m,n}(a) = A_{m \times n} \Longrightarrow \mathrm{vec}(A)
+= a \tag{11}
+\]</span></p>
+<p>当然除了按列堆栈还可以按行堆栈, 记作 <span
+class="math inline">\(\mathrm{rvec}(A)\)</span>,
+结果就是一行一行取数据来构成向量.</p>
+<p>存在一个唯一的 <span class="math inline">\(mn \times mn\)</span>
+置换矩阵, 可以将 <span class="math inline">\(\mathrm{vec}(A)\)</span>
+变换为 <span
+class="math inline">\(\mathrm{vec}(A^{\mathrm{T}})\)</span>.
+这个置换矩阵叫做交换矩阵, 记作 <span
+class="math inline">\(K_{mn}\)</span>, 满足如下等式</p>
+<p><span class="math display">\[
+K_{mn}\mathrm{vec}(A) = \mathrm{vec}(A^{\mathrm{T}}) \tag{12}
+\]</span></p>
+<p>交换矩阵有这样的性质</p>
+<p><span class="math display">\[
+K_{mn}^{\mathrm{T}} = K_{mn}^{-1} = K_{nm} \tag{13}
+\]</span></p>
+<p>构造方法想一想矩阵的初等变换.</p>
+<h1 id="四mathrmkronecker-积">四、<span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积</h1>
+<h2 id="mathrmkronecker-积定义">1. <span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积定义</h2>
+<p>一个 <span class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 和一个 <span class="math inline">\(p
+\times q\)</span> 矩阵 <span class="math inline">\(B\)</span> 的 <span
+class="math inline">\(\mathrm{Kronecker}\)</span> 记作 <span
+class="math inline">\(A \otimes B\)</span>, 这是一个 <span
+class="math inline">\(mp \times nq\)</span> 矩阵.</p>
+<p>定义 4 (右 <span class="math inline">\(\mathrm{Kronecker}\)</span> )
+: <span class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 和 <span class="math inline">\(p \times
+q\)</span> 矩阵 <span class="math inline">\(B\)</span> 的右 <span
+class="math inline">\(\mathrm{Kronecker}\)</span> <span
+class="math inline">\(A \otimes B\)</span> 定义为</p>
+<p><span class="math display">\[
+A \otimes B = [a_{ij}B] = \begin{bmatrix}
+  a_{11}B&amp;  a_{12}B&amp;  \cdots&amp; a_{1n}B\\
+  a_{21}B&amp;  a_{22}B&amp;  \cdots&amp; a_{2n}B\\
+  \vdots&amp;  \vdots&amp;  &amp; \vdots\\
+  a_{m1}B&amp;  a_{m2}B&amp;  \cdots&amp; a_{mn}B
+\end{bmatrix} \tag{14}
+\]</span></p>
+<p>定义 5 (左 <span class="math inline">\(\mathrm{Kronecker}\)</span> )
+: <span class="math inline">\(m \times n\)</span> 矩阵 <span
+class="math inline">\(A\)</span> 和 <span class="math inline">\(p \times
+q\)</span> 矩阵 <span class="math inline">\(B\)</span> 的左 <span
+class="math inline">\(\mathrm{Kronecker}\)</span> <span
+class="math inline">\(A \otimes B\)</span> 定义为</p>
+<p><span class="math display">\[
+[A \otimes B]_{\mathrm{left}} = [Ab_{ij}] = \begin{bmatrix}
+  Ab_{11}&amp;  Ab_{12}&amp;  \cdots&amp; Ab_{1q}\\
+  Ab_{21}&amp;  Ab_{22}&amp;  \cdots&amp; Ab_{2q}\\
+  \vdots&amp;  \vdots&amp;  &amp; \vdots\\
+  Ab_{p1}&amp;  Ab_{p2}&amp;  \cdots&amp; Ab_{pq}
+\end{bmatrix} \tag{15}
+\]</span></p>
+<p><span class="math inline">\(\mathrm{Kronecker}\)</span> 积
+也称直积或者张量积</p>
+<p>若矩阵 <span class="math inline">\(A_{m \times n} =
+ab^{\mathrm{T}}\)</span>, 则</p>
+<p><span class="math display">\[
+\mathrm{vec}(ab^{\mathrm{T}}) = b \otimes a \tag{16}
+\]</span></p>
+<p>定理 4: 令 <span class="math inline">\(A_{m \times p}, B_{p \times
+q}, C_{q \times n}\)</span>, 则</p>
+<p><span class="math display">\[
+\mathrm{vec}(ABC) = (C^{\mathrm{T}} \otimes A)\mathrm{vec}(B) \tag{17}
+\]</span></p>
+<p>定理 4 的两个特例.</p>
+<ul>
+<li>若 <span class="math inline">\(A\)</span> 为单位矩阵 <span
+class="math inline">\(I_m\)</span>, 而 <span class="math inline">\(B \in
+R^{m \times q}, C \in R^{q \times n}\)</span>, 则</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{vec}(BC) = (C^{\mathrm{T}} \otimes I_m)\mathrm{vec}(B) =
+(C^{\mathrm{T}} \otimes B)\mathrm{vec}(I_q) = (I_n \otimes
+B)\mathrm{vec}(C) \tag{18}
+\]</span></p>
+<ul>
+<li>若 <span class="math inline">\(C=d\)</span> 为 <span
+class="math inline">\(q\)</span> 向量, 则</li>
+</ul>
+<p><span class="math display">\[
+ABd = \mathrm{vec}(ABd) = (d^{\mathrm{T}} \otimes A)\mathrm{vec}(B) = (A
+\otimes d^{\mathrm{T}})\mathrm{vec}(B^{\mathrm{T}}) \tag{19}
+\]</span></p>
+<h2 id="mathrmkronecker-积性质">2. <span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积性质</h2>
+<p>然后就是一大堆性质:</p>
+<ul>
+<li><p>对矩阵 <span class="math inline">\(A_{m \times n}\)</span> 和
+<span class="math inline">\(B_{p \times q}\)</span>, 一般有 <span
+class="math inline">\(A \otimes B \neq B \otimes A\)</span></p></li>
+<li><p>任意矩阵与零矩阵的 <span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积等于零矩阵</p></li>
+<li><p><span class="math inline">\(\alpha \beta\)</span> 为常数</p>
+<p><span class="math display">\[
+\alpha A \otimes \beta B = \alpha \beta (A \otimes B) \tag{20}
+\]</span></p></li>
+<li><p>对矩阵 <span class="math inline">\(A_{m \times n},B_{n \times
+k},C_{l \times p},D_{p \times q}\)</span> 有</p>
+<p><span class="math display">\[
+AB \otimes CD = (A \otimes C)(B \otimes D) \tag{21}
+\]</span></p></li>
+<li><p>对矩阵 <span class="math inline">\(A_{m \times n},B_{p \times
+q},C_{p \times q}\)</span> 有</p>
+<p><span class="math display">\[
+A \otimes (B \pm C) = A \otimes B \pm A \otimes C \tag{22}
+\]</span></p>
+<p><span class="math display">\[
+(B \pm C) \otimes A = B \otimes A \pm C \otimes A \tag{23}
+\]</span></p></li>
+<li><p>若矩阵 <span class="math inline">\(A,B\)</span> 有广义逆矩阵
+<span class="math inline">\(A^{\dagger},B^{\dagger}\)</span>, 则</p>
+<p><span class="math display">\[
+(A \otimes B)^{\dagger} = A^{\dagger} \otimes B^{\dagger} \tag{24}
+\]</span></p>
+<p>特别地, 若 <span class="math inline">\(A,B\)</span> 是可逆方阵, 则
+<span class="math display">\[
+(A \otimes B)^{-1} = A^{-1} \otimes B^{-1} \tag{25}
+\]</span></p></li>
+<li><p>对矩阵 <span class="math inline">\(A_{m \times n},B_{p \times
+q}\)</span> 有</p>
+<p><span class="math display">\[
+(A \otimes B)^{\mathrm{T}} = A^{\mathrm{T}} \otimes B^{\mathrm{T}}
+\tag{26}
+\]</span></p>
+<p><span class="math display">\[
+(A \otimes B)^{\mathrm{H}} = A^{\mathrm{H}} \otimes B^{\mathrm{H}}
+\tag{27}
+\]</span></p></li>
+<li><p>对矩阵 <span class="math inline">\(A_{m \times n},B_{p \times
+q}\)</span> 有</p>
+<p><span class="math display">\[
+\mathrm{rank}(A \otimes B) = \mathrm{rank}(A)\mathrm{rank}(B) \tag{28}
+\]</span></p></li>
+<li><p>若 <span class="math inline">\(A\)</span> 是 <span
+class="math inline">\(m \times m\)</span> 矩阵, <span
+class="math inline">\(B\)</span> 是 <span class="math inline">\(n \times
+n\)</span> 矩阵, 则</p>
+<p><span class="math display">\[
+\mathrm{det}(A \otimes B) = (\mathrm{det}(A))^n(\mathrm{det}(B))^n
+\tag{29}
+\]</span></p></li>
+<li><p>若 <span class="math inline">\(A\)</span> 是 <span
+class="math inline">\(m \times m\)</span> 矩阵, <span
+class="math inline">\(B\)</span> 是 <span class="math inline">\(n \times
+n\)</span> 矩阵, 则</p>
+<p><span class="math display">\[
+\mathrm{tr}(A \otimes B) = \mathrm{tr}(A)\mathrm{tr}(B) \tag{30 }
+\]</span></p></li>
+<li><p>对矩阵 <span class="math inline">\(A_{m \times n},B_{n \times
+k},C_{p \times q},D_{p \times q}\)</span> 有</p>
+<p><span class="math display">\[
+(A+B) \otimes (C+D) = A \otimes C + A \otimes D + B \otimes C + B
+\otimes D \tag{31}
+\]</span></p>
+<p>更一般地, 有 <span class="math display">\[
+\bigg[ \sum_{i=1}^{M}A(i) \bigg] \otimes \bigg[ \sum_{j=1}^{N}B(j)
+\bigg] = \sum_{i=1}^{M}\sum_{j=1}^{N}[A(i) \otimes B(j)] \tag{32}
+\]</span></p></li>
+<li><p>对矩阵 <span class="math inline">\(A_{m \times n},B_{k \times
+l},C_{p \times q},D_{r \times s}\)</span> 有</p>
+<p><span class="math display">\[
+(A \otimes B) \otimes (C \otimes D) = A \otimes B \otimes C \otimes D
+\tag{33}
+\]</span></p></li>
+<li><p>若 <span class="math inline">\(\alpha_i\)</span> 是矩阵 <span
+class="math inline">\(A\)</span> 与特征值 <span
+class="math inline">\(\lambda_i\)</span> 对应的特征向量, <span
+class="math inline">\(\beta_i\)</span> 是矩阵 <span
+class="math inline">\(B\)</span> 与特征值 <span
+class="math inline">\(\mu_i\)</span> 对应的特征向量, 则 <span
+class="math inline">\(\alpha_i \otimes \beta_i\)</span> 是矩阵 <span
+class="math inline">\(A \otimes B\)</span> 与特征值 <span
+class="math inline">\(\lambda_i\mu_i\)</span> 对应的特征向量,
+也是与特征值 <span class="math inline">\(\lambda_i + \mu_i\)</span>
+对应的特征向量.</p></li>
+<li><p>对矩阵 <span class="math inline">\(A_{m \times n},B_{p \times
+q},C_{k \times l}\)</span> 有</p>
+<p><span class="math display">\[
+(A \otimes B) \otimes C = A \otimes (B \otimes C) \tag{34}
+\]</span></p>
+<p>即 $ A B C$ 的结果是无模糊的.</p></li>
+<li><p>对矩阵 <span class="math inline">\(A_{m \times n},B_{p \times
+q},C_{n \times r},D_{q \times s}\)</span> 有</p>
+<p><span class="math display">\[
+(A \otimes B)(C \otimes D) = AC \otimes BD \tag{35}
+\]</span></p>
+<p>更一般地, 有 <span class="math display">\[
+\prod_{i=1}^{N}[A(i) \otimes B(j)] =
+\bigg[\prod_{i=1}^{N}A(i)\bigg]\otimes \bigg[\prod_{i=1}^{N} B(i)\bigg]
+\tag{36}
+\]</span></p></li>
+<li><p>对矩阵 <span class="math inline">\(A_{m \times n},B_{p \times
+q}\)</span> 有</p>
+<p><span class="math display">\[
+\mathrm{exp}(A \otimes B) = \mathrm{exp}(A) \otimes \mathrm{exp}(B)
+\tag{37}
+\]</span></p></li>
+<li><p>若 <span class="math inline">\(B = I_p\)</span> 和 <span
+class="math inline">\(C = I_q\)</span>, 则</p>
+<p><span class="math display">\[
+A \otimes D = (AI_p) \otimes (I_qD) = (A \otimes I_q)(I_p \otimes D)
+\tag{38}
+\]</span></p>
+<p>式子中, <span class="math inline">\(I_p \otimes D\)</span>
+是块对角矩阵 (对应右 <span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积) 或稀疏矩阵 (对应左
+<span class="math inline">\(\mathrm{Kronecker}\)</span> 积). <span
+class="math inline">\(A \otimes I_q\)</span> 是稀疏矩阵 (对应右 <span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积) 或块对角矩阵
+(对应左 <span class="math inline">\(\mathrm{Kronecker}\)</span>
+积).</p></li>
+</ul>
+<h2 id="mathrmkhatri-rao-积的定义">3. <span
+class="math inline">\(\mathrm{Khatri-Rao}\)</span> 积的定义:</h2>
+<p>如果 <span class="math inline">\(G\)</span> 是 <span
+class="math inline">\(t \times u\)</span> 矩阵, <span
+class="math inline">\(F\)</span> 是 <span class="math inline">\(q \times
+u\)</span> 矩阵, 这两个矩阵的 <span
+class="math inline">\(\mathrm{Khatri-Rao}\)</span> 积记为 <span
+class="math inline">\(F * G\)</span>, 定义为</p>
+<p><span class="math display">\[
+F * G = [f_1 \otimes g_1, f_2 \otimes g_2, \dots , f_u \otimes g_u]
+\tag{39}
+\]</span></p>
+<h2 id="广义-mathrmkronecker-积">4. 广义 <span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积</h2>
+<p>定义 6 : 给定 <span class="math inline">\(N\)</span> 个 <span
+class="math inline">\(m \times r\)</span> 矩阵 <span
+class="math inline">\(A_i,i = 1,2,\dots,N\)</span>, 它们组成矩阵组 <span
+class="math inline">\(\{A\}_N\)</span>. 该矩阵组与 <span
+class="math inline">\(N \times l\)</span> 矩阵 <span
+class="math inline">\(B\)</span> 的 <span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积称为广义 <span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积, 定义为</p>
+<p><span class="math display">\[
+\{ A \}_N \otimes B = \begin{bmatrix}
+A_1 \otimes b_1\\
+A_2 \otimes b_2\\
+\vdots\\
+A_N \otimes b_N
+\end{bmatrix} \tag{40}
+\]</span></p>
+<p>式中, <span class="math inline">\(b_i\)</span> 是矩阵 <span
+class="math inline">\(B\)</span> 的第 <span
+class="math inline">\(i\)</span> 个行向量.</p>
+<h2 id="广义-mathrmkronecker-积的性质">5. 广义 <span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积的性质</h2>
+<ul>
+<li>若 <span class="math inline">\(\{A\}\)</span> 的每一个矩阵为 <span
+class="math inline">\(m_1 \times n_1\)</span> 矩阵, <span
+class="math inline">\(\{B\}\)</span> 的每一个矩阵为 <span
+class="math inline">\(m_2 \times n_2\)</span> 矩阵, 并且 <span
+class="math inline">\(\{C\}\)</span> 的每一个矩阵为 <span
+class="math inline">\(m_3 \times n_3\)</span>, 则</li>
+</ul>
+<p><span class="math display">\[
+(\{A\} \otimes \{B\}) \otimes \{C\} = \{A\} \otimes (\{B\} \otimes
+\{C\})
+\]</span></p>
+<ul>
+<li>广义 <span class="math inline">\(\mathrm{Kronecker}\)</span>
+积与矩阵直和之间存在关系</li>
+</ul>
+<p><span class="math display">\[
+\{A\}_N \otimes I_N = \underset{i=0}{\overset{N}{\oplus}}A_i
+\]</span></p>
+<ul>
+<li><p>若</p>
+<p><span class="math display">\[
+\{A\} E = \begin{bmatrix}
+  A_1 E\\
+  A_2 E\\
+  \vdots\\
+  A_N E
+\end{bmatrix}
+\]</span></p>
+<p>则 <span class="math display">\[
+(\{A\} E) \otimes (\{B\} F) = (\{A\} \otimes \{B\})(E \otimes F)
+\]</span></p></li>
+<li><p>令 <span
+class="math inline">\(\{A^{(0)}\},\{A^{(1)}\},\dots,\{A^{(p-1)}\}\)</span>
+为 <span class="math inline">\(p\)</span> 个矩阵组, 并且第 <span
+class="math inline">\(k\)</span> 个矩阵组有 <span
+class="math inline">\(N_k = m^k\)</span> 个矩阵, 即 <span
+class="math inline">\(\{A^{(k)}\}_{N_k}\)</span>. 定义</p>
+<p><span class="math display">\[
+R = \{A^{(p-1)}\}_{m^{p-1}} \otimes \{A^{(p-2)}\}_{m^{p-2}} \otimes
+\dots \otimes \{A^{(1)}\}_{m} \otimes A^{(0)}
+\]</span></p>
+<p>则矩阵 <span class="math inline">\(R\)</span>
+具有稀疏矩阵分解形式</p>
+<p><span class="math display">\[
+R = \prod_{k=0}^{p-1} \bigg[
+\underset{i=0}{\overset{m^{p-k-1}-1}{\oplus}} (I_{n^k} \otimes
+A_i^{(p-k-1)})\bigg]
+\]</span></p></li>
+<li><p>若每一个矩阵 <span class="math inline">\(A_i^{(k)}\)</span> 为酉
+(或者仿酉) 矩阵, 则 <span class="math inline">\(R\)</span> 是酉
+(或者仿酉) 矩阵.</p></li>
+<li><p>若 <span class="math inline">\(m = n\)</span>, 使得 <span
+class="math inline">\(A_i^{(k)}, i = 0,1,\dots,m^k-1, k =
+0,1,\dots,p-1\)</span> 均为正方矩阵, 则</p>
+<p><span class="math display">\[
+\mathrm{det}(R) = \prod_{k=0}^{p-1}
+\prod_{i=0}^{m^k-1}[\mathrm{det}(A_i^{(k)})]^{m^k}
+\]</span></p></li>
+</ul>
+<h2 id="向量化函数mathrmkronecker-乘幂和-mathrmkhatri-rao-积的性质.">6.
+向量化函数、<span class="math inline">\(\mathrm{Kronecker}\)</span>
+乘幂和 <span class="math inline">\(\mathrm{Khatri-Rao}\)</span>
+积的性质.</h2>
+<ul>
+<li>矩阵之和向量化</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{vec}(A+B) = \mathrm{vec}(A) + \mathrm{vec}(B) \tag{41}
+\]</span></p>
+<ul>
+<li>转置矩阵的向量化</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{vec}(A^{\mathrm{T}}) = K_{pq}\mathrm{vec}(A) \tag{42}
+\]</span></p>
+<ul>
+<li>两个矩阵 <span class="math inline">\(A_{m \times n}, B_{n \times
+p}\)</span> 的向量化</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{vec}(AB) = (I_s \otimes A)\mathrm{vec}(B)=(B^{\mathrm{T}}
+\otimes I_p)\mathrm{vec}(A) = (B^{\mathrm{T}} \otimes
+A)\mathrm{vec}(I_q) \tag{43}
+\]</span></p>
+<ul>
+<li>三个矩阵 <span class="math inline">\(A_{m \times n}, B_{n \times p},
+C_{p \times q}\)</span> 的向量化</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{vec}(ABC) = (C^{\mathrm{T}} \otimes A)\mathrm{vec}(B) \tag{44}
+\]</span></p>
+<ul>
+<li>矩阵的 <span class="math inline">\(\mathrm{Kronecker}\)</span>
+乘幂</li>
+</ul>
+<p><span class="math display">\[
+A^{[k+1]} = A \otimes A^{[k]} \tag{45}
+\]</span></p>
+<ul>
+<li>矩阵乘积的 <span class="math inline">\(\mathrm{Kronecker}\)</span>
+乘幂</li>
+</ul>
+<p><span class="math display">\[
+(AB)^{[k]} = A^{[k]} \otimes B^{[k]} \tag{46}
+\]</span></p>
+<ul>
+<li>三个矩阵乘积的迹</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{tr}(ABC) = (\mathrm{vec}(A))^{\mathrm{T}}(I_p \otimes
+B)\mathrm{vec}(C) \tag{47}
+\]</span></p>
+<ul>
+<li>四个矩阵乘积的迹</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{tr}(ABCD) =
+(\mathrm{vec}(D^{\mathrm{T}}))^{\mathrm{T}}(C^{\mathrm{T}} \otimes
+A)\mathrm{vec}(B) = (\mathrm{vec}(D))^{\mathrm{T}}(A \otimes
+C^{\mathrm{T}})\mathrm{vec}(B^{\mathrm{T}}) \tag{48}
+\]</span></p>
+<ul>
+<li>矩阵内积的迹等于两个矩阵的向量化函数的内积</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{tr}(A^{\mathrm{T}}D) =
+(\mathrm{vec}(A))^{\mathrm{T}}\mathrm{vec}(D) \tag{49}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\mathrm{Khatri-Rao}\)</span>
+积的结合律</li>
+</ul>
+<p><span class="math display">\[
+A * (D * F) = (A * D) * F \tag{50}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\mathrm{Khatri-Rao}\)</span> 积 <span
+class="math inline">\(A*B\)</span> 与 <span
+class="math inline">\(B*A\)</span> 之间的关系</li>
+</ul>
+<p><span class="math display">\[
+A * B = K_{nn}(B*A) \tag{51}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\mathrm{Kronecker}\)</span> 积与 <span
+class="math inline">\(\mathrm{Khatri-Rao}\)</span> 积的乘积</li>
+</ul>
+<p><span class="math display">\[
+(A \otimes B)(F \otimes G) = AF * BG \tag{52}
+\]</span></p>
+<h1 id="五mathrmkronecker-积的应用">五、<span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积的应用</h1>
+<p>最直接的应用就是求解矩阵方程组</p>
+<p><span class="math display">\[
+AXB = C \tag{53}
+\]</span></p>
+<p>式中, <span class="math inline">\(A\)</span> 和 <span
+class="math inline">\(X\)</span> 分别是 <span class="math inline">\(m
+\times n\)</span> 和 <span class="math inline">\(n \times p\)</span>
+矩阵, 而 <span class="math inline">\(B\)</span> 和 <span
+class="math inline">\(C\)</span> 维数分别是 <span
+class="math inline">\(p \times q\)</span> 和 <span
+class="math inline">\(m \times q\)</span></p>
+<p>利用向量化算符, 定义 <span class="math inline">\(x =
+\mathrm{vec}(X)\)</span> 和 <span class="math inline">\(c =
+\mathrm{vec}(C)\)</span>, 则上述方程组可以用 <span
+class="math inline">\(\mathrm{Kronecker}\)</span> 积改写为</p>
+<p><span class="math display">\[
+(A \otimes B^{\mathrm{T}})x = c \tag{54}
+\]</span></p>
+<p>解出向量 <span class="math inline">\(x\)</span> 就可利用向量 <span
+class="math inline">\(x\)</span> 的矩阵化算符得到原矩阵方程组的解矩阵
+<span class="math inline">\(X = \mathrm{unvec}(x)\)</span></p>
+<p>还可以用于向量过程的累积量以及推导出多信道 <span
+class="math inline">\(BBR\)</span> 公式</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="category-chain-item">线性代数</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90%E4%B8%8E%E5%BA%94%E7%94%A8/" class="category-chain-item">矩阵分析与应用</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%9F%A9%E9%98%B5/" class="print-no-link">#矩阵</a>
+      
+        <a href="/tags/Linear-Algebra/" class="print-no-link">#Linear Algebra</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/7a56f122/" title="矩阵分析与应用-4.4~4.6章节内容">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">矩阵分析与应用-4.4~4.6章节内容</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/6ca5c076/" title="矩阵分析与应用-1.9-Moore-Penrose逆矩阵-Section3">
+                        <span class="hidden-mobile">矩阵分析与应用-1.9-Moore-Penrose逆矩阵-Section3</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

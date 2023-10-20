@@ -1,0 +1,753 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/%E6%98%9F%E7%90%83.png">
+  <link rel="icon" href="/img/%E6%98%9F%E7%90%83.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YSXCC">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="链表 一、总述 链表是由多个相同的节点链接形成的, 在C语言中用结构体来表示, 在Java中则用一个类来表示. C语言中使用指针直接访问节点, 访问的同时实际对内存也有了读写的属性, 不稍加注意就会出现错误. 而在Java中就不会出现这种情况. 链表与顺序表在插入、删除时的不同: 前者不移动元素, 只改变引用 (指针). 二、链表初始化 描述 生成的是一个带有头节点的单链表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习-Day7">
+<meta property="og:url" content="http://yoursite.com/posts/d6704f71/index.html">
+<meta property="og:site_name" content="日常分享咖">
+<meta property="og:description" content="链表 一、总述 链表是由多个相同的节点链接形成的, 在C语言中用结构体来表示, 在Java中则用一个类来表示. C语言中使用指针直接访问节点, 访问的同时实际对内存也有了读写的属性, 不稍加注意就会出现错误. 而在Java中就不会出现这种情况. 链表与顺序表在插入、删除时的不同: 前者不移动元素, 只改变引用 (指针). 二、链表初始化 描述 生成的是一个带有头节点的单链表">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-10T07:34:52.000Z">
+<meta property="article:modified_time" content="2023-10-20T04:00:51.670Z">
+<meta property="article:author" content="YSXCC">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="eclipse">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Java学习-Day7 - 日常分享咖</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>神不在的星期天</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img.omnitrix.top/MDImage/img/2022224175422.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Java学习-Day7</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-10 15:34" pubdate>
+          2022年4月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          82 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java学习-Day7</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="链表">链表</h2>
+<h3 id="一总述">一、总述</h3>
+<p>链表是由多个相同的节点链接形成的, 在C语言中用结构体来表示,
+在Java中则用一个类来表示.</p>
+<p>C语言中使用指针直接访问节点, 访问的同时实际对内存也有了读写的属性,
+不稍加注意就会出现错误. 而在Java中就不会出现这种情况.</p>
+<p>链表与顺序表在插入、删除时的不同: 前者不移动元素, 只改变引用
+(指针).</p>
+<h3 id="二链表初始化">二、链表初始化</h3>
+<h4 id="描述">描述</h4>
+<p>生成的是一个带有头节点的单链表</p>
+<h4 id="具体代码">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Construct an empty linked list.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">LinkedList</span><span class="hljs-params">()</span> &#123;<br>	header = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(<span class="hljs-number">0</span>);<br>&#125;<span class="hljs-comment">// Of the first constructor</span><br></code></pre></td></tr></table></figure>
+<h3 id="三查找元素">三、查找元素</h3>
+<h4 id="描述-1">描述</h4>
+<p>查找给定数值元素的位置. 找不到就返回 -1.</p>
+<h4 id="输入">输入</h4>
+<p>一个整数, 如下所示 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">4<br></code></pre></td></tr></table></figure></p>
+<h4 id="输出">输出</h4>
+<p>若链表中存在该输入整数则返回第一次出现时的链表中的序号,
+若不存在则返回 -1. 如下所示 <figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs livescript">input <span class="hljs-number">3</span><br>head -&gt; <span class="hljs-number">1</span> -&gt; <span class="hljs-number">3</span> -&gt; <span class="hljs-number">4</span> -&gt; <span class="hljs-literal">null</span><br><span class="hljs-keyword">return</span> <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></p>
+<h4 id="具体代码-1">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Locate the given value. If it appears in multiple positions, simply return</span><br><span class="hljs-comment"> * the first one.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraValue The given value.</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> The position. -1 for not found.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">locate</span><span class="hljs-params">(<span class="hljs-type">int</span> paraValue)</span> &#123;<br>	<span class="hljs-type">int</span> <span class="hljs-variable">tempPosition</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br><br>	<span class="hljs-type">Node</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> header.next;<br>	<span class="hljs-type">int</span> <span class="hljs-variable">tempCurrentPosition</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span> (tempNode != <span class="hljs-literal">null</span>) &#123;<br>		<span class="hljs-keyword">if</span> (tempNode.data == paraValue) &#123;<br>			tempPosition = tempCurrentPosition;<br>			<span class="hljs-keyword">break</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		tempNode = tempNode.next;<br>		tempCurrentPosition++;<br>	&#125; <span class="hljs-comment">// Of while</span><br><br>	<span class="hljs-keyword">return</span> tempPosition;<br>&#125;<span class="hljs-comment">// Of locate</span><br></code></pre></td></tr></table></figure>
+<h3 id="四插入元素">四、插入元素</h3>
+<h4 id="描述-2">描述</h4>
+<p>在给定位置增加元素. 如果位置不在已有位置范围之内, 就拒绝增加.</p>
+<h4 id="输入-1">输入</h4>
+<p>两个整数一个表示插入位置, 另一个表示需要插入的元素. <figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">1 </span>==&gt; paraPosition<br><span class="hljs-symbol">4 </span>==&gt; paraValue<br></code></pre></td></tr></table></figure></p>
+<h4 id="输出-1">输出</h4>
+<p>返回一个布尔值, 增加成功返回 true , 增加失败返回 false.</p>
+<h4 id="具体代码-2">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Insert a value to a position. If the list is already full, do nothing.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraPosition The given position.</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraValue    The given value.</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> Success or not.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">insert</span><span class="hljs-params">(<span class="hljs-type">int</span> paraPosition, <span class="hljs-type">int</span> paraValue)</span> &#123;<br>	<span class="hljs-type">Node</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> header;<br>	Node tempNewNode;<br><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraPosition; i++) &#123;<br>		<span class="hljs-keyword">if</span> (tempNode.next == <span class="hljs-literal">null</span>) &#123;<br>			System.out.println(<span class="hljs-string">&quot;The position &quot;</span> + paraPosition + <span class="hljs-string">&quot; is illegal.&quot;</span>);<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		tempNode = tempNode.next;<br>	&#125; <span class="hljs-comment">// Of for i</span><br><br>	<span class="hljs-comment">// Construct a new node.</span><br>	tempNewNode = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(paraValue);<br><br>	<span class="hljs-comment">// Now link them.</span><br>	tempNewNode.next = tempNode.next;<br>	tempNode.next = tempNewNode;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<span class="hljs-comment">// Of insert</span><br></code></pre></td></tr></table></figure>
+<h3 id="五删除元素">五、删除元素</h3>
+<h4 id="描述-3">描述</h4>
+<p>删除给定位置的元素. 要处理给定位置不合法的情况.
+该位置必须是已经有数据的.</p>
+<h4 id="输入-2">输入</h4>
+<p>一个整数表示删除位置</p>
+<h4 id="输出-2">输出</h4>
+<p>返回一个布尔值, 删除成功返回 true , 删除失败返回 false.</p>
+<h4 id="具体代码-3">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Delete a value at a position.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraPosition The given position.</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> Success or not.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">delete</span><span class="hljs-params">(<span class="hljs-type">int</span> paraPosition)</span> &#123;<br>	<span class="hljs-keyword">if</span> (header.next == <span class="hljs-literal">null</span>) &#123;<br>		System.out.println(<span class="hljs-string">&quot;Cannot delete element from an empty list.&quot;</span>);<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>	&#125; <span class="hljs-comment">// Of if</span><br><br>	<span class="hljs-type">Node</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> header;<br><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraPosition; i++) &#123;<br>		<span class="hljs-keyword">if</span> (tempNode.next.next == <span class="hljs-literal">null</span>) &#123;<br>			System.out.println(<span class="hljs-string">&quot;The position &quot;</span> + paraPosition + <span class="hljs-string">&quot; is illegal.&quot;</span>);<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		tempNode = tempNode.next;<br>	&#125; <span class="hljs-comment">// Of for i</span><br><br>	tempNode.next = tempNode.next.next;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<span class="hljs-comment">// Of delete</span><br></code></pre></td></tr></table></figure>
+<h3 id="六完整代码">六、完整代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> datastructure.list;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Linked List</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Shihuai Wen Email:wshysxcc@outlook.com</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LinkedList</span> &#123;<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * An inner class.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">class</span> <span class="hljs-title class_">Node</span> &#123;<br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * The data.</span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-type">int</span> data;<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * The reference to the next node.</span><br><span class="hljs-comment">		 */</span><br>		Node next;<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 ******************* </span><br><span class="hljs-comment">		 * The constructor</span><br><span class="hljs-comment">		 * </span><br><span class="hljs-comment">		 * <span class="hljs-doctag">@param</span> paraValue The data.</span><br><span class="hljs-comment">		 ******************* </span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-keyword">public</span> <span class="hljs-title function_">Node</span><span class="hljs-params">(<span class="hljs-type">int</span> paraValue)</span> &#123;<br>			data = paraValue;<br>			next = <span class="hljs-literal">null</span>;<br>		&#125;<span class="hljs-comment">// Of the constructor</span><br>	&#125;<span class="hljs-comment">// Of class Node</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The header node. The data is never used.</span><br><span class="hljs-comment">	 */</span><br>	Node header;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Construct an empty linked list.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">LinkedList</span><span class="hljs-params">()</span> &#123;<br>		header = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(<span class="hljs-number">0</span>);<br>	&#125;<span class="hljs-comment">// Of the first constructor</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Overrides the method claimed in Object, the superclass of any class.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>    <span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-type">String</span> <span class="hljs-variable">resultString</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>		<span class="hljs-keyword">if</span> (header.next == <span class="hljs-literal">null</span>) &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-string">&quot;empty&quot;</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		<span class="hljs-type">Node</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> header.next;<br>		<span class="hljs-keyword">while</span> (tempNode != <span class="hljs-literal">null</span>) &#123;<br>			resultString += tempNode.data + <span class="hljs-string">&quot;, &quot;</span>;<br>			tempNode = tempNode.next;<br>		&#125; <span class="hljs-comment">// Of while</span><br><br>		<span class="hljs-keyword">return</span> resultString;<br>	&#125;<span class="hljs-comment">// Of toString</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Reset to empty. Free the space through garbage collection.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">reset</span><span class="hljs-params">()</span> &#123;<br>		header.next = <span class="hljs-literal">null</span>;<br>	&#125;<span class="hljs-comment">// Of reset</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Locate the given value. If it appears in multiple positions, simply return</span><br><span class="hljs-comment">	 * the first one.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraValue The given value.</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> The position. -1 for not found.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">locate</span><span class="hljs-params">(<span class="hljs-type">int</span> paraValue)</span> &#123;<br>		<span class="hljs-type">int</span> <span class="hljs-variable">tempPosition</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br><br>		<span class="hljs-type">Node</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> header.next;<br>		<span class="hljs-type">int</span> <span class="hljs-variable">tempCurrentPosition</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">while</span> (tempNode != <span class="hljs-literal">null</span>) &#123;<br>			<span class="hljs-keyword">if</span> (tempNode.data == paraValue) &#123;<br>				tempPosition = tempCurrentPosition;<br>				<span class="hljs-keyword">break</span>;<br>			&#125; <span class="hljs-comment">// Of if</span><br><br>			tempNode = tempNode.next;<br>			tempCurrentPosition++;<br>		&#125; <span class="hljs-comment">// Of while</span><br><br>		<span class="hljs-keyword">return</span> tempPosition;<br>	&#125;<span class="hljs-comment">// Of locate</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Insert a value to a position. If the list is already full, do nothing.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraPosition The given position.</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraValue    The given value.</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> Success or not.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">insert</span><span class="hljs-params">(<span class="hljs-type">int</span> paraPosition, <span class="hljs-type">int</span> paraValue)</span> &#123;<br>		<span class="hljs-type">Node</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> header;<br>		Node tempNewNode;<br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraPosition; i++) &#123;<br>			<span class="hljs-keyword">if</span> (tempNode.next == <span class="hljs-literal">null</span>) &#123;<br>				System.out.println(<span class="hljs-string">&quot;The position &quot;</span> + paraPosition + <span class="hljs-string">&quot; is illegal.&quot;</span>);<br>				<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>			&#125; <span class="hljs-comment">// Of if</span><br><br>			tempNode = tempNode.next;<br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		<span class="hljs-comment">// Construct a new node.</span><br>		tempNewNode = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(paraValue);<br><br>		<span class="hljs-comment">// Now link them.</span><br>		tempNewNode.next = tempNode.next;<br>		tempNode.next = tempNewNode;<br><br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>	&#125;<span class="hljs-comment">// Of insert</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Delete a value at a position.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraPosition The given position.</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> Success or not.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">delete</span><span class="hljs-params">(<span class="hljs-type">int</span> paraPosition)</span> &#123;<br>		<span class="hljs-keyword">if</span> (header.next == <span class="hljs-literal">null</span>) &#123;<br>			System.out.println(<span class="hljs-string">&quot;Cannot delete element from an empty list.&quot;</span>);<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		<span class="hljs-type">Node</span> <span class="hljs-variable">tempNode</span> <span class="hljs-operator">=</span> header;<br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; paraPosition; i++) &#123;<br>			<span class="hljs-keyword">if</span> (tempNode.next.next == <span class="hljs-literal">null</span>) &#123;<br>				System.out.println(<span class="hljs-string">&quot;The position &quot;</span> + paraPosition + <span class="hljs-string">&quot; is illegal.&quot;</span>);<br>				<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>			&#125; <span class="hljs-comment">// Of if</span><br><br>			tempNode = tempNode.next;<br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		tempNode.next = tempNode.next.next;<br><br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>	&#125;<span class="hljs-comment">// Of delete</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * The entrance of the program.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> args Not used now.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> &#123;<br>		<span class="hljs-type">LinkedList</span> <span class="hljs-variable">tempFirstList</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>();<br>		System.out.println(<span class="hljs-string">&quot;Initialized, the list is: &quot;</span> + tempFirstList.toString());<br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;<br>			tempFirstList.insert(<span class="hljs-number">0</span>, i);<br>		&#125; <span class="hljs-comment">// Of for i</span><br>		System.out.println(<span class="hljs-string">&quot;Inserted, the list is: &quot;</span> + tempFirstList.toString());<br><br>		tempFirstList.insert(<span class="hljs-number">6</span>, <span class="hljs-number">9</span>);<br><br>		tempFirstList.delete(<span class="hljs-number">4</span>);<br><br>		tempFirstList.delete(<span class="hljs-number">2</span>);<br>		System.out.println(<span class="hljs-string">&quot;Deleted, the list is: &quot;</span> + tempFirstList.toString());<br><br>		tempFirstList.delete(<span class="hljs-number">0</span>);<br>		System.out.println(<span class="hljs-string">&quot;Deleted, the list is: &quot;</span> + tempFirstList.toString());<br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;<br>			tempFirstList.delete(<span class="hljs-number">0</span>);<br>			System.out.println(<span class="hljs-string">&quot;Looped delete, the list is: &quot;</span> + tempFirstList.toString());<br>		&#125; <span class="hljs-comment">// Of for i</span><br>	&#125;<span class="hljs-comment">// Of main</span><br><br>&#125;<span class="hljs-comment">// Of class LinkedList</span><br></code></pre></td></tr></table></figure>
+<h3 id="七运行截图">七、运行截图</h3>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022410175022.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="栈">栈</h2>
+<h3 id="一总述-1">一、总述</h3>
+<p>栈作为一种数据结构不仅仅出现在当前需求中.
+在计算机底层也少不了栈的使用. 通常编程中栈的增长方向是从下往上,
+在计算机底层中栈的增长是从上往下.</p>
+<p>两者都有一个共同的特点那就是栈需要遵守的属性是后进先出,
+入栈（push）和出栈（pop）操作只能在栈顶执行.</p>
+<h3 id="二入栈">二、入栈</h3>
+<h4 id="描述-4">描述</h4>
+<p>向栈中添加一个元素.</p>
+<h4 id="输入-3">输入</h4>
+<p>一个整数</p>
+<h4 id="输出-3">输出</h4>
+<p>返回一个布尔值, 入栈成功返回 true , 入栈失败返回 false.</p>
+<h4 id="具体代码-4">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Push an element.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> paraChar The given char.</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> Success or not.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">push</span><span class="hljs-params">(<span class="hljs-type">char</span> paraChar)</span> &#123;<br>	<span class="hljs-keyword">if</span> (depth == MAX_DEPTH) &#123;<br>		System.out.println(<span class="hljs-string">&quot;Stack full.&quot;</span>);<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>	&#125; <span class="hljs-comment">// Of if</span><br><br>	data[depth] = paraChar;<br>	depth++;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<span class="hljs-comment">// Of push</span><br></code></pre></td></tr></table></figure>
+<h3 id="三出栈">三、出栈</h3>
+<h4 id="描述-5">描述</h4>
+<p>从栈顶去除一个元素.</p>
+<h4 id="输入-4">输入</h4>
+<p>无</p>
+<h4 id="输出-4">输出</h4>
+<p>返回一个char值为之前的栈顶元素, 若栈为空则返回 '\0'</p>
+<h4 id="具体代码-5">具体代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> * Pop an element.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> The popped char.</span><br><span class="hljs-comment"> *********************</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">char</span> <span class="hljs-title function_">pop</span><span class="hljs-params">()</span> &#123;<br>	<span class="hljs-keyword">if</span> (depth == <span class="hljs-number">0</span>) &#123;<br>		System.out.println(<span class="hljs-string">&quot;Nothing to pop.&quot;</span>);<br>		<span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;\0&#x27;</span>;<br>	&#125; <span class="hljs-comment">// Of if</span><br><br>	<span class="hljs-type">char</span> <span class="hljs-variable">resultChar</span> <span class="hljs-operator">=</span> data[depth - <span class="hljs-number">1</span>];<br>	depth--;<br><br>	<span class="hljs-keyword">return</span> resultChar;<br>&#125;<span class="hljs-comment">// Of pop</span><br></code></pre></td></tr></table></figure>
+<h3 id="四完整代码">四、完整代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> datastructure.stack;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Char stack. I do not use Stack because it is already defined in Java.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Shihuai Wen Email:wshysxcc@outlook.com</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CharStack</span> &#123;<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The depth.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">MAX_DEPTH</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The actual depth.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">int</span> depth;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The data</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-type">char</span>[] data;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Construct an empty char stack.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">CharStack</span><span class="hljs-params">()</span> &#123;<br>		depth = <span class="hljs-number">0</span>;<br>		data = <span class="hljs-keyword">new</span> <span class="hljs-title class_">char</span>[MAX_DEPTH];<br>	&#125;<span class="hljs-comment">// Of the first constructor</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Overrides the method claimed in Object, the superclass of any class.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-type">String</span> <span class="hljs-variable">resultString</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; depth; i++) &#123;<br>			resultString += data[i];<br>		&#125; <span class="hljs-comment">// Of for i</span><br><br>		<span class="hljs-keyword">return</span> resultString;<br>	&#125;<span class="hljs-comment">// Of toString</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Push an element.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> paraChar The given char.</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> Success or not.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">push</span><span class="hljs-params">(<span class="hljs-type">char</span> paraChar)</span> &#123;<br>		<span class="hljs-keyword">if</span> (depth == MAX_DEPTH) &#123;<br>			System.out.println(<span class="hljs-string">&quot;Stack full.&quot;</span>);<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		data[depth] = paraChar;<br>		depth++;<br><br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>	&#125;<span class="hljs-comment">// Of push</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * Pop an element.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> The popped char.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">char</span> <span class="hljs-title function_">pop</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">if</span> (depth == <span class="hljs-number">0</span>) &#123;<br>			System.out.println(<span class="hljs-string">&quot;Nothing to pop.&quot;</span>);<br>			<span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;\0&#x27;</span>;<br>		&#125; <span class="hljs-comment">// Of if</span><br><br>		<span class="hljs-type">char</span> <span class="hljs-variable">resultChar</span> <span class="hljs-operator">=</span> data[depth - <span class="hljs-number">1</span>];<br>		depth--;<br><br>		<span class="hljs-keyword">return</span> resultChar;<br>	&#125;<span class="hljs-comment">// Of pop</span><br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 * The entrance of the program.</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> args Not used now.</span><br><span class="hljs-comment">	 *********************</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> &#123;<br>		<span class="hljs-type">CharStack</span> <span class="hljs-variable">tempStack</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CharStack</span>();<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> <span class="hljs-variable">ch</span> <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;a&#x27;</span>; ch &lt; <span class="hljs-string">&#x27;m&#x27;</span>; ch++) &#123;<br>			tempStack.push(ch);<br>			System.out.println(<span class="hljs-string">&quot;The current stack is: &quot;</span> + tempStack);<br>		&#125; <span class="hljs-comment">// Of for ch</span><br><br>		<span class="hljs-type">char</span> tempChar;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">12</span>; i++) &#123;<br>			tempChar = tempStack.pop();<br>			System.out.println(<span class="hljs-string">&quot;Poped: &quot;</span> + tempChar);<br>			System.out.println(<span class="hljs-string">&quot;The current stack is: &quot;</span> + tempStack);<br>		&#125; <span class="hljs-comment">// Of for i</span><br>	&#125;<span class="hljs-comment">// Of main</span><br>&#125;<span class="hljs-comment">// Of CharStack</span><br><br></code></pre></td></tr></table></figure>
+<h3 id="五运行截图">五、运行截图</h3>
+<p><img
+src="https://img.omnitrix.top/MDImage/img/2022410182852.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="总结">总结</h2>
+<p>无论是链表还是栈, 都不过是对数据的特定存储和处理.
+不同的数据结构为的是解决不同的问题.</p>
+<p>结合之前的内容无非就是增删改查. 根据之前学习C语言的经验,
+对于栈的函数应该还可以增加获取当前栈顶元素而不需要出栈,
+或者查找栈中元素.</p>
+<p>仔细想想栈就是一个特殊一点的数组罢了.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BB%A3%E7%A0%81/" class="category-chain-item">代码</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BB%A3%E7%A0%81/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/" class="print-no-link">#java</a>
+      
+        <a href="/tags/eclipse/" class="print-no-link">#eclipse</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/46cf52e0/" title="Java学习-Day8">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java学习-Day8</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/a1777fe7/" title="Java学习-Day6">
+                        <span class="hidden-mobile">Java学习-Day6</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>由</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Hexo</span> </a> <span>强力驱动</span> <i class="iconfont icon-love"></i> <span>主题</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <span style="color: grey;font-weight: bold;">Fluid</span> </a> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"></a> <div style="font-weight:bold;font-size: larger;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <a href="https://hitokoto.cn/" target="_blank" rel="noopener"> <div id="hitokoto" style="font-weight:bold">正在加载一言...</div> </a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004625号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51200202000272"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>51200202000272</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
