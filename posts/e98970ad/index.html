@@ -24,7 +24,7 @@
 <meta property="og:description" content="前言 提出利用秩来判断核间的相关性，减少网络结构中卷积核的数量，进而减少网络的计算量，从而达到轻量化网络的目的。 一、实验设计 验证通过处理核间相关性能否提升网络质量？ 1. 预训练模型 针对一个小型的项目, 例如对用于手写字体的识别的卷积网络进行训练。提取出网络中已经训练好的卷积核。 2. 算法处理 通过算法(秩或降维)判断卷积核之间的相关性，然后对卷积核进行取舍 3. 搭建新">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-06-08T07:02:40.000Z">
-<meta property="article:modified_time" content="2023-10-20T04:00:51.687Z">
+<meta property="article:modified_time" content="2024-04-24T10:59:43.146Z">
 <meta property="article:author" content="YSXCC">
 <meta property="article:tag" content="BSConv">
 <meta property="article:tag" content="Lab">
@@ -469,6 +469,12 @@ class="math inline">\(B^{(n)}\)</span>
   
 
 
+  
+  
+
+
+
+
 
 
 
@@ -697,6 +703,49 @@ class="math inline">\(B^{(n)}\)</span>
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

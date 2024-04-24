@@ -355,7 +355,7 @@
 A = U \Sigma V^{\mathrm{T}}
 \]</span></p>
 <p>其中 <span class="math inline">\(\Sigma = \begin{bmatrix}
-\sigma_1&amp; &amp; \\ &amp; \cdots &amp; \\ &amp; &amp;
+\sigma_1&amp;  &amp; \\ &amp; \cdots &amp; \\ &amp; &amp;
 \sigma_r\end{bmatrix}\)</span> <span class="math inline">\(U\)</span> 和
 <span class="math inline">\(V\)</span> 是正交矩阵</p>
 <p>常规求解方式是利用</p>
@@ -439,7 +439,7 @@ AA^{\mathrm{T}} = \begin{bmatrix}
 \]</span></p></li>
 </ol>
 <p>但是这样分解之后, 第 4 步计算出来的矩阵是 <span
-class="math inline">\(\begin{bmatrix} 4&amp;4 \\ -3 &amp; 3
+class="math inline">\(\begin{bmatrix} 4&amp;4   \\ -3 &amp; 3
 \end{bmatrix}\)</span> 和最开始的矩阵符号不一样,
 这是因为特征向量的方向问题会对结果产生影响.</p>
 <p>所以要使用原始公式 <span class="math inline">\(\sigma_iu_i =
@@ -454,13 +454,13 @@ class="math inline">\(SVD\)</span> 分解</p>
 <p>同时 <span class="math inline">\(A\)</span> 的列空间是一条直线,
 左零空间是与之垂直的一条直线</p>
 <p>那么行空间方向上的基为 <span class="math inline">\(\begin{bmatrix}
-0.8 \\ 0.6 \end{bmatrix}\)</span>, 零空间方向上的基 <span
-class="math inline">\(\begin{bmatrix} -0.6 \\ 0.8
-\end{bmatrix}\)</span></p>
+0.8  \\ 0.6  \end{bmatrix}\)</span>, 零空间方向上的基 <span
+class="math inline">\(\begin{bmatrix} -0.6  \\
+0.8  \end{bmatrix}\)</span></p>
 <p>列空间方向 : <span class="math inline">\(u_1 =
-1/\sqrt{5}\begin{bmatrix} 1 \\ 2 \end{bmatrix}\)</span>, 左零空间方向 :
-<span class="math inline">\(1/\sqrt{5}\begin{bmatrix} 2 \\ -1
-\end{bmatrix}\)</span></p>
+1/\sqrt{5}\begin{bmatrix} 1  \\ 2  \end{bmatrix}\)</span>, 左零空间方向
+: <span class="math inline">\(1/\sqrt{5}\begin{bmatrix} 2  \\
+-1  \end{bmatrix}\)</span></p>
 <p>然后 <span class="math inline">\(SVD\)</span>
 就是将行空间与零空间上的基转换为列空间与左零空间上的基</p>
 <p>所以就可以得到矩阵 <span class="math inline">\(U\)</span> :</p>
